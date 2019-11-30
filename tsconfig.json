@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "module": "commonjs",
+    "target": "es2015",
+    "outDir": "lib",
+    "lib": ["es2018"],
+    "moduleResolution": "node"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
