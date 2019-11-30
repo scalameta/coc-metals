@@ -1,38 +1,28 @@
-import { Commands } from './commands'
-import {ExtensionContext, workspace, commands} from 'coc.nvim'
+import {detechLauncConfigurationChanges, getJavaHome} from "./activationUtils"
+import {commands, workspace} from "coc.nvim"
 
 export async function activate() {
   detechLauncConfigurationChanges()
   // TODO add in checkServerVersion
 
-  workspace.showMessage('This is working')
-}
-
-function detechLauncConfigurationChanges() {
-  workspace.onDidChangeConfiguration(change => {
-    const promptRestartKeys = [
-      'serverVersion',
-      'serverProperties',
-      'javaHome',
-      'customRepositories'
-    ]
-
-    const shouldPromptRestart = promptRestartKeys.some(key =>
-      change.affectsConfiguration(`metals.${key}`)
-    )
-
-    if (shouldPromptRestart) {
-      const message = 'Server launch configuration change detected.Reload the window for changes to take effect'
-      const options = [
-        'Reload Window',
-        'Not Now'
-      ]
-      workspace.showQuickpick(options, message)
+  getJavaHome()
+    .then(javaHome => workspace.showMessage(javaHome))
+    .catch(err => {
+      const message =
+        err.message +
+        "Unable to find a Java 8 or Java 11 installation on this computer. " +
+        "To fix this problem, update the 'Java Home' setting to point to a Java 8 or Java 11 home directory"
+      const openSettings = "Open Settings"
+      const ignore = "Ignore for now"
+      workspace.showQuickpick([openSettings, ignore], message)
         .then(choice => {
-          if (choice === 1) {
-            commands.executeCommand(Commands.RELOAD_WINDOW)
+          if (choice === 0) {
+            // TODO figure out a good way to store both commands and thier
+            // arguments in the command file and mvoe this
+            commands.executeCommand("setContext", "metals:enabled", true)
           }
         })
-    }
-  })
+    })
+  workspace.showMessage("This is working")
 }
+
