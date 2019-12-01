@@ -160,7 +160,7 @@
     "@typescript-eslint/eslint-plugin": "^2.9.0",
     "@typescript-eslint/parser": "^2.9.0",
     "coc.nvim": "0.0.74",
-    "eslint": "^6.7.1",
+    "eslint": "^6.7.2",
     "rimraf": "^3.0.0",
     "ts-loader": "^6.0.3",
     "typescript": "3.7.2",

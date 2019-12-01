@@ -1,7 +1,10 @@
-import {detechLauncConfigurationChanges, getJavaHome} from "./activationUtils"
-import {commands, ExtensionContext, workspace} from "coc.nvim"
-import {parse} from "shell-quote"
+import {detechLauncConfigurationChanges} from "./activationUtils"
+import {getJavaHome, getJavaOptions} from "./javaUtils"
+import {dottyIdeArtifact, migrateStringSettingToArray} from "./utils"
+
+import {ExtensionContext, workspace} from "coc.nvim"
 import {ChildProcessPromise, spawn} from "promisify-child-process"
+
 import * as fs from "fs"
 import * as path from "path"
 
@@ -157,107 +160,4 @@ function trackDownloadProgress(
   return download.then(() =>
     stdout.map(buffer => buffer.toString().trim()).join("")
   )
-}
-
-function dottyIdeArtifact(): string | undefined {
-  // TODO the fsPath doesn't exist in the coc api, so make sure
-  // the joined path is correct
-  if (workspace.workspaceFolders) {
-    return path.join(
-      workspace.workspaceFolders[0].uri,
-      ".dotty-ide-artifact"
-    )
-  }
-}
-
-function migrateStringSettingToArray(id: string): void {
-  const setting = workspace
-    .getConfiguration("metals")
-    .inspect<string | string[]>(id)!
-
-  // TODO check a bit more into the last param of update
-  // in vscode this can also be the configuration target
-  // where in coc it's only a boolean
-  // I think I got this right, but I've been wrong before
-  if (typeof setting.globalValue === "string") {
-    workspace
-      .getConfiguration("metals")
-      .update(
-        id,
-        setting.globalValue.split(" ").filter(e => e.length > 0),
-        true
-      )
-  }
-
-  if (typeof setting.workspaceValue === "string") {
-    workspace
-      .getConfiguration("metals")
-      .update(
-        id,
-        setting.workspaceValue.split(" ").filter(e => e.length > 0),
-        true
-      )
-  }
-}
-
-function javaOpts(): string[] {
-  function expandVariable(variable: string | undefined): string[] {
-    if (variable) {
-      workspace.showMessage("Using JAVA options set in JAVA_OPTS")
-      return parse(variable).filter(
-        (entry): entry is string => {
-          if (typeof entry === "string") {
-            return true
-          } else {
-            workspace.showMessage(
-              `Ignoring unexpected JAVA_OPTS token: ${entry}`
-            )
-            return false
-          }
-        }
-      )
-    } else {
-      return []
-    }
-  }
-  const javaOpts = expandVariable(process.env.JAVA_OPTS)
-  const javaFlags = expandVariable(process.env.JAVA_FLAGS)
-  return javaOpts.concat(javaFlags)
-}
-
-function jvmOpts(): string[] {
-  if (workspace.workspaceFolders) {
-    const jvmoptsPath = path.join(
-      workspace.workspaceFolders[0].uri,
-      ".jvmopts"
-    )
-    if (fs.existsSync(jvmoptsPath)) {
-      workspace.showMessage("Using JVM options set in " + jvmoptsPath)
-      const raw = fs.readFileSync(jvmoptsPath, "utf8")
-      return raw.match(/[^\r\n]+/g) || []
-    }
-  }
-  return []
-}
-
-function getJavaOptions(): string[] {
-  const combinedOptions = [
-    ...javaOpts(),
-    ...jvmOpts()
-  ]
-  const options = combinedOptions.reduce(
-    (options, line) => {
-      if (
-        line.startsWith("-") &&
-        !line.startsWith("-Xms") &&
-        !line.startsWith("-Xmx") &&
-        !line.startsWith("-Xss")
-      ) {
-        return [...options, line]
-      }
-      return options
-    },
-    [] as string[]
-  )
-  return options
 }
