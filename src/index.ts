@@ -4,7 +4,8 @@ import {ExecuteClientCommand} from "./protocol"
 import {
   dottyIdeArtifact,
   migrateStringSettingToArray,
-  trackDownloadProgress
+  trackDownloadProgress,
+  checkServerVersion
 } from "./utils"
 
 import {
@@ -24,7 +25,7 @@ import * as path from "path"
 
 export async function activate(context: ExtensionContext) {
   detechLauncConfigurationChanges()
-  // TODO add in checkServerVersion
+  checkServerVersion()
 
   getJavaHome()
     .then(javaHome => fetchAndLaunchMetals(context, javaHome))
@@ -76,9 +77,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
 
   workspace.showMessage(`Java home: ${javaHome}`)
   const javaPath = path.join(javaHome, "bin", "java")
-  workspace.showMessage(`Java path: ${javaPath}`)
   const coursierPath = path.join(context.extensionPath, "./coursier")
-  workspace.showMessage(`Coursier  path: ${coursierPath}`)
 
   const config = workspace.getConfiguration("metals")
   const serverVersionConfig: string = config.get<string>("serverVersion")

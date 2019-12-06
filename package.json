@@ -93,7 +93,7 @@
         },
         "metals.gradleScript": {
           "type": "string",
-          "markdownDescription": "Optional absolute path to a `gradle` executable to use for running `gradle bloopInstall`.\n\nBy default, Metals uses an embedded `gradlew` script.\n\nUpdate this setting if your `gradle` script requires more customizations."
+          "markdownDescription": "Optional absolute path to a `gradle` executable to use for running `gradle bloopInstall`.\n\nBy default, Metals uses an embedded `gradlew` ukcript.\n\nUpdate this setting if your `gradle` script requires more customizations."
         },
         "metals.scalafmtConfigPath": {
           "type": "string",
@@ -157,13 +157,13 @@
   },
   "devDependencies": {
     "@types/node": "^12.0.5",
-    "@typescript-eslint/eslint-plugin": "^2.9.0",
-    "@typescript-eslint/parser": "^2.9.0",
+    "@typescript-eslint/eslint-plugin": "^2.10.0",
+    "@typescript-eslint/parser": "^2.10.0",
     "coc.nvim": "0.0.74",
     "eslint": "^6.7.2",
     "rimraf": "^3.0.0",
     "ts-loader": "^6.0.3",
-    "typescript": "3.7.2",
+    "typescript": "3.7.3",
     "webpack": "^4.34.0",
     "webpack-cli": "^3.3.4"
   },

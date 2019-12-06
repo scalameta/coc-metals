@@ -1,7 +1,8 @@
-import {workspace} from "coc.nvim"
+import {ConfigurationTarget, workspace, WorkspaceConfiguration, commands} from "coc.nvim"
 import * as path from "path"
 import {ChildProcessPromise} from "promisify-child-process"
 import {TextDocument} from "vscode-languageserver-protocol"
+import * as semver from "semver"
 
 export function dottyIdeArtifact(): string | undefined {
   // TODO the fsPath doesn't exist in the coc api, so make sure
@@ -80,5 +81,70 @@ export function isSupportedLanguage(languageId: TextDocument["languageId"]): boo
       return true
     default:
       return false
+  }
+}
+
+function serverVersionInfo(
+  config: WorkspaceConfiguration
+): {
+  serverVersion: string;
+  latestServerVersion: string;
+  configurationTarget: ConfigurationTarget;
+} {
+  const computedVersion = config.get<string>("serverVersion")!
+  const { defaultValue, globalValue, workspaceValue } = config.inspect<
+    string
+  >("serverVersion")!
+  const configurationTarget = (() => {
+    if (globalValue && globalValue !== defaultValue) {
+      return ConfigurationTarget.Global
+    }
+    if (workspaceValue && workspaceValue !== defaultValue) {
+      return ConfigurationTarget.Workspace
+    }
+    return ConfigurationTarget.Workspace
+  })()
+  return {
+    serverVersion: computedVersion,
+    latestServerVersion: defaultValue!,
+    configurationTarget
+  }
+}
+
+export function checkServerVersion() {
+  const config = workspace.getConfiguration("metals")
+  const {
+    serverVersion,
+    latestServerVersion,
+    configurationTarget
+  } = serverVersionInfo(config)
+  const isOutdated = (() => {
+    try {
+      return semver.lt(serverVersion, latestServerVersion)
+    } catch (_e) {
+      // serverVersion has an invalid format
+      // ignore the exception here, and let subsequent checks handle this
+      return false
+    }
+  })()
+
+  if (isOutdated) {
+    const upgradeAction = `Upgrade to ${latestServerVersion} now`
+    const openSettingsAction = "Open settings"
+    const outOfDateMessage = `You are running an out-of-date version of Metals. Latest version is ${latestServerVersion}, but you have configured a custom server version ${serverVersion}`
+
+    
+    workspace.showQuickpick([upgradeAction, openSettingsAction], outOfDateMessage)
+      .then(choice => {
+        if (choice === 1) {
+          config.update(
+            "serverVersion",
+            latestServerVersion,
+            true
+          )
+        } else if (choice === 2) {
+          commands.executeCommand(openSettingsAction)
+        }
+      })
   }
 }
