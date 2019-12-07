@@ -18,10 +18,12 @@ import {
   workspace
 } from "coc.nvim"
 import {spawn} from "promisify-child-process"
-import {Emitter, ExecuteCommandRequest, Location, Range} from "vscode-languageserver-protocol"
+import {Emitter, ExecuteCommandRequest, Location, Range, ExecuteCommandParams} from "vscode-languageserver-protocol"
 
 import * as fs from "fs"
 import * as path from "path"
+
+let client: any
 
 export async function activate(context: ExtensionContext) {
   detechLauncConfigurationChanges()
@@ -190,8 +192,7 @@ function launchMetals(
   serverProperties: string[],
   javaOptions: string[]
 ) {
-  // Make editing Scala docstrings slightly nicer.
-  // TODO the coc api doesn't have the setLangugageCOnfiguration
+  // TODO the coc api doesn't have the setLangugageConfiguration
   // built in yet it seems. I'll need to look into a way to do this
   // or potentially just add it into coc core
   // enableScaladocIndentation();
@@ -222,150 +223,148 @@ function launchMetals(
     revealOutputChannelOn: RevealOutputChannelOn.Never
   }
 
-  const client = new LanguageClient(
+  client = new LanguageClient(
     "metals",
     "Metals",
     serverOptions,
     clientOptions
   )
-  // TODO look into how coc handles experimental features
-  // since I'm really not sure it does
-  // const features = new MetalsFeatures();
-  // client.registerFeature(features);
 
   function registerCommand(command: string, callback: (...args: any[]) => any) {
     context.subscriptions.push(commands.registerCommand(command, callback))
   }
 
-  // TODO figure out how to send the graceful shutdown to coc
-  // registerCommand("metals.restartServer", () => {
-  //   // First try to gracefully shutdown the server with LSP `shutdown` and `exit`.
-  //   // If Metals doesn't respond within 4 seconds we kill the process.
-  //   const timeout = (ms: number) =>
-  //     new Promise((_resolve, reject) => setTimeout(reject, ms))
-  //   const gracefullyTerminate = client
-  //     .sendRequest(ShutdownRequest.type)
-  //     .then(() => {
-  //       client.sendNotification(ExitNotification.type);
-  //       window.showInformationMessage("Metals is restarting");
-  //     });
-  //
-  //   Promise.race([gracefullyTerminate, timeout(4000)]).catch(() => {
-  //     window.showWarningMessage(
-  //       "Metals is unresponsive, killing the process and starting a new server."
-  //     );
-  //     const serverPid = client["_serverProcess"].pid;
-  //     exec(`kill ${serverPid}`);
-  //   });
-  // });
+  client.onReady(() => {
+    // TODO look into how coc handles experimental features
+    // since I'm really not sure it does
+    // const features = new MetalsFeatures();
+    // client.registerFeature(features);
+
+    // TODO figure out how to send the graceful shutdown to coc
+    // registerCommand("metals.restartServer", () => {
+    //   // First try to gracefully shutdown the server with LSP `shutdown` and `exit`.
+    //   // If Metals doesn't respond within 4 seconds we kill the process.
+    //   const timeout = (ms: number) =>
+    //     new Promise((_resolve, reject) => setTimeout(reject, ms))
+    //   const gracefullyTerminate = client
+    //     .sendRequest(ShutdownRequest.type)
+    //     .then(() => {
+    //       client.sendNotification(ExitNotification.type);
+    //       window.showInformationMessage("Metals is restarting");
+    //     });
+    //
+    //   Promise.race([gracefullyTerminate, timeout(4000)]).catch(() => {
+    //     window.showWarningMessage(
+    //       "Metals is unresponsive, killing the process and starting a new server."
+    //     );
+    //     const serverPid = client["_serverProcess"].pid;
+    //     exec(`kill ${serverPid}`);
+    //   });
+    // });
 
 
-  context.subscriptions.push(client.start())
+    // TODO add in the doctor stuff here
 
-  // TODO add in the doctor stuff here
+    // should be the compilation of a currently opened file
+    // but some race conditions may apply
+    let compilationDoneEmitter = new Emitter<void>()
 
-  // should be the compilation of a currently opened file
-  // but some race conditions may apply
-  let compilationDoneEmitter = new Emitter<void>()
+    // let codeLensRefresher: CodeLensProvider = {
+    //   // TODO the onDidChangeCodeLenses doesn't seem to be available in coc
+    //   // onDidChangeCodeLenses: compilationDoneEmitter.event,
+    //   provideCodeLenses: () => undefined
+    // }
 
-  // let codeLensRefresher: CodeLensProvider = {
-  //   // TODO the onDidChangeCodeLenses doesn't seem to be available in coc
-  //   // onDidChangeCodeLenses: compilationDoneEmitter.event,
-  //   provideCodeLenses: () => undefined
-  // }
+    // languages.registerCodeLensProvider(
+    //   // TODO scheme isn't available here
+    //   { scheme: "file", language: "scala" },
+    //   codeLensRefresher
+    // );
+    
+    // Handle the metals/executeClientCommand extension notification.
+    client.onNotification(ExecuteClientCommand.type, params => {
+      switch (params.command) {
+        case "metals-goto-location":
+          const location =
+            params.arguments && (params.arguments[0] as Location)
+          if (location) {
+            const range = Range.create(
+              location.range.start.line,
+              location.range.start.character,
+              location.range.end.line,
+              location.range.end.character
+            )
+            // TODO is there a way to do this with one command?
+            workspace.jumpTo(location.uri, range.start)
+            workspace.selectRange(range)
+          }
+          break
+        case "metals-model-refresh":
+          compilationDoneEmitter.fire()
+          break
+        // TODO need to figure out the doctor stuff
+        //case "metals-doctor-run":
+        //case "metals-doctor-reload":
+        //  const isRun = params.command === "metals-doctor-run";
+        //  const isReload = params.command === "metals-doctor-reload";
+        //  if (isRun || (doctor && isReload)) {
+        //    const html = params.arguments && params.arguments[0];
+        //    if (typeof html === "string") {
+        //      const panel = getDoctorPanel(isReload);
+        //      panel.webview.html = html;
+        //    }
+        //  }
+        //  break;
+        default:
+          workspace.showMessage(`Unknown command: ${params.command}`)
+      }
+    })
+    // TODO For now this is just a message, but I want the spinner progress
+    // thingy, which looks way better
+    const item = workspace.createStatusBarItem(0, { progress: true })
+    item.hide()
+    // TODO skipping this for now. I could just easily display the messages
+    // but I want to make sure that if there is a command, I'll probably
+    // need to just display the prompt for executing the command
+    // client.onNotification(MetalsStatus.type, params => {
+    //   item.text = params.text;
+    //   if (params.show) {
+    //     item.show();
+    //   } else if (params.hide) {
+    //     item.hide();
+    //   }
+    //   if (params.tooltip) {
+    //     workspace.showMessage(params.tooltip)
+    //   }
+    //   if (params.command) {
+    //     item.command = params.command;
+    //     commands.getCommands().then(values => {
+    //       if (params.command && values.includes(params.command)) {
+    //         registerCommand(params.command, () => {
+    //           client.sendRequest(ExecuteCommandRequest.type, {
+    //             command: params.command
+    //           });
+    //         });
+    //       }
+    //     });
+    //   } else {
+    //     item.command = undefined;
+    //   }
+    // });
 
-  // languages.registerCodeLensProvider(
-  //   // TODO scheme isn't available here
-  //   { scheme: "file", language: "scala" },
-  //   codeLensRefresher
-  // );
+    registerCommand("metals.goto", args => {
+      const params: ExecuteCommandParams = {
+        command: "goto",
+        arguments: args
+      }
+      client.sendRequest(ExecuteCommandRequest.type, params)
+    })
 
-  // Handle the metals/executeClientCommand extension notification.
-  // TODO FIX FIrst
-  // client.onNotification(ExecuteClientCommand.type, params => {
-  //   switch (params.command) {
-  //     case "metals-goto-location":
-  //       const location =
-  //       params.arguments && (params.arguments[0] as Location)
-  //     if (location) {
-  //       const range = Range.create(
-  //         location.range.start.line,
-  //         location.range.start.character,
-  //         location.range.end.line,
-  //         location.range.end.character
-  //       )
-  //       // TODO is there a way to do this with one command?
-  //       workspace.jumpTo(location.uri, range.start)
-  //       workspace.selectRange(range)
-  //     }
-  //     break
-  //     case "metals-model-refresh":
-  //       compilationDoneEmitter.fire()
-  //     break
-  //     // TODO need to figure out the doctor stuff
-  //     //case "metals-doctor-run":
-  //     //case "metals-doctor-reload":
-  //     //  const isRun = params.command === "metals-doctor-run";
-  //     //  const isReload = params.command === "metals-doctor-reload";
-  //     //  if (isRun || (doctor && isReload)) {
-  //     //    const html = params.arguments && params.arguments[0];
-  //     //    if (typeof html === "string") {
-  //     //      const panel = getDoctorPanel(isReload);
-  //     //      panel.webview.html = html;
-  //     //    }
-  //     //  }
-  //     //  break;
-  //     default:
-  //       workspace.showMessage(`Unknown command: ${params.command}`)
-  //   }
-  // })
-
-  // TODO For now this is just a message, but I want the spinner progress
-  // thingy, which looks way better
-  const item = workspace.createStatusBarItem(0, {progress: true})
-  item.hide()
-  // TODO skipping this for now. I could just easily display the messages
-  // but I want to make sure that if there is a command, I'll probably
-  // need to just display the prompt for executing the command
-  // client.onNotification(MetalsStatus.type, params => {
-  //   item.text = params.text;
-  //   if (params.show) {
-  //     item.show();
-  //   } else if (params.hide) {
-  //     item.hide();
-  //   }
-  //   if (params.tooltip) {
-  //     workspace.showMessage(params.tooltip)
-  //   }
-  //   if (params.command) {
-  //     item.command = params.command;
-  //     commands.getCommands().then(values => {
-  //       if (params.command && values.includes(params.command)) {
-  //         registerCommand(params.command, () => {
-  //           client.sendRequest(ExecuteCommandRequest.type, {
-  //             command: params.command
-  //           });
-  //         });
-  //       }
-  //     });
-  //   } else {
-  //     item.command = undefined;
-  //   }
-  // });
-
-  // TODO SHOULD WORK 2
-  // registerCommand("metals.goto", args => {
-  //   client.sendRequest(ExecuteCommandRequest.type, {
-  //     command: "goto",
-  //     arguments: args
-  //   })
-  // })
-
-  // registerCommand("metals-echo-command", (arg: string) => {
-  //   client.sendRequest(ExecuteCommandRequest.type, {
-  //     command: arg
-  //   })
-  // })
+    registerCommand("metals-echo-command", (arg: string) => {
+      client.sendRequest(ExecuteCommandRequest.type, {
+        command: arg
+      })
+    })
 
   // TODO onDidChangeActiveTextEditor doesn't exist in coc,
   // figure out how to replace this if possible
@@ -377,6 +376,7 @@ function launchMetals(
   //     );
   //   }
   // });
+    
 
   // TODO doesn't exist in coc, see what we can replace it with
   // or if it's even applicable
@@ -446,4 +446,7 @@ function launchMetals(
   //     );
   //   });
   // });
+
+  })
+  client.start()
 }

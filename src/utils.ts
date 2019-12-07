@@ -45,14 +45,14 @@ export function migrateStringSettingToArray(id: string): void {
   }
 }
 
-export function trackDownloadProgress(
+export async function trackDownloadProgress(
   title: string,
   download: ChildProcessPromise
 ): Promise<string> {
   // TODO figure out the fancy progress spinner later
-  workspace.showMessage(title)
   let stdout: Buffer[] = []
   download.stdout.on("data", (out: Buffer) => {
+    workspace.showMessage("Preparing Metals")
     stdout.push(out)
   })
   download.stderr.on("data", (err: Buffer) => {
@@ -60,6 +60,7 @@ export function trackDownloadProgress(
     if (!msg.startsWith("Downloading")) {
       workspace.showMessage(msg, "error")
     }
+    workspace.showMessage(title)
   })
   download.on("close", (code: number) => {
     if (code != 0) {
@@ -68,9 +69,8 @@ export function trackDownloadProgress(
       throw Error(`coursier exit: ${code}`)
     }
   })
-  return download.then(() =>
-    stdout.map(buffer => buffer.toString().trim()).join("")
-  )
+  await download
+  return stdout.map(buffer => buffer.toString().trim()).join("")
 }
 
 export function isSupportedLanguage(languageId: TextDocument["languageId"]): boolean {
