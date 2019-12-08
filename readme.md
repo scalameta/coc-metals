@@ -24,7 +24,7 @@ Then upon entering your `build.sbt` or any scala file, a few check will automati
 
 After the download, Metals will automatically start. At this point you should see the prompt to import your build.
 
-![Import Build](https://imgur.com/ygknUAt)
+![Import Build](https://i.imgur.com/ygknUAt.png)
 
 ## coc.nvim mappings
 
@@ -114,7 +114,7 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 The following configuration are currently available. The easiest way to set these configurations is to enter `:CocConfig` or `:CocLocalConfig` to set your 
 global or local configuration settings respectively. You are able to get autocompletion help for the configuration values if you install [coc-json](https://github.com/neoclide/coc-json).
 
-![CocConfig](https://imgur.com/7wt4qJ7)
+![CocConfig](https://i.imgur.com/7wt4qJ7.png)
 
 The following configuration options are available:
 
@@ -132,7 +132,7 @@ The following configuration options are available:
 
 In order to either view or execute a commnad, enter `:CocCommand` which will bring up a fuzzy finder where you can search for any available `coc.nvim` or Metals command.
 
-![CocCommand](https://imgur.com/ijrG2jU)
+![CocCommand](https://i.imgur.com/ijrG2jU.png)
 
 The following command are currently available:
 
