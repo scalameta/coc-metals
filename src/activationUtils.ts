@@ -1,5 +1,5 @@
 import {Commands} from './commands'
-import {workspace, commands} from 'coc.nvim'
+import {workspace} from 'coc.nvim'
 
 export function detechLauncConfigurationChanges() {
   workspace.onDidChangeConfiguration(change => {
