@@ -70,6 +70,7 @@
         },
         "metals.serverProperties": {
           "type": "array",
+          "default": [],
           "items": {
             "type": "string"
           },
@@ -101,6 +102,7 @@
         },
         "metals.customRepositories": {
           "type": "array",
+          "default": [],
           "items": {
             "type": "string"
           },

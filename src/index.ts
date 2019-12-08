@@ -1,4 +1,5 @@
-import {detechLauncConfigurationChanges} from "./activationUtils"
+import { detechLauncConfigurationChanges } from "./activationUtils"
+import { Commands } from './commands'
 import {getJavaHome, getJavaOptions} from "./javaUtils"
 import {ExecuteClientCommand} from "./protocol"
 import {
@@ -7,7 +8,7 @@ import {
   trackDownloadProgress,
   checkServerVersion
 } from "./utils"
-
+import { exec } from "child_process"
 import {
   commands,
   ExtensionContext,
@@ -18,7 +19,14 @@ import {
   workspace
 } from "coc.nvim"
 import {spawn} from "promisify-child-process"
-import {Emitter, ExecuteCommandRequest, Location, Range, ExecuteCommandParams} from "vscode-languageserver-protocol"
+import {
+  ExitNotification,
+  ExecuteCommandRequest,
+  Location,
+  Range,
+  ShutdownRequest,
+  ExecuteCommandParams
+} from "vscode-languageserver-protocol"
 
 import * as fs from "fs"
 import * as path from "path"
@@ -41,13 +49,10 @@ export async function activate(context: ExtensionContext) {
       workspace.showQuickpick([openSettings, ignore], message)
         .then(choice => {
           if (choice === 0) {
-            // TODO figure out a good way to store both commands and thier
-            // arguments in the command file and mvoe this
-            workspace.nvim.command('CocConfig', true)
-            // TODO below is what we used to do, but figure out a way to
-            // restart after the config changes
-            //commands.executeCommand("setContext", "metals:enabled", true)
-            workspace.nvim.command("CocRestart", true)
+            workspace.nvim.command(Commands.OPEN_COC_CONFIG, true)
+            // TODO if we are here the server isn't running which
+            // means I'm not 100% sure if changing the coc-config
+            // will trigger a restart or not
           }
         })
     })
@@ -55,29 +60,18 @@ export async function activate(context: ExtensionContext) {
 
 
 function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
-  // TODO figure out the best way to do this check in vim
-  // since while testin if I open a single file from the command line
-  // it still recognizes the parent folder
-  // if (!workspace.workspaceFolders) {
-  //   workspace.showMessage(
-  //     `Metals will not start because you've opened a single file and not a project directory.`,
-  //     "warning"
-  //   )
-  //   return
-  // }
 
   const dottyArtifact = dottyIdeArtifact()
   if (dottyArtifact && fs.existsSync(dottyArtifact)) {
     // TODO replace the reload window command with the coc-equivelant later
     workspace.showMessage(
       `Metals will not start since Dotty is enabled for this workspace. ` +
-      `To enable Metals, remove the file ${dottyArtifact} and run 'Reload window'`,
+      `To enable Metals, remove the file ${dottyArtifact} and run ':CocCommand metals.restartServer'`,
       "warning"
     )
     return
   }
 
-  workspace.showMessage(`Java home: ${javaHome}`)
   const javaPath = path.join(javaHome, "bin", "java")
   const coursierPath = path.join(context.extensionPath, "./coursier")
 
@@ -141,9 +135,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
     }
   )
 
-  const title = `Downloading Metals v${serverVersion}`
-
-  trackDownloadProgress(title, fetchProcess)
+  trackDownloadProgress(fetchProcess)
     .then(classpath => {
       launchMetals(
         context,
@@ -198,7 +190,6 @@ function launchMetals(
   // enableScaladocIndentation();
 
   const baseProperties = [
-    `-Dmetals.input-box=on`,
     `-Dmetals.client=coc.nvim`,
     `-Xss4m`,
     `-Xms100m`
@@ -235,53 +226,6 @@ function launchMetals(
   }
 
   client.onReady(() => {
-    // TODO look into how coc handles experimental features
-    // since I'm really not sure it does
-    // const features = new MetalsFeatures();
-    // client.registerFeature(features);
-
-    // TODO figure out how to send the graceful shutdown to coc
-    // registerCommand("metals.restartServer", () => {
-    //   // First try to gracefully shutdown the server with LSP `shutdown` and `exit`.
-    //   // If Metals doesn't respond within 4 seconds we kill the process.
-    //   const timeout = (ms: number) =>
-    //     new Promise((_resolve, reject) => setTimeout(reject, ms))
-    //   const gracefullyTerminate = client
-    //     .sendRequest(ShutdownRequest.type)
-    //     .then(() => {
-    //       client.sendNotification(ExitNotification.type);
-    //       window.showInformationMessage("Metals is restarting");
-    //     });
-    //
-    //   Promise.race([gracefullyTerminate, timeout(4000)]).catch(() => {
-    //     window.showWarningMessage(
-    //       "Metals is unresponsive, killing the process and starting a new server."
-    //     );
-    //     const serverPid = client["_serverProcess"].pid;
-    //     exec(`kill ${serverPid}`);
-    //   });
-    // });
-
-
-    // TODO add in the doctor stuff here
-
-    // should be the compilation of a currently opened file
-    // but some race conditions may apply
-    let compilationDoneEmitter = new Emitter<void>()
-
-    // let codeLensRefresher: CodeLensProvider = {
-    //   // TODO the onDidChangeCodeLenses doesn't seem to be available in coc
-    //   // onDidChangeCodeLenses: compilationDoneEmitter.event,
-    //   provideCodeLenses: () => undefined
-    // }
-
-    // languages.registerCodeLensProvider(
-    //   // TODO scheme isn't available here
-    //   { scheme: "file", language: "scala" },
-    //   codeLensRefresher
-    // );
-    
-    // Handle the metals/executeClientCommand extension notification.
     client.onNotification(ExecuteClientCommand.type, params => {
       switch (params.command) {
         case "metals-goto-location":
@@ -294,13 +238,9 @@ function launchMetals(
               location.range.end.line,
               location.range.end.character
             )
-            // TODO is there a way to do this with one command?
             workspace.jumpTo(location.uri, range.start)
             workspace.selectRange(range)
           }
-          break
-        case "metals-model-refresh":
-          compilationDoneEmitter.fire()
           break
         // TODO need to figure out the doctor stuff
         //case "metals-doctor-run":
@@ -319,10 +259,26 @@ function launchMetals(
           workspace.showMessage(`Unknown command: ${params.command}`)
       }
     })
-    // TODO For now this is just a message, but I want the spinner progress
-    // thingy, which looks way better
-    const item = workspace.createStatusBarItem(0, { progress: true })
-    item.hide()
+  })
+
+  // TODO look into how coc handles experimental features
+  // since I'm really not sure it does
+  // const features = new MetalsFeatures();
+  // client.registerFeature(features);
+
+  // TODO look into how coc handles code lens related features
+  // let codeLensRefresher: CodeLensProvider = {
+  //   // TODO the onDidChangeCodeLenses doesn't seem to be available in coc
+  //   // onDidChangeCodeLenses: compilationDoneEmitter.event,
+  //   provideCodeLenses: () => undefined
+  // }
+
+  // languages.registerCodeLensProvider(
+  //   // TODO scheme isn't available here
+  //   { scheme: "file", language: "scala" },
+  //   codeLensRefresher
+  // );
+
     // TODO skipping this for now. I could just easily display the messages
     // but I want to make sure that if there is a command, I'll probably
     // need to just display the prompt for executing the command
@@ -352,20 +308,6 @@ function launchMetals(
     //   }
     // });
 
-    registerCommand("metals.goto", args => {
-      const params: ExecuteCommandParams = {
-        command: "goto",
-        arguments: args
-      }
-      client.sendRequest(ExecuteCommandRequest.type, params)
-    })
-
-    registerCommand("metals-echo-command", (arg: string) => {
-      client.sendRequest(ExecuteCommandRequest.type, {
-        command: arg
-      })
-    })
-
   // TODO onDidChangeActiveTextEditor doesn't exist in coc,
   // figure out how to replace this if possible
   // window.onDidChangeActiveTextEditor(editor => {
@@ -375,27 +317,7 @@ function launchMetals(
   //       editor.document.uri.toString()
   //     );
   //   }
-  // });
-    
-
-  // TODO doesn't exist in coc, see what we can replace it with
-  // or if it's even applicable
-  // window.onDidChangeWindowState(windowState => {
-  //   client.sendNotification(MetalsWindowStateDidChange.type, {
-  //     focused: windowState.focused
-  //   });
-  // });
-
-  // TODO rewrite this to use workspace choice
-  // client.onRequest(MetalsInputBox.type, (options, requestToken) => {
-  //   return window.showInputBox(options, requestToken).then(result => {
-  //     if (result === undefined) {
-  //       return { cancelled: true };
-  //     } else {
-  //       return { value: result };
-  //     }
-  //   });
-  // });
+  // });  
 
   // Long running tasks such as "import project" trigger start a progress
   // bar with a "cancel" button.
@@ -447,6 +369,43 @@ function launchMetals(
   //   });
   // });
 
+
+  registerCommand("metals.goto", args => {
+    const params: ExecuteCommandParams = {
+      command: "goto",
+      arguments: args
+    }
+    client.sendRequest(ExecuteCommandRequest.type, params)
   })
+
+  registerCommand("metals-echo-command", (arg: string) => {
+    client.sendRequest(ExecuteCommandRequest.type, {
+      command: arg
+    })
+  })
+
+  registerCommand("metals.restartServer", () => {
+    // First try to gracefully shutdown the server with LSP `shutdown` and `exit`.
+    // If Metals doesn't respond within 4 seconds we kill the process.
+    const timeout = (ms: number) =>
+      new Promise((_resolve, reject) => setTimeout(reject, ms))
+    const gracefullyTerminate = client
+      .sendRequest(ShutdownRequest.type)
+      .then(() => {
+        client.sendNotification(ExitNotification.type);
+        workspace.showMessage("Metals is restarting")
+      })
+
+    Promise.race([gracefullyTerminate, timeout(4000)]).catch(() => {
+      workspace.showMessage(
+        "Metals is unresponsive, killing the process and starting a new server.",
+        "warning"
+      )
+      const serverPid = client["_serverProcess"].pid;
+      exec(`kill ${serverPid}`);
+    })
+  })
+
   client.start()
+
 }

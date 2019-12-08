@@ -22,8 +22,8 @@ export function detechLauncConfigurationChanges() {
       ]
       workspace.showQuickpick(options, message)
         .then(choice => {
-          if (choice === 1) {
-            commands.executeCommand(Commands.RELOAD_WINDOW)
+          if (choice === 0) {
+            workspace.nvim.command(Commands.RESTART_COC, true)
           }
         })
     }

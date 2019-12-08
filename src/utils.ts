@@ -1,4 +1,6 @@
-import {ConfigurationTarget, workspace, WorkspaceConfiguration, commands} from "coc.nvim"
+import { Commands } from './commands'
+
+import { ConfigurationTarget, workspace, WorkspaceConfiguration, commands, StatusBarItem } from "coc.nvim"
 import * as path from "path"
 import {ChildProcessPromise} from "promisify-child-process"
 import {TextDocument} from "vscode-languageserver-protocol"
@@ -46,10 +48,11 @@ export function migrateStringSettingToArray(id: string): void {
 }
 
 export async function trackDownloadProgress(
-  title: string,
   download: ChildProcessPromise
 ): Promise<string> {
-  // TODO figure out the fancy progress spinner later
+  // TODO I've been unable to get the progress status bar item
+  // to work correctly in coc, but we'll need to in order to
+  // have a betterd diplsaying that something is going on
   let stdout: Buffer[] = []
   download.stdout.on("data", (out: Buffer) => {
     workspace.showMessage("Preparing Metals")
@@ -60,7 +63,6 @@ export async function trackDownloadProgress(
     if (!msg.startsWith("Downloading")) {
       workspace.showMessage(msg, "error")
     }
-    workspace.showMessage(title)
   })
   download.on("close", (code: number) => {
     if (code != 0) {
@@ -133,17 +135,16 @@ export function checkServerVersion() {
     const openSettingsAction = "Open settings"
     const outOfDateMessage = `You are running an out-of-date version of Metals. Latest version is ${latestServerVersion}, but you have configured a custom server version ${serverVersion}`
 
-    
     workspace.showQuickpick([upgradeAction, openSettingsAction], outOfDateMessage)
       .then(choice => {
-        if (choice === 1) {
+        if (choice === 0) {
           config.update(
             "serverVersion",
             latestServerVersion,
             true
           )
-        } else if (choice === 2) {
-          commands.executeCommand(openSettingsAction)
+        } else if (choice === 1) {
+          workspace.nvim.command(Commands.OPEN_COC_CONFIG, true)
         }
       })
   }
