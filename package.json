@@ -115,15 +115,6 @@
     },
     "commands": [
       {
-        "command": "metals.reveal-active-file",
-        "category": "Metals",
-        "title": "Reveal Active File in Side Bar",
-        "icon": {
-          "light": "icons/focus-light.svg",
-          "dark": "icons/focus-dark.svg"
-        }
-      },
-      {
         "command": "metals.restartServer",
         "category": "Metals",
         "title": "Restart server"

@@ -1,13 +1,13 @@
-import {Commands} from './commands'
-import {workspace} from 'coc.nvim'
+import {Commands} from "./commands"
+import {workspace} from "coc.nvim"
 
 export function detechLauncConfigurationChanges() {
   workspace.onDidChangeConfiguration(change => {
     const promptRestartKeys = [
-      'serverVersion',
-      'serverProperties',
-      'javaHome',
-      'customRepositories'
+      "serverVersion",
+      "serverProperties",
+      "javaHome",
+      "customRepositories"
     ]
 
     const shouldPromptRestart = promptRestartKeys.some(key =>
@@ -15,14 +15,9 @@ export function detechLauncConfigurationChanges() {
     )
 
     if (shouldPromptRestart) {
-      const message = 'Server launch configuration change detected.Reload the window for changes to take effect'
-      const options = [
-        'Reload Window',
-        'Not Now'
-      ]
-      workspace.showQuickpick(options, message)
+      workspace.showPrompt("Server configuration changes detected. Would you like to reload the window for them to take affect?")
         .then(choice => {
-          if (choice === 0) {
+          if (choice) {
             workspace.nvim.command(Commands.RESTART_COC, true)
           }
         })

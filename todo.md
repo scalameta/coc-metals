@@ -5,6 +5,8 @@ since there are quite a few at this point I'd like to keep somewhat of an orderl
 things I'd like to port over from the vs-code extension to here.
 
 - [ ] Code lens related things
-- [ ] Doctor related stuff
+- [ ] Check if there is a possiblity to run doctor in vim
 - [ ] Ability to have input box enabled
 - [ ] Get progress items working correctly
+- [ ] enableScaladocIndentation, since there doesn't seem to be the ability to use setLangugageConfiguration
+- [ ] figure out of there is a way to reveal active file possibly using nerdtree

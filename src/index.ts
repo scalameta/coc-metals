@@ -184,11 +184,6 @@ function launchMetals(
   serverProperties: string[],
   javaOptions: string[]
 ) {
-  // TODO the coc api doesn't have the setLangugageConfiguration
-  // built in yet it seems. I'll need to look into a way to do this
-  // or potentially just add it into coc core
-  // enableScaladocIndentation();
-
   const baseProperties = [
     `-Dmetals.client=coc.nvim`,
     `-Xss4m`,
@@ -225,7 +220,50 @@ function launchMetals(
     context.subscriptions.push(commands.registerCommand(command, callback))
   }
 
-  client.onReady(() => {
+  registerCommand("metals.restartServer", () => {
+    // First try to gracefully shutdown the server with LSP `shutdown` and `exit`.
+    // If Metals doesn't respond within 4 seconds we kill the process.
+    const timeout = (ms: number) =>
+      new Promise((_resolve, reject) => setTimeout(reject, ms))
+    const gracefullyTerminate = client
+      .sendRequest(ShutdownRequest.type)
+      .then(() => {
+        client.sendNotification(ExitNotification.type);
+        // TODO add progress here
+        workspace.showMessage("Metals is restarting")
+      })
+
+    Promise.race([gracefullyTerminate, timeout(4000)]).catch(() => {
+      workspace.showMessage(
+        "Metals is unresponsive, killing the process and starting a new server.",
+        "warning"
+      )
+      const serverPid = client["_serverProcess"].pid;
+      exec(`kill ${serverPid}`);
+    })
+  })
+
+  context.subscriptions.push(client.start())
+
+  client.onReady().then(_ => {
+
+    workspace.showMessage("Metals is ready!")
+
+    const commands = [
+      "build-import",
+      "build-connect",
+      "sources-scan",
+      "doctor-run",
+      "compile-cascade",
+      "compile-cancel"
+    ]
+
+    commands.forEach(command => {
+      registerCommand("metals." + command, async () =>
+        client.sendRequest(ExecuteCommandRequest.type, { command })
+      )
+    })
+
     client.onNotification(ExecuteClientCommand.type, params => {
       switch (params.command) {
         case "metals-goto-location":
@@ -242,42 +280,27 @@ function launchMetals(
             workspace.selectRange(range)
           }
           break
-        // TODO need to figure out the doctor stuff
-        //case "metals-doctor-run":
-        //case "metals-doctor-reload":
-        //  const isRun = params.command === "metals-doctor-run";
-        //  const isReload = params.command === "metals-doctor-reload";
-        //  if (isRun || (doctor && isReload)) {
-        //    const html = params.arguments && params.arguments[0];
-        //    if (typeof html === "string") {
-        //      const panel = getDoctorPanel(isReload);
-        //      panel.webview.html = html;
-        //    }
-        //  }
-        //  break;
         default:
           workspace.showMessage(`Unknown command: ${params.command}`)
       }
     })
+
+    registerCommand("metals.goto", args => {
+      const params: ExecuteCommandParams = {
+        command: "goto",
+        arguments: args
+      }
+      client.sendRequest(ExecuteCommandRequest.type, params)
+    })
+
+    registerCommand("metals-echo-command", (arg: string) => {
+      client.sendRequest(ExecuteCommandRequest.type, {
+        command: arg
+      })
+    })
+
+
   })
-
-  // TODO look into how coc handles experimental features
-  // since I'm really not sure it does
-  // const features = new MetalsFeatures();
-  // client.registerFeature(features);
-
-  // TODO look into how coc handles code lens related features
-  // let codeLensRefresher: CodeLensProvider = {
-  //   // TODO the onDidChangeCodeLenses doesn't seem to be available in coc
-  //   // onDidChangeCodeLenses: compilationDoneEmitter.event,
-  //   provideCodeLenses: () => undefined
-  // }
-
-  // languages.registerCodeLensProvider(
-  //   // TODO scheme isn't available here
-  //   { scheme: "file", language: "scala" },
-  //   codeLensRefresher
-  // );
 
     // TODO skipping this for now. I could just easily display the messages
     // but I want to make sure that if there is a command, I'll probably
@@ -307,17 +330,6 @@ function launchMetals(
     //     item.command = undefined;
     //   }
     // });
-
-  // TODO onDidChangeActiveTextEditor doesn't exist in coc,
-  // figure out how to replace this if possible
-  // window.onDidChangeActiveTextEditor(editor => {
-  //   if (editor && isSupportedLanguage(editor.document.languageId)) {
-  //     client.sendNotification(
-  //       MetalsDidFocus.type,
-  //       editor.document.uri.toString()
-  //     );
-  //   }
-  // });  
 
   // Long running tasks such as "import project" trigger start a progress
   // bar with a "cancel" button.
@@ -370,42 +382,8 @@ function launchMetals(
   // });
 
 
-  registerCommand("metals.goto", args => {
-    const params: ExecuteCommandParams = {
-      command: "goto",
-      arguments: args
-    }
-    client.sendRequest(ExecuteCommandRequest.type, params)
-  })
 
-  registerCommand("metals-echo-command", (arg: string) => {
-    client.sendRequest(ExecuteCommandRequest.type, {
-      command: arg
-    })
-  })
 
-  registerCommand("metals.restartServer", () => {
-    // First try to gracefully shutdown the server with LSP `shutdown` and `exit`.
-    // If Metals doesn't respond within 4 seconds we kill the process.
-    const timeout = (ms: number) =>
-      new Promise((_resolve, reject) => setTimeout(reject, ms))
-    const gracefullyTerminate = client
-      .sendRequest(ShutdownRequest.type)
-      .then(() => {
-        client.sendNotification(ExitNotification.type);
-        workspace.showMessage("Metals is restarting")
-      })
 
-    Promise.race([gracefullyTerminate, timeout(4000)]).catch(() => {
-      workspace.showMessage(
-        "Metals is unresponsive, killing the process and starting a new server.",
-        "warning"
-      )
-      const serverPid = client["_serverProcess"].pid;
-      exec(`kill ${serverPid}`);
-    })
-  })
-
-  client.start()
 
 }
