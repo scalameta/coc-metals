@@ -55,13 +55,13 @@ export async function trackDownloadProgress(
   // have a betterd diplsaying that something is going on
   let stdout: Buffer[] = []
   download.stdout.on("data", (out: Buffer) => {
-    workspace.showMessage("Preparing Metals")
+    workspace.showMessage("Preparing Metals...")
     stdout.push(out)
   })
   download.stderr.on("data", (err: Buffer) => {
     const msg = err.toString().trim()
-    if (!msg.startsWith("Downloading")) {
-      workspace.showMessage(msg, "error")
+    if (msg.startsWith("Downloaded") || msg.startsWith("Downloading")) {
+      workspace.showMessage(msg)
     }
   })
   download.on("close", (code: number) => {

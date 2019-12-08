@@ -10,3 +10,4 @@ things I'd like to port over from the vs-code extension to here.
 - [ ] Get progress items working correctly
 - [ ] enableScaladocIndentation, since there doesn't seem to be the ability to use setLangugageConfiguration
 - [ ] figure out of there is a way to reveal active file possibly using nerdtree
+- [ ] since we don't have views like in vscode, figure out how to for example give options for a help panel

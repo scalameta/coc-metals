@@ -31,7 +31,7 @@ import {
 import * as fs from "fs"
 import * as path from "path"
 
-let client: any
+// let client: any
 
 export async function activate(context: ExtensionContext) {
   detechLauncConfigurationChanges()
@@ -91,13 +91,25 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
 
   const javaOptions = getJavaOptions()
 
-  const fetchProperties = serverProperties.filter(
+  const fetchProperties: string[] = serverProperties.filter(
     p => !p.startsWith("-agentlib")
   )
+
+  if (fetchProperties.length > 0) {
+    workspace.showMessage(
+      `Additional server properties detected: ${fetchProperties.join(", ")}`
+    )
+  }
 
   const customRepositories: string = config
     .get<string[]>("customRepositories")!
     .join("|")
+  
+  if (customRepositories.indexOf("|") !== -1) {
+    workspace.showMessage(
+      `Custom repositories detected: ${customRepositories}`
+    )
+  }
 
   const customRepositoriesEnv =
     customRepositories.length == 0
@@ -209,7 +221,10 @@ function launchMetals(
     revealOutputChannelOn: RevealOutputChannelOn.Never
   }
 
-  client = new LanguageClient(
+  // I know this any here is a bit gross, but I can't
+  // getn any of the sendRequests to work or type check
+  // correctly without it
+  const client: any = new LanguageClient(
     "metals",
     "Metals",
     serverOptions,
@@ -380,10 +395,5 @@ function launchMetals(
   //     );
   //   });
   // });
-
-
-
-
-
 
 }

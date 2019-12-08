@@ -38,31 +38,6 @@
         "editor.suggestSelection": "first"
       }
     },
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "metals-explorer",
-          "title": "Metals",
-          "icon": "images/scalameta.svg"
-        }
-      ]
-    },
-    "views": {
-      "metals-explorer": [
-        {
-          "id": "metalsBuild",
-          "name": "Build"
-        },
-        {
-          "id": "metalsCompile",
-          "name": "Compile"
-        },
-        {
-          "id": "metalsHelp",
-          "name": "Help and feedback"
-        }
-      ]
-    },
     "configuration": {
       "title": "Metals",
       "properties": {
