@@ -5,6 +5,7 @@ import * as path from "path"
 import {ChildProcessPromise} from "promisify-child-process"
 import {TextDocument} from "vscode-languageserver-protocol"
 import * as semver from "semver"
+import ProgressItem from './ProgressItem'
 
 export function dottyIdeArtifact(): string | undefined {
   // TODO the fsPath doesn't exist in the coc api, so make sure
@@ -22,10 +23,6 @@ export function migrateStringSettingToArray(id: string): void {
     .getConfiguration("metals")
     .inspect<string | string[]>(id)!
 
-  // TODO check a bit more into the last param of update
-  // in vscode this can also be the configuration target
-  // where in coc it's only a boolean
-  // I think I got this right, but I've been wrong before
   if (typeof setting.globalValue === "string") {
     workspace
       .getConfiguration("metals")
@@ -50,28 +47,28 @@ export function migrateStringSettingToArray(id: string): void {
 export async function trackDownloadProgress(
   download: ChildProcessPromise
 ): Promise<string> {
-  // TODO I've been unable to get the progress status bar item
-  // to work correctly in coc, but we'll need to in order to
-  // have a betterd diplsaying that something is going on
   let stdout: Buffer[] = []
+  const progress = new ProgressItem().createStatusBarItem("Preparing Metals")
   download.stdout.on("data", (out: Buffer) => {
-    workspace.showMessage("Preparing Metals...")
+    progress.update(out.toString())
     stdout.push(out)
   })
   download.stderr.on("data", (err: Buffer) => {
     const msg = err.toString().trim()
     if (msg.startsWith("Downloaded") || msg.startsWith("Downloading")) {
-      workspace.showMessage(msg)
+      progress.update(msg)
     }
   })
   download.on("close", (code: number) => {
     if (code != 0) {
       // something went wrong, print stdout to the console to help troubleshoot.
       stdout.forEach(buffer => workspace.showMessage(buffer.toString(), "error"))
+      progress.dispose()
       throw Error(`coursier exit: ${code}`)
     }
   })
   await download
+  progress.dispose()
   return stdout.map(buffer => buffer.toString().trim()).join("")
 }
 
@@ -117,8 +114,7 @@ export function checkServerVersion() {
   const config = workspace.getConfiguration("metals")
   const {
     serverVersion,
-    latestServerVersion,
-    configurationTarget
+    latestServerVersion
   } = serverVersionInfo(config)
   const isOutdated = (() => {
     try {
@@ -149,3 +145,4 @@ export function checkServerVersion() {
       })
   }
 }
+

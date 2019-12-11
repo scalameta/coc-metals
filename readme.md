@@ -1,6 +1,6 @@
 # coc-metals
 
-WIP [coc.nvim](https://github.com/neoclide/coc.nvim) extension for [Metals](http://scalameta.org/metals/), the Scala Language Server.
+[coc.nvim](https://github.com/neoclide/coc.nvim) extension for [Metals](http://scalameta.org/metals/), the Scala Language Server.
 
 This extension is meant to mimic the functionality provided by the [metals-vscode](https://github.com/scalameta/metals-vscode) extension.
 
@@ -16,10 +16,10 @@ This extension is meant to mimic the functionality provided by the [metals-vscod
 ```
 
 Following the installation of the extension, you simply need to open the directory that contains your scala project.
-Then upon entering your `build.sbt` or any scala file, a few check will automatically be happen:
+Then upon entering your `build.sbt` or any scala file, a few checks will automatically happen:
 
-1. Ensure that you have a valid Java installation
-2. Ensure you have the most up to date Metals version listed in your config, or it will default to the latest stable release
+1. Ensures that you have a valid Java installation
+2. Ensures you have the most up to date Metals version listed in your config, or it will default to the latest stable release
 3. If Metals is not available, it will download Metals
 
 After the download, Metals will automatically start. At this point you should see the prompt to import your build.
@@ -28,9 +28,10 @@ After the download, Metals will automatically start. At this point you should se
 
 ## coc.nvim mappings
 
-There are no default mappings for `coc.nvim` doesn't come with default mappings, so you'll want to ensure you have the following added to your `.vimrc`
+There are purposefully no default mappings for `coc.nvim`, so you'll want to ensure you have the following added to your `.vimrc`.
+You are then able to customize it as you choose.
 
-```vims
+```vim
 " ~/.vimrc
 " Configuration for coc.nvim
 
@@ -111,26 +112,26 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 
 ## Configuration
 
-The following configuration are currently available. The easiest way to set these configurations is to enter `:CocConfig` or `:CocLocalConfig` to set your 
-global or local configuration settings respectively. You are able to get autocompletion help for the configuration values if you install [coc-json](https://github.com/neoclide/coc-json).
+The following configuration options are currently available. The easiest way to set these configurations is to enter `:CocConfig` or `:CocLocalConfig` to set your global or local configuration settings respectively.
+If you'd like to get autocompletion help for the configuration values you can install [coc-json](https://github.com/neoclide/coc-json).
 
 ![CocConfig](https://i.imgur.com/7wt4qJ7.png)
 
-The following configuration options are available:
-
-- `metals.serverVersion`: The version of the Metals server artifact. Requires reloading the window.
-- `metals.serverProperties`: Optional list of properties to pass along to the Metals server. By default, the environment variable `JAVA_OPTS` and `.jvmopts` file are respected.
-- `metals.javaHome`: Optional path to the Java home directory. Requires reloading the window.\n\nDefaults to the most recent Java 8 version computed by the `locate-java-home` npm package.
-- `metals.sbtScript`: Optional absolute path to an `sbt` executable to use for running `sbt bloopInstall`. By default, Metals uses `java -jar sbt-launch.jar` with an embedded launcher while respecting `.jvmopts` and `.sbtopts`.\n\nUpdate this setting if your `sbt` script requires more customizations like using environment variables.
-- `metals.millScript`: Optional absolute path to a `mill` executable to use for running `mill mill.contrib.Bloop/install`. By default, Metals uses an embedded `millw` script while respecting `.mill-version` file. Update this setting if your `mill` script requires more customizations.
-- `metals.mavenScript`: Optional absolute path to a `mvn` executable to use for running `mvn ch.epfl.scala:maven-bloop_2.10:<bloop_version>:bloopInstall`. By default, Metals uses an embedded `mvnw` script. Update this setting if your `mvn` script requires more customizations.
-- `metals.gradleScript`: Optional absolute path to a `gradle` executable to use for running `gradle bloopInstall`. By default, Metals uses an embedded `gradlew` script. Update this setting if your `gradle` script requires more customizations.
-- `metals.scalafmtConfigPath`: Optional custom path to the .scalafmt.conf file. Should be relative to the workspace root directory and use forward slashes `/` for file separators (even on Windows).
-- `metals.customRepositories`: Optional list of custom resolvers passed to Coursier when fetching metals dependencies.\n\nFor documentation on accepted values see the [Coursier documentation](https://get-coursier.io/docs/other-repositories). The extension will pass these to Coursier using the COURSIER_REPOSITORIES environment variable after joining the custom repositories with a pipe character (|).
+   Configuration Option     |      Description
+----------------------------|---------------------------
+`metals.serverVersion`      | The version of the Metals server artifact. Requires reloading the window.
+`metals.serverProperties`   | Optional list of properties to pass along to the Metals server. By default, the environment variable `JAVA_OPTS` and `.jvmopts` file are respected.
+`metals.javaHome`           | Optional path to the Java home directory. Requires reloading the window.\n\nDefaults to the most recent Java 8 version computed by the `locate-java-home` npm package.
+`metals.sbtScript`          | Optional absolute path to an `sbt` executable to use for running `sbt bloopInstall`. By default, Metals uses `java -jar sbt-launch.jar` with an embedded launcher while respecting `.jvmopts` and `.sbtopts`.\n\nUpdate this setting if your `sbt` script requires more customizations like using environment variables.
+`metals.millScript`         | Optional absolute path to a `mill` executable to use for running `mill mill.contrib.Bloop/install`. By default, Metals uses an embedded `millw` script while respecting `.mill-version` file. Update this setting if your `mill` script requires more customizations.
+`metals.mavenScript`        | Optional absolute path to a `mvn` executable to use for running `mvn ch.epfl.scala:maven-bloop_2.10:<bloop_version>:bloopInstall`. By default, Metals uses an embedded `mvnw` script. Update this setting if your `mvn` script requires more customizations.
+`metals.gradleScript`       | Optional absolute path to a `gradle` executable to use for running `gradle bloopInstall`. By default, Metals uses an embedded `gradlew` script. Update this setting if your `gradle` script requires more customizations.
+`metals.scalafmtConfigPath` | Optional custom path to the .scalafmt.conf file. Should be relative to the workspace root directory and use forward slashes `/` for file separators (even on Windows).
+`metals.customRepositories` | Optional list of custom resolvers passed to Coursier when fetching metals dependencies.\n\nFor documentation on accepted values see the [Coursier documentation](https://get-coursier.io/docs/other-repositories). The extension will pass these to Coursier using the COURSIER_REPOSITORIES environment variable after joining the custom repositories with a pipe character (|).
 
 ## Available Commands
 
-In order to either view or execute a commnad, enter `:CocCommand` which will bring up a fuzzy finder where you can search for any available `coc.nvim` or Metals command.
+In order to either view or execute a commnad, enter `:CocCommand` which will bring up a fuzzy finder where you can search for any available `coc.nvim` or Metals command. You can also use the `<space> c` shortcut if you copied the above coc mappings.
 
 ![CocCommand](https://i.imgur.com/ijrG2jU.png)
 
@@ -147,6 +148,6 @@ The following command are currently available:
 
 ### Troubleshooting
 
-Again, this is currently a work in progress and many thing are not implemented yet. It's recommend to manually set up Metals with [coc.nvim](https://github.com/neoclide/coc.nvim) until more of the commands and configuration options are availabe. You can find instructions on the setup [here](http://scalameta.org/metals/docs/editors/vim.html) on the Metals website.
+Again, this is currently a work in progress and many things are still being implemented. For the time being it's still recommend to manually set up Metals with [coc.nvim](https://github.com/neoclide/coc.nvim). You can find instructions on the setup [here](http://scalameta.org/metals/docs/editors/vim.html) on the Metals website.
 
-If you have any questions or issues with Metals, please submit an issue in the main Metals [issue repo](https://github.com/scalameta/metals/issues). If you have any feature requests, we have a feature request [issue repo](https://github.com/scalameta/metals-feature-requests) as well.
+If you have any questions or issues with Metals, please submit an [issue](https://github.com/ckipp01/coc-metals/issues) in this repo if it pertains to the extension or in the main Metals [issue repo](https://github.com/scalameta/metals/issues) if it relates to Metals in general. If you have any feature requests, we also have a feature request [issue repo](https://github.com/scalameta/metals-feature-requests).

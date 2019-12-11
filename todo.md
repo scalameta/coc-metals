@@ -7,7 +7,8 @@ things I'd like to port over from the vs-code extension to here.
 - [ ] Code lens related things
 - [ ] Check if there is a possiblity to run doctor in vim
 - [ ] Ability to have input box enabled
-- [ ] Get progress items working correctly
+- [ ] Get status bar items to work correctly ( Note: this should be done way later since we can't guarantee a user has a statusline integration)
 - [ ] enableScaladocIndentation, since there doesn't seem to be the ability to use setLangugageConfiguration
 - [ ] figure out of there is a way to reveal active file possibly using nerdtree
 - [ ] since we don't have views like in vscode, figure out how to for example give options for a help panel
+- [ ] OnNotification MetalsStatus is not implimented

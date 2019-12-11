@@ -1,7 +1,7 @@
 import { detechLauncConfigurationChanges } from "./activationUtils"
 import { Commands } from './commands'
 import {getJavaHome, getJavaOptions} from "./javaUtils"
-import {ExecuteClientCommand} from "./protocol"
+import {ExecuteClientCommand, MetalsStatus, MetalsSlowTask} from "./protocol"
 import {
   dottyIdeArtifact,
   migrateStringSettingToArray,
@@ -18,7 +18,7 @@ import {
   ServerOptions,
   workspace
 } from "coc.nvim"
-import {spawn} from "promisify-child-process"
+import {spawn, ChildProcessPromise} from "promisify-child-process"
 import {
   ExitNotification,
   ExecuteCommandRequest,
@@ -30,8 +30,6 @@ import {
 
 import * as fs from "fs"
 import * as path from "path"
-
-// let client: any
 
 export async function activate(context: ExtensionContext) {
   detechLauncConfigurationChanges()
@@ -50,9 +48,6 @@ export async function activate(context: ExtensionContext) {
         .then(choice => {
           if (choice === 0) {
             workspace.nvim.command(Commands.OPEN_COC_CONFIG, true)
-            // TODO if we are here the server isn't running which
-            // means I'm not 100% sure if changing the coc-config
-            // will trigger a restart or not
           }
         })
     })
@@ -63,7 +58,6 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
 
   const dottyArtifact = dottyIdeArtifact()
   if (dottyArtifact && fs.existsSync(dottyArtifact)) {
-    // TODO replace the reload window command with the coc-equivelant later
     workspace.showMessage(
       `Metals will not start since Dotty is enabled for this workspace. ` +
       `To enable Metals, remove the file ${dottyArtifact} and run ':CocCommand metals.restartServer'`,
@@ -104,7 +98,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
   const customRepositories: string = config
     .get<string[]>("customRepositories")!
     .join("|")
-  
+
   if (customRepositories.indexOf("|") !== -1) {
     workspace.showMessage(
       `Custom repositories detected: ${customRepositories}`
@@ -117,7 +111,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
       : { COURSIER_REPOSITORIES: customRepositories }
 
   // TODO explain what all of these flags are
-  const fetchProcess = spawn(
+  const fetchProcess: ChildProcessPromise = spawn(
     javaPath,
     javaOptions.concat(fetchProperties).concat([
       "-jar",
@@ -184,7 +178,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
         }
       })()
       workspace.showPrompt(msg + `\n Open Settings?`).then(choice => {
-        if (choice) workspace.nvim.command('CocConfig', true)
+        if (choice) workspace.nvim.command(Commands.OPEN_COC_CONFIG, true)
       })
     })
 }
@@ -201,7 +195,7 @@ function launchMetals(
     `-Xss4m`,
     `-Xms100m`
   ]
-  const mainArgs = ["-classpath", metalsClasspath, "scala.meta.metals.Main"];
+  const mainArgs = ["-classpath", metalsClasspath, "scala.meta.metals.Main"]
   // let user properties override base properties
   const launchArgs = baseProperties
     .concat(javaOptions)
@@ -221,9 +215,12 @@ function launchMetals(
     revealOutputChannelOn: RevealOutputChannelOn.Never
   }
 
+  // TODO fix this any
   // I know this any here is a bit gross, but I can't
-  // getn any of the sendRequests to work or type check
-  // correctly without it
+  // get any of the sendRequests to work or type check
+  // correctly without it. I notice that this was also
+  // done in some of the other coc-extensions, which
+  // game me the idea to try it. 
   const client: any = new LanguageClient(
     "metals",
     "Metals",
@@ -243,7 +240,7 @@ function launchMetals(
     const gracefullyTerminate = client
       .sendRequest(ShutdownRequest.type)
       .then(() => {
-        client.sendNotification(ExitNotification.type);
+        client.sendNotification(ExitNotification.type)
         // TODO add progress here
         workspace.showMessage("Metals is restarting")
       })
@@ -253,8 +250,8 @@ function launchMetals(
         "Metals is unresponsive, killing the process and starting a new server.",
         "warning"
       )
-      const serverPid = client["_serverProcess"].pid;
-      exec(`kill ${serverPid}`);
+      const serverPid = client["_serverProcess"].pid
+      exec(`kill ${serverPid}`)
     })
   })
 
@@ -313,87 +310,5 @@ function launchMetals(
         command: arg
       })
     })
-
-
   })
-
-    // TODO skipping this for now. I could just easily display the messages
-    // but I want to make sure that if there is a command, I'll probably
-    // need to just display the prompt for executing the command
-    // client.onNotification(MetalsStatus.type, params => {
-    //   item.text = params.text;
-    //   if (params.show) {
-    //     item.show();
-    //   } else if (params.hide) {
-    //     item.hide();
-    //   }
-    //   if (params.tooltip) {
-    //     workspace.showMessage(params.tooltip)
-    //   }
-    //   if (params.command) {
-    //     item.command = params.command;
-    //     commands.getCommands().then(values => {
-    //       if (params.command && values.includes(params.command)) {
-    //         registerCommand(params.command, () => {
-    //           client.sendRequest(ExecuteCommandRequest.type, {
-    //             command: params.command
-    //           });
-    //         });
-    //       }
-    //     });
-    //   } else {
-    //     item.command = undefined;
-    //   }
-    // });
-
-  // Long running tasks such as "import project" trigger start a progress
-  // bar with a "cancel" button.
-  // TODO worry about this when it's working
-  // client.onRequest(MetalsSlowTask.type, (params, requestToken) => {
-  //   return new Promise(requestResolve => {
-  //     window.withProgress(
-  //       {
-  //         location: ProgressLocation.Notification,
-  //         title: params.message,
-  //         cancellable: true
-  //       },
-  //       (progress, progressToken) => {
-  //         const showLogs = !params.quietLogs;
-  //         if (showLogs) {
-  //           // Open logs so user can keep track of progress.
-  //           client.outputChannel.show(true);
-  //         }
-
-  //         // Update total running time every second.
-  //         let seconds = params.secondsElapsed || 0;
-  //         const interval = setInterval(() => {
-  //           seconds += 1;
-  //           progress.report({ message: readableSeconds(seconds) });
-  //         }, 1000);
-
-  //         // Hide logs and clean up resources on completion.
-  //         function onComplete() {
-  //           clearInterval(interval);
-  //           client.outputChannel.hide();
-  //         }
-
-  //         // Client triggered cancelation from the progress notification.
-  //         progressToken.onCancellationRequested(() => {
-  //           onComplete();
-  //           requestResolve({ cancel: true });
-  //         });
-
-  //         return new Promise(progressResolve => {
-  //           // Server completed long running task.
-  //           requestToken.onCancellationRequested(() => {
-  //             onComplete();
-  //             progress.report({ increment: 100 });
-  //             setTimeout(() => progressResolve(), 1000);
-  //           });
-  //         });
-  //       }
-  //     );
-  //   });
-  // });
-
 }
