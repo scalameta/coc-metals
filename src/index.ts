@@ -33,13 +33,12 @@ import * as path from "path"
 
 export async function activate(context: ExtensionContext) {
   detechLauncConfigurationChanges()
-  checkServerVersion()
+  await checkServerVersion()
 
   getJavaHome()
     .then(javaHome => fetchAndLaunchMetals(context, javaHome))
     .catch(err => {
       const message =
-        `${err.stack}\n` +
         "Unable to find a Java 8 or Java 11 installation on this computer. " +
         "To fix this problem, update the 'Java Home' setting to point to a Java 8 or Java 11 home directory"
       const openSettings = "Open Settings"
@@ -220,7 +219,7 @@ function launchMetals(
   // get any of the sendRequests to work or type check
   // correctly without it. I notice that this was also
   // done in some of the other coc-extensions, which
-  // game me the idea to try it. 
+  // game me the idea to try it.
   const client: any = new LanguageClient(
     "metals",
     "Metals",

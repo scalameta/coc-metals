@@ -110,7 +110,7 @@ function serverVersionInfo(
   }
 }
 
-export function checkServerVersion() {
+export async function checkServerVersion() {
   const config = workspace.getConfiguration("metals")
   const {
     serverVersion,
@@ -130,19 +130,18 @@ export function checkServerVersion() {
     const upgradeAction = `Upgrade to ${latestServerVersion} now`
     const openSettingsAction = "Open settings"
     const outOfDateMessage = `You are running an out-of-date version of Metals. Latest version is ${latestServerVersion}, but you have configured a custom server version ${serverVersion}`
+    const ignore = "Ignore for now"
 
-    workspace.showQuickpick([upgradeAction, openSettingsAction], outOfDateMessage)
-      .then(choice => {
-        if (choice === 0) {
-          config.update(
-            "serverVersion",
-            latestServerVersion,
-            true
-          )
-        } else if (choice === 1) {
-          workspace.nvim.command(Commands.OPEN_COC_CONFIG, true)
-        }
-      })
+    const choice = await workspace.showQuickpick([upgradeAction, openSettingsAction, ignore], outOfDateMessage)
+    if (choice === 0) {
+      config.update(
+        "serverVersion",
+        latestServerVersion,
+        true
+      )
+    } else if (choice === 1) {
+      workspace.nvim.command(Commands.OPEN_COC_CONFIG, true)
+    }
   }
 }
 
