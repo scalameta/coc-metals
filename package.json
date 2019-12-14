@@ -1,7 +1,7 @@
 {
   "name": "coc-metals",
-  "version": "0.3.0",
-  "description": "coc.vin extension for Metals, the Scala language server",
+  "version": "0.3.1",
+  "description": "coc.nvim extension for Metals, the Scala language server",
   "keywords": [
     "scala",
     "lsp",
