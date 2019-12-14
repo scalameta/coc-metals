@@ -17,6 +17,7 @@ export namespace MetalsStatus {
   );
 }
 
+// TODO not implimented
 export namespace MetalsSlowTask {
   export const type = new RequestType<
     MetalsSlowTaskParams,

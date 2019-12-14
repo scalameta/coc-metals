@@ -1,7 +1,7 @@
 import { detechLauncConfigurationChanges } from "./activationUtils";
 import { Commands } from "./commands";
 import { getJavaHome, getJavaOptions } from "./javaUtils";
-import { ExecuteClientCommand, MetalsStatus, MetalsSlowTask } from "./protocol";
+import { ExecuteClientCommand } from "./protocol";
 import {
   dottyIdeArtifact,
   migrateStringSettingToArray,
@@ -37,7 +37,7 @@ export async function activate(context: ExtensionContext) {
 
   getJavaHome()
     .then(javaHome => fetchAndLaunchMetals(context, javaHome))
-    .catch(err => {
+    .catch(_ => {
       const message =
         "Unable to find a Java 8 or Java 11 installation on this computer. " +
         "To fix this problem, update the 'Java Home' setting to point to a Java 8 or Java 11 home directory";
@@ -140,7 +140,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
 
   trackDownloadProgress(fetchProcess).then(
     classpath => {
-      launchMetals(context, javaPath, classpath, serverProperties, javaOptions);
+      launchMetals(context, javaPath, classpath, serverProperties, javaOptions, customRepositoriesEnv);
     },
     () => {
       const msg = (() => {
@@ -180,7 +180,8 @@ function launchMetals(
   javaPath: string,
   metalsClasspath: string,
   serverProperties: string[],
-  javaOptions: string[]
+  javaOptions: string[],
+  env: { COURSIER_REPOSITORIES?: string }
 ) {
   const baseProperties = [`-Dmetals.client=coc.nvim`, `-Xss4m`, `-Xms100m`];
   const mainArgs = ["-classpath", metalsClasspath, "scala.meta.metals.Main"];
@@ -191,8 +192,8 @@ function launchMetals(
     .concat(mainArgs);
 
   const serverOptions: ServerOptions = {
-    run: { command: javaPath, args: launchArgs },
-    debug: { command: javaPath, args: launchArgs }
+    run: { command: javaPath, args: launchArgs, options: { env } },
+    debug: { command: javaPath, args: launchArgs, options: { env } }
   };
 
   const clientOptions: LanguageClientOptions = {
