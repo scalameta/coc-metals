@@ -23,7 +23,13 @@
   "scripts": {
     "clean": "rimraf lib",
     "build": "webpack",
+    "format": "prettier --write src/*.ts",
     "prepare": "npx npm-run-all clean build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn format"
+    }
   },
   "activationEvents": [
     "onLanguage:scala",
@@ -129,6 +135,7 @@
   "devDependencies": {
     "@types/node": "^12.12.17",
     "coc.nvim": "0.0.74",
+    "husky": "^3.1.0",
     "prettier": "1.19.1",
     "rimraf": "^3.0.0",
     "ts-loader": "^6.0.3",

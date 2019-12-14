@@ -1,16 +1,20 @@
-import {ExecuteCommandParams, NotificationType, RequestType} from "vscode-languageserver-protocol"
+import {
+  ExecuteCommandParams,
+  NotificationType,
+  RequestType
+} from "vscode-languageserver-protocol";
 
 export namespace ExecuteClientCommand {
   export const type = new NotificationType<ExecuteCommandParams, void>(
     "metals/executeClientCommand"
-  )
+  );
 }
 
 // TODO not implimented
 export namespace MetalsStatus {
   export const type = new NotificationType<MetalsStatusParams, void>(
     "metals/status"
-  )
+  );
 }
 
 export namespace MetalsSlowTask {
@@ -19,7 +23,7 @@ export namespace MetalsSlowTask {
     MetalsSlowTaskResult,
     void,
     void
-  >("metals/slowTask")
+  >("metals/slowTask");
 }
 
 export interface MetalsSlowTaskParams {
@@ -29,13 +33,13 @@ export interface MetalsSlowTaskParams {
 }
 
 export interface MetalsSlowTaskResult {
-  cancel: boolean
+  cancel: boolean;
 }
 
 export interface MetalsStatusParams {
-  text: string
-  show?: boolean
-  hide?: boolean
-  tooltip?: string
-  command?: string
+  text: string;
+  show?: boolean;
+  hide?: boolean;
+  tooltip?: string;
+  command?: string;
 }

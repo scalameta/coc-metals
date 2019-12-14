@@ -1,14 +1,14 @@
-import { detechLauncConfigurationChanges } from "./activationUtils"
-import { Commands } from './commands'
-import {getJavaHome, getJavaOptions} from "./javaUtils"
-import {ExecuteClientCommand, MetalsStatus, MetalsSlowTask} from "./protocol"
+import { detechLauncConfigurationChanges } from "./activationUtils";
+import { Commands } from "./commands";
+import { getJavaHome, getJavaOptions } from "./javaUtils";
+import { ExecuteClientCommand, MetalsStatus, MetalsSlowTask } from "./protocol";
 import {
   dottyIdeArtifact,
   migrateStringSettingToArray,
   trackDownloadProgress,
   checkServerVersion
-} from "./utils"
-import { exec } from "child_process"
+} from "./utils";
+import { exec } from "child_process";
 import {
   commands,
   ExtensionContext,
@@ -17,8 +17,8 @@ import {
   RevealOutputChannelOn,
   ServerOptions,
   workspace
-} from "coc.nvim"
-import {spawn, ChildProcessPromise} from "promisify-child-process"
+} from "coc.nvim";
+import { spawn, ChildProcessPromise } from "promisify-child-process";
 import {
   ExitNotification,
   ExecuteCommandRequest,
@@ -26,88 +26,86 @@ import {
   Range,
   ShutdownRequest,
   ExecuteCommandParams
-} from "vscode-languageserver-protocol"
+} from "vscode-languageserver-protocol";
 
-import * as fs from "fs"
-import * as path from "path"
+import * as fs from "fs";
+import * as path from "path";
 
 export async function activate(context: ExtensionContext) {
-  detechLauncConfigurationChanges()
-  await checkServerVersion()
+  detechLauncConfigurationChanges();
+  await checkServerVersion();
 
   getJavaHome()
     .then(javaHome => fetchAndLaunchMetals(context, javaHome))
     .catch(err => {
       const message =
         "Unable to find a Java 8 or Java 11 installation on this computer. " +
-        "To fix this problem, update the 'Java Home' setting to point to a Java 8 or Java 11 home directory"
-      const openSettings = "Open Settings"
-      const ignore = "Ignore for now"
-      workspace.showQuickpick([openSettings, ignore], message)
-        .then(choice => {
-          if (choice === 0) {
-            workspace.nvim.command(Commands.OPEN_COC_CONFIG, true)
-          }
-        })
-    })
+        "To fix this problem, update the 'Java Home' setting to point to a Java 8 or Java 11 home directory";
+      const openSettings = "Open Settings";
+      const ignore = "Ignore for now";
+      workspace.showQuickpick([openSettings, ignore], message).then(choice => {
+        if (choice === 0) {
+          workspace.nvim.command(Commands.OPEN_COC_CONFIG, true);
+        }
+      });
+    });
 }
 
-
 function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
-
-  const dottyArtifact = dottyIdeArtifact()
+  const dottyArtifact = dottyIdeArtifact();
   if (dottyArtifact && fs.existsSync(dottyArtifact)) {
     workspace.showMessage(
       `Metals will not start since Dotty is enabled for this workspace. ` +
-      `To enable Metals, remove the file ${dottyArtifact} and run ':CocCommand metals.restartServer'`,
+        `To enable Metals, remove the file ${dottyArtifact} and run ':CocCommand metals.restartServer'`,
       "warning"
-    )
-    return
+    );
+    return;
   }
 
-  const javaPath = path.join(javaHome, "bin", "java")
-  const coursierPath = path.join(context.extensionPath, "./coursier")
+  const javaPath = path.join(javaHome, "bin", "java");
+  const coursierPath = path.join(context.extensionPath, "./coursier");
 
-  const config = workspace.getConfiguration("metals")
-  const serverVersionConfig: string = config.get<string>("serverVersion")
-  const defaultServerVersion = config.inspect<string>("serverVersion")!.defaultValue!
+  const config = workspace.getConfiguration("metals");
+  const serverVersionConfig: string = config.get<string>("serverVersion");
+  const defaultServerVersion = config.inspect<string>("serverVersion")!
+    .defaultValue!;
   const serverVersion = serverVersionConfig
     ? serverVersionConfig
-    : defaultServerVersion
+    : defaultServerVersion;
 
-  migrateStringSettingToArray("serverProperties")
-  migrateStringSettingToArray("customRepositories")
+  migrateStringSettingToArray("serverProperties");
+  migrateStringSettingToArray("customRepositories");
 
   const serverProperties: string[] = workspace
     .getConfiguration("metals")
-    .get<string[]>("serverProperties")!
+    .get<string[]>("serverProperties")!;
 
-  const javaOptions = getJavaOptions()
+  const javaOptions = getJavaOptions();
 
   const fetchProperties: string[] = serverProperties.filter(
     p => !p.startsWith("-agentlib")
-  )
+  );
 
   if (fetchProperties.length > 0) {
     workspace.showMessage(
       `Additional server properties detected: ${fetchProperties.join(", ")}`
-    )
+    );
   }
 
   const customRepositories: string = config
     .get<string[]>("customRepositories")!
-    .join("|")
+    .join("|");
 
   if (customRepositories.indexOf("|") !== -1) {
     workspace.showMessage(
       `Custom repositories detected: ${customRepositories}`
-    )
+    );
   }
 
   const customRepositoriesEnv =
     customRepositories.length == 0
       ? {}
-      : { COURSIER_REPOSITORIES: customRepositories }
+      : { COURSIER_REPOSITORIES: customRepositories };
 
   // TODO explain what all of these flags are
   const fetchProcess: ChildProcessPromise = spawn(
@@ -138,48 +136,43 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
         ...process.env
       }
     }
-  )
+  );
 
-  trackDownloadProgress(fetchProcess)
-    .then(classpath => {
-      launchMetals(
-        context,
-        javaPath,
-        classpath,
-        serverProperties,
-        javaOptions
-      )
+  trackDownloadProgress(fetchProcess).then(
+    classpath => {
+      launchMetals(context, javaPath, classpath, serverProperties, javaOptions);
     },
     () => {
       const msg = (() => {
         const proxy =
           `See https://scalameta.org/metals/docs/editors/vscode.html#http-proxy for instructions ` +
-          `if you are using an HTTP proxy.`
+          `if you are using an HTTP proxy.`;
         if (process.env.FLATPAK_SANDBOX_DIR) {
           return (
             `Failed to download Metals. It seems you are running Visual Studio Code inside the ` +
             `Flatpak sandbox, which is known to interfere with the download of Metals. ` +
             `Please, try running Visual Studio Code without Flatpak.`
-          )
+          );
         } else if (serverVersion === defaultServerVersion) {
           return (
             `Failed to download Metals, make sure you have an internet connection and ` +
             `the Java Home '${javaPath}' is valid. You can configure the Java Home in the settings.` +
             proxy
-          )
+          );
         } else {
           return (
             `Failed to download Metals, make sure you have an internet connection, ` +
             `the Metals version '${serverVersion}' is correct and the Java Home '${javaPath}' is valid. ` +
             `You can configure the Metals version and Java Home in the settings.` +
             proxy
-          )
+          );
         }
-      })()
+      })();
       workspace.showPrompt(msg + `\n Open Settings?`).then(choice => {
-        if (choice) workspace.nvim.command(Commands.OPEN_COC_CONFIG, true)
-      })
-    })
+        if (choice) workspace.nvim.command(Commands.OPEN_COC_CONFIG, true);
+      });
+    }
+  );
 }
 
 function launchMetals(
@@ -189,22 +182,18 @@ function launchMetals(
   serverProperties: string[],
   javaOptions: string[]
 ) {
-  const baseProperties = [
-    `-Dmetals.client=coc.nvim`,
-    `-Xss4m`,
-    `-Xms100m`
-  ]
-  const mainArgs = ["-classpath", metalsClasspath, "scala.meta.metals.Main"]
+  const baseProperties = [`-Dmetals.client=coc.nvim`, `-Xss4m`, `-Xms100m`];
+  const mainArgs = ["-classpath", metalsClasspath, "scala.meta.metals.Main"];
   // let user properties override base properties
   const launchArgs = baseProperties
     .concat(javaOptions)
     .concat(serverProperties)
-    .concat(mainArgs)
+    .concat(mainArgs);
 
   const serverOptions: ServerOptions = {
     run: { command: javaPath, args: launchArgs },
     debug: { command: javaPath, args: launchArgs }
-  }
+  };
 
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: "file", language: "scala" }],
@@ -212,7 +201,7 @@ function launchMetals(
       configurationSection: "metals"
     },
     revealOutputChannelOn: RevealOutputChannelOn.Never
-  }
+  };
 
   // TODO fix this any
   // I know this any here is a bit gross, but I can't
@@ -225,40 +214,39 @@ function launchMetals(
     "Metals",
     serverOptions,
     clientOptions
-  )
+  );
 
   function registerCommand(command: string, callback: (...args: any[]) => any) {
-    context.subscriptions.push(commands.registerCommand(command, callback))
+    context.subscriptions.push(commands.registerCommand(command, callback));
   }
 
   registerCommand("metals.restartServer", () => {
     // First try to gracefully shutdown the server with LSP `shutdown` and `exit`.
     // If Metals doesn't respond within 4 seconds we kill the process.
     const timeout = (ms: number) =>
-      new Promise((_resolve, reject) => setTimeout(reject, ms))
+      new Promise((_resolve, reject) => setTimeout(reject, ms));
     const gracefullyTerminate = client
       .sendRequest(ShutdownRequest.type)
       .then(() => {
-        client.sendNotification(ExitNotification.type)
+        client.sendNotification(ExitNotification.type);
         // TODO add progress here
-        workspace.showMessage("Metals is restarting")
-      })
+        workspace.showMessage("Metals is restarting");
+      });
 
     Promise.race([gracefullyTerminate, timeout(4000)]).catch(() => {
       workspace.showMessage(
         "Metals is unresponsive, killing the process and starting a new server.",
         "warning"
-      )
-      const serverPid = client["_serverProcess"].pid
-      exec(`kill ${serverPid}`)
-    })
-  })
+      );
+      const serverPid = client["_serverProcess"].pid;
+      exec(`kill ${serverPid}`);
+    });
+  });
 
-  context.subscriptions.push(client.start())
+  context.subscriptions.push(client.start());
 
   client.onReady().then(_ => {
-
-    workspace.showMessage("Metals is ready!")
+    workspace.showMessage("Metals is ready!");
 
     const commands = [
       "build-import",
@@ -267,47 +255,47 @@ function launchMetals(
       "doctor-run",
       "compile-cascade",
       "compile-cancel"
-    ]
+    ];
 
     commands.forEach(command => {
       registerCommand("metals." + command, async () =>
         client.sendRequest(ExecuteCommandRequest.type, { command })
-      )
-    })
+      );
+    });
 
     client.onNotification(ExecuteClientCommand.type, params => {
       switch (params.command) {
         case "metals-goto-location":
           const location =
-            params.arguments && (params.arguments[0] as Location)
+            params.arguments && (params.arguments[0] as Location);
           if (location) {
             const range = Range.create(
               location.range.start.line,
               location.range.start.character,
               location.range.end.line,
               location.range.end.character
-            )
-            workspace.jumpTo(location.uri, range.start)
-            workspace.selectRange(range)
+            );
+            workspace.jumpTo(location.uri, range.start);
+            workspace.selectRange(range);
           }
-          break
+          break;
         default:
-          workspace.showMessage(`Unknown command: ${params.command}`)
+          workspace.showMessage(`Unknown command: ${params.command}`);
       }
-    })
+    });
 
     registerCommand("metals.goto", args => {
       const params: ExecuteCommandParams = {
         command: "goto",
         arguments: args
-      }
-      client.sendRequest(ExecuteCommandRequest.type, params)
-    })
+      };
+      client.sendRequest(ExecuteCommandRequest.type, params);
+    });
 
     registerCommand("metals-echo-command", (arg: string) => {
       client.sendRequest(ExecuteCommandRequest.type, {
         command: arg
-      })
-    })
-  })
+      });
+    });
+  });
 }
