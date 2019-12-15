@@ -49,6 +49,7 @@ export async function activate(context: ExtensionContext) {
         }
       });
     });
+  commands.executeCommand("setContext", "metals:enabled", true);
 }
 
 function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
@@ -107,7 +108,6 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
       ? {}
       : { COURSIER_REPOSITORIES: customRepositories };
 
-  // TODO explain what all of these flags are
   const fetchProcess: ChildProcessPromise = spawn(
     javaPath,
     javaOptions.concat(fetchProperties).concat([
@@ -140,7 +140,14 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
 
   trackDownloadProgress(fetchProcess).then(
     classpath => {
-      launchMetals(context, javaPath, classpath, serverProperties, javaOptions, customRepositoriesEnv);
+      launchMetals(
+        context,
+        javaPath,
+        classpath,
+        serverProperties,
+        javaOptions,
+        customRepositoriesEnv
+      );
     },
     () => {
       const msg = (() => {
@@ -209,7 +216,7 @@ function launchMetals(
   // get any of the sendRequests to work or type check
   // correctly without it. I notice that this was also
   // done in some of the other coc-extensions, which
-  // game me the idea to try it.
+  // game me the idea to try it this way, and it works
   const client: any = new LanguageClient(
     "metals",
     "Metals",
@@ -230,7 +237,6 @@ function launchMetals(
       .sendRequest(ShutdownRequest.type)
       .then(() => {
         client.sendNotification(ExitNotification.type);
-        // TODO add progress here
         workspace.showMessage("Metals is restarting");
       });
 
@@ -283,20 +289,6 @@ function launchMetals(
         default:
           workspace.showMessage(`Unknown command: ${params.command}`);
       }
-    });
-
-    registerCommand("metals.goto", args => {
-      const params: ExecuteCommandParams = {
-        command: "goto",
-        arguments: args
-      };
-      client.sendRequest(ExecuteCommandRequest.type, params);
-    });
-
-    registerCommand("metals-echo-command", (arg: string) => {
-      client.sendRequest(ExecuteCommandRequest.type, {
-        command: arg
-      });
     });
   });
 }

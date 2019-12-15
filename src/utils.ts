@@ -65,7 +65,7 @@ export async function trackDownloadProgress(
         workspace.showMessage(buffer.toString(), "error")
       );
       progress.dispose();
-      throw Error(`coursier exit: ${code}`);
+      throw Error(`Coursier exit: ${code}`);
     }
   });
   await download;
