@@ -1,35 +1,18 @@
 # coc-metals
 
-[coc.nvim](https://github.com/neoclide/coc.nvim) extension for [Metals](http://scalameta.org/metals/), the Scala Language Server.
-
-This extension is meant to mimic the functionality provided by the [metals-vscode](https://github.com/scalameta/metals-vscode) extension.
+![coc-metals](https://i.imgur.com/zofu4VI.png)
 
 ## Requirements
 
 - [coc.nvim](https://github.com/neoclide/coc.nvim)
 - Java 8 or 11 provided by OpenJDK or Oracle. Eclipse OpenJ9 is not supported, please make sure the JAVA_HOME environment variable points to a valid Java 8 or 11 installation.
 
-## Quick Start
+### LSP commands key mapping
 
-```
-:CocInstall coc-metals
-```
+`coc.nvim` doesn't come with a default key mapping for LSP commands, so you need to
+configure it yourself.
 
-Following the installation of the extension, you simply need to open the directory that contains your scala project.
-Then upon entering your `build.sbt` or any scala file, a few checks will automatically happen:
-
-1. Ensures that you have a valid Java installation
-2. Ensures you have the most up to date Metals version listed in your config, or it will default to the latest stable release
-3. If Metals is not available, it will download Metals
-
-After the download, Metals will automatically start. At this point you should see the prompt to import your build.
-
-![Import Build](https://i.imgur.com/ygknUAt.png)
-
-## coc.nvim mappings
-
-There are purposefully no default mappings for `coc.nvim`, so you'll want to ensure you have the following added to your `.vimrc`.
-You are then able to customize it as you choose.
+Here's a recommended configuration:
 
 ```vim
 " ~/.vimrc
@@ -110,12 +93,131 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 ```
 
-## Configuration
+### Installing coc-metals
+
+Once you have `coc.nvim` installed, you can then install Metals by running.
+
+```vim
+:CocInstall coc-metals
+```
+
+### Importing a build
+
+The first time you open Metals in a new workspace it prompts you to import the build. Click "Import build" to start the installation step.
+
+![Build Import](https://i.imgur.com/1EyQPTC.png)
+
+  - "Not now" disables this prompt for 2 minutes.
+  - "Don't show again" disables this prompt forever, use rm -rf .metals/ to re-enable the prompt.
+  - Use tail -f .metals/metals.log to watch the build import progress.
+  - Behind the scenes, Metals uses Bloop to import sbt builds, but you don't need Bloop installed on your machine to run this step.
+
+Once the import step completes, compilation starts for your open *.scala files.
+
+Once the sources have compiled successfully, you can navigate the codebase with goto definition.
+
+### Custom sbt launcher
+
+By default, Metals runs an embedded sbt-launch.jar launcher that respects .sbtopts and .jvmopts. However, the environment variables SBT_OPTS and JAVA_OPTS are not respected.
+
+Update the metals.sbtScript setting to use a custom sbt script instead of the default Metals launcher if you need further customizations like reading environment variables.
+
+![Sbt Launcher](https://i.imgur.com/kbxNKzI.png)
+
+### Speeding up import
+
+The "Import build" step can take a long time, especially the first time you run it in a new build. The exact time depends on the complexity of the build and if library dependencies need to be downloaded. For example, this step can take everything from 10 seconds in small cached builds up to 10-15 minutes in large uncached builds.
+
+Consult the Bloop documentation to learn how to speed up build import.
+
+### Importing changes
+
+When you change build.sbt or sources under project/, you will be prompted to re-import the build.
+
+![Build Re-Import](https://i.imgur.com/iocTVb6.png)
+
+## Configure Java version
+The `coc-metals` extension uses by default the `JAVA_HOME` environment variable (via [`find-java-home`](https://www.npmjs.com/package/find-java-home)) to locate the `java` executable.
+
+![No Java Home](https://i.imgur.com/clDfPMk.png)
+
+If no `JAVA_HOME` is detected you can then Open Settings by following the instructions or do it at a later time by using `:CocConfig` or `:CocConfigLocal` which will open up your configuration where you can manually enter your JAVA_HOME location.
+
+![Enter Java Home](https://i.imgur.com/wVThrMq.png)
+
+```
+`coc.nvim` uses [jsonc](https://code.visualstudio.com/docs/languages/json) as
+a configuration file format. It's basically json with comment support.
+
+In order to get comment highlighting, please add:
+
+```vim
+autocmd FileType json syntax match Comment +\/\/.\+$+
+
+```
+
+## Using latest Metals SNAPSHOT
+
+Update the "Server Version" setting to try out the latest pending Metals
+features.
+
+After updating the version, you'll be triggered to reload the window.
+This will be necessary before the new version will be dowloaded and used.
+
+![Update Metals Version](https://i.imgur.com/VUCdQvi.png)
+
+
+## List all workspace compile errors
+
+To list all compilation errors and warnings in the workspace, run the following
+command.
+
+```vim
+:CocList diagnostics
+```
+
+Or use the default recommended mapping `<space> a`.
+
+This is helpful to see compilation errors in different files from your current
+open buffer.
+
+![Diagnostics](https://i.imgur.com/cer22HW.png)
+
+## Run doctor
+
+To troubleshoot problems with your build workspace, open your coc commands by either
+using `:CocCommand` or the recommend mapping `<space> c`. This will open your command
+window allowing you to search for `metals.doctor-run` command.
+
+![Run Doctor Command](https://i.imgur.com/QaqhxF7.png)
+
+This command opens your browser with a table like this.
+
+![Run Doctor](https://i.imgur.com/yelm0jd.png)
+
+## Other Available Command
+
+  - `metals.restartServer`
+  - `metals.build-import`
+  - `metals.build-connect`
+  - `metals.sources-scan`
+  - `metals.compile-cascade`
+  - `metals.compile-cancel`
+  - `metals.doctor-run`
+
+## Show document symbols
+
+Run `:CocList outline` to show a symbol outline for the current file or use the
+default mapping `<space> o`.
+
+![Document Symbols](https://i.imgur.com/gEhAXV4.png)
+
+
+## Available Configuration Options
 
 The following configuration options are currently available. The easiest way to set these configurations is to enter `:CocConfig` or `:CocLocalConfig` to set your global or local configuration settings respectively.
 If you'd like to get autocompletion help for the configuration values you can install [coc-json](https://github.com/neoclide/coc-json).
 
-![CocConfig](https://i.imgur.com/7wt4qJ7.png)
 
    Configuration Option     |      Description
 ----------------------------|---------------------------
@@ -129,25 +231,47 @@ If you'd like to get autocompletion help for the configuration values you can in
 `metals.scalafmtConfigPath` | Optional custom path to the .scalafmt.conf file. Should be relative to the workspace root directory and use forward slashes `/` for file separators (even on Windows).
 `metals.customRepositories` | Optional list of custom resolvers passed to Coursier when fetching metals dependencies.\n\nFor documentation on accepted values see the [Coursier documentation](https://get-coursier.io/docs/other-repositories). The extension will pass these to Coursier using the COURSIER_REPOSITORIES environment variable after joining the custom repositories with a pipe character (|).
 
-## Available Commands
+## Enable on type formatting for multiline string formatting
 
-In order to either view or execute a commnad, enter `:CocCommand` which will bring up a fuzzy finder where you can search for any available `coc.nvim` or Metals command. You can also use the `<space> c` shortcut if you copied the above coc mappings.
+![on-type](https://i.imgur.com/astTOKu.gif)
 
-![CocCommand](https://i.imgur.com/ijrG2jU.png)
+To properly support adding `|` in multiline strings we are using the
+`onTypeFormatting` method. To enable the functionality you need to enable
+`coc.preferences.formatOnType` setting.
 
-The following command are currently available:
+![coc-preferences-formatOnType](https://i.imgur.com/RWPHt2q.png)
 
-- `metals.restartServer`
-- `metals.build-import`
-- `metals.build-connect`
-- `metals.sources-scan`
-- `metals.compile-cascade`
-- `metals.compile-cancel`
-- `metals.doctor-run`
+### Close buffer without exiting
 
+To close a buffer and return to the previous buffer, run the following command.
+
+```vim
+:bd
+```
+
+This command is helpful when navigating in library dependency sources in the .metals/readonly directory.
+
+### Shut down the language server
+
+The Metals server is shutdown when you exit vim as usual.
+
+```vim
+:wq
+```
+
+This step clean ups resources that are used by the server.
+
+### Gitignore project/metals.sbt .metals/ and .bloop/
+
+The Metals server places logs and other files in the .metals/ directory. The Bloop compile server places logs and compilation artifacts in the .bloop directory. Bloop plugin that generates Bloop configuration is added in the project/metals.sbt file. It's recommended to ignore these directories and file from version control systems like git.
+
+```git
+# ~/.gitignore
+.metals/
+.bloop/
+project/metals.sbt
+```
 
 ### Troubleshooting
 
-Again, this is currently a work in progress and many things are still being implemented. For the time being it's still recommend to manually set up Metals with [coc.nvim](https://github.com/neoclide/coc.nvim). You can find instructions on the setup [here](http://scalameta.org/metals/docs/editors/vim.html) on the Metals website.
-
-If you have any questions or issues with Metals, please submit an [issue](https://github.com/ckipp01/coc-metals/issues) in this repo if it pertains to the extension or in the main Metals [issue repo](https://github.com/scalameta/metals/issues) if it relates to Metals in general. If you have any feature requests, we also have a feature request [issue repo](https://github.com/scalameta/metals-feature-requests).
+If you have any questions or issues with coc-metals, please submit an [issue](https://github.com/ckipp01/coc-metals/issues) in this repo if it pertains to the extension or in the main Metals [issue repo](https://github.com/scalameta/metals/issues) if it relates to Metals in general. If you have any feature requests, we also have a feature request [issue repo](https://github.com/scalameta/metals-feature-requests).
