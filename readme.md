@@ -216,6 +216,7 @@ default mapping `<space> o`.
 ## Available Configuration Options
 
 The following configuration options are currently available. The easiest way to set these configurations is to enter `:CocConfig` or `:CocLocalConfig` to set your global or local configuration settings respectively.
+
 If you'd like to get autocompletion help for the configuration values you can install [coc-json](https://github.com/neoclide/coc-json).
 
 
@@ -228,6 +229,7 @@ If you'd like to get autocompletion help for the configuration values you can in
 `metals.millScript`         | Optional absolute path to a `mill` executable to use for running `mill mill.contrib.Bloop/install`. By default, Metals uses an embedded `millw` script while respecting `.mill-version` file. Update this setting if your `mill` script requires more customizations.
 `metals.mavenScript`        | Optional absolute path to a `mvn` executable to use for running `mvn ch.epfl.scala:maven-bloop_2.10:<bloop_version>:bloopInstall`. By default, Metals uses an embedded `mvnw` script. Update this setting if your `mvn` script requires more customizations.
 `metals.gradleScript`       | Optional absolute path to a `gradle` executable to use for running `gradle bloopInstall`. By default, Metals uses an embedded `gradlew` script. Update this setting if your `gradle` script requires more customizations.
+`metals.pantsTargets`       | The pants targets to export.  Space separated list of Pants targets to export, for example `src/main/scala:: src/main/java::`. Syntax such as `src/{main,test}::` is not supported."
 `metals.scalafmtConfigPath` | Optional custom path to the .scalafmt.conf file. Should be relative to the workspace root directory and use forward slashes `/` for file separators (even on Windows).
 `metals.customRepositories` | Optional list of custom resolvers passed to Coursier when fetching metals dependencies.\n\nFor documentation on accepted values see the [Coursier documentation](https://get-coursier.io/docs/other-repositories). The extension will pass these to Coursier using the COURSIER_REPOSITORIES environment variable after joining the custom repositories with a pipe character (|).
 
@@ -274,4 +276,4 @@ project/metals.sbt
 
 ### Troubleshooting
 
-If you have any questions or issues with coc-metals, please submit an [issue](https://github.com/ckipp01/coc-metals/issues) in this repo if it pertains to the extension or in the main Metals [issue repo](https://github.com/scalameta/metals/issues) if it relates to Metals in general. If you have any feature requests, we also have a feature request [issue repo](https://github.com/scalameta/metals-feature-requests).
+If you have any questions or issues with coc-metals, please submit an [issue](https://github.com/ckipp01/coc-metals/issues) in this repo if it pertains to the extension. If the issues is general to Metals, please submit it in the [Metals issue repo](https://github.com/scalameta/metals/issues). If you have any feature requests, we also have a feature request [issue repo](https://github.com/scalameta/metals-feature-requests).
