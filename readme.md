@@ -145,7 +145,6 @@ If no `JAVA_HOME` is detected you can then Open Settings by following the instru
 
 ![Enter Java Home](https://i.imgur.com/wVThrMq.png)
 
-```
 `coc.nvim` uses [jsonc](https://code.visualstudio.com/docs/languages/json) as
 a configuration file format. It's basically json with comment support.
 
@@ -153,7 +152,6 @@ In order to get comment highlighting, please add:
 
 ```vim
 autocmd FileType json syntax match Comment +\/\/.\+$+
-
 ```
 
 ## Using latest Metals SNAPSHOT
