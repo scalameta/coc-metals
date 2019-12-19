@@ -27,12 +27,13 @@ jobs:
       - uses: action/setup-node@v1
       - with:
           node-version: ${{ matrix.node-version }}
+      
       - name: Install Yarn
-        run: |
-          curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
+        run: url --compressed -o- -L https://yarnpkg.com/install.sh | bash
       - uses: actions/checkout@v1
+      
       - name: yarn install
         run: yarn
+      
       - name: yarn build
-        run: |
-          yarn build
+        run: yarn build
