@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     name: coc-metals ${{ matrix.os }} build
-    runs-on: ${{ matrix.ox }}
+    runs-on: ${{ matrix.os }}
     
     strategy:
       fail-fast: false
