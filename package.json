@@ -22,10 +22,10 @@
   "main": "lib/index.js",
   "scripts": {
     "clean": "rimraf lib",
-    "build": "webpack",
+    "build": "parcel build src/index.ts --out-dir lib/ --target node --no-source-maps --experimental-scope-hoisting",
     "format": "prettier --write src/*.ts",
     "format-check": "prettier --check src/*.ts",
-    "prepare": "npx npm-run-all clean format-check build"
+    "prepare": "npx npm-run-all clean build"
   },
   "activationEvents": [
     "onLanguage:scala",
@@ -135,12 +135,11 @@
   "devDependencies": {
     "@types/node": "^12.12.20",
     "coc.nvim": "0.0.74",
+    "parcel-bundler": "^1.12.4",
     "prettier": "1.19.1",
     "rimraf": "^3.0.0",
     "ts-loader": "^6.0.3",
-    "typescript": "3.7.3",
-    "webpack": "^4.41.3",
-    "webpack-cli": "^3.3.4"
+    "typescript": "3.7.3"
   },
   "dependencies": {
     "@types/semver": "^6.2.0",
