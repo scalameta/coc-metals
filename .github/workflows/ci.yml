@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [macOS-latest, ubuntu-latest, windows-latest]
         node-version: [10, 12, 13]
         
     env:
