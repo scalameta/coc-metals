@@ -1,18 +1,38 @@
-name: CI
+name: coc-metals CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
-
-    name: coc-metals ci
-    runs-on: ubuntu-latest
+    name: coc-metals ${{ matrix.os }} build
+    runs-on: ${{ matrix.ox }}
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macOS-latest, ubuntu-latest]
+        node-version: [10, 12, 13]
+        
+    env:
+      NODE_ENV: test
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+      - name: Use Node.js ${{ matrix.node-version }}
+      - uses: action/setup-node@v1
+      - with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Yarn
+        run: |
+          curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
+      - uses: actions/checkout@v1
+      - name: yarn install
+        run: yarn
+      - name: yarn build
+        run: |
+          yarn build
