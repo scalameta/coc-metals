@@ -24,7 +24,8 @@
     "clean": "rimraf lib",
     "build": "webpack",
     "format": "prettier --write src/*.ts",
-    "prepare": "npx npm-run-all clean build"
+    "format-check": "prettier --check src/*.ts",
+    "prepare": "npx npm-run-all clean format-check build"
   },
   "activationEvents": [
     "onLanguage:scala",
