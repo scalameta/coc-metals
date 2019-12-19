@@ -1,6 +1,9 @@
+
 # coc-metals
 
 ![coc-metals](https://i.imgur.com/zofu4VI.png)
+![npm](https://img.shields.io/npm/v/coc-metals?style=flat-square)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ce92ac.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## Requirements
 
@@ -275,3 +278,9 @@ project/metals.sbt
 ### Troubleshooting
 
 If you have any questions or issues with coc-metals, please submit an [issue](https://github.com/ckipp01/coc-metals/issues) in this repo if it pertains to the extension. If the issues is general to Metals, please submit it in the [Metals issue repo](https://github.com/scalameta/metals/issues). If you have any feature requests, we also have a feature request [issue repo](https://github.com/scalameta/metals-feature-requests).
+
+### Contributing
+
+If you're interested in contributing, please visit the [CONTRIBUTING](CONTRIBUTING.md) guide for help on getting started.
+You can also take a look at the [project board](https://github.com/ckipp01/coc-metals/projects/1) to get an idea of what is being
+looked at or currently being worked on.
