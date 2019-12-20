@@ -12,13 +12,13 @@ jobs:
   build:
     name: coc-metals ${{ matrix.os }} build
     runs-on: ${{ matrix.os }}
-    
+
     strategy:
       fail-fast: false
       matrix:
         os: [macOS-latest, ubuntu-latest, windows-latest]
         node-version: [10, 12, 13]
-        
+
     env:
       NODE_ENV: test
 
@@ -27,15 +27,15 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      
+
       - name: Install Yarn
         run: curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
-      
+
       - name: Checkout
         uses: actions/checkout@v1
-      
-      - name: yarn install
-        run: yarn
-      
-      - name: yarn build
-        run: yarn build
+
+      - name: Build Check 
+        run: yarn install 
+
+      - name: Style Check 
+        run: yarn format-check
