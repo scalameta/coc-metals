@@ -27,7 +27,7 @@ This will allow you be able to just build in the git repo, and then restart coc,
 
 `coc-metals` is basically the [Metals VS Code extension](https://marketplace.visualstudio.com/items?itemName=scalameta.metals)
 ported over to be a `coc.nvim` extensino. The API's are very similiar, so you'll see identical code in some situations.
-The project is written in [TypeScript](https://www.typescriptlang.org/), built with [webpack](https://webpack.js.org/), and
+The project is written in [TypeScript](https://www.typescriptlang.org/), built with [parcel](https://parceljs.org/), and
 formatted with [Prettier](https://prettier.io/).
 
 To build the project locally
