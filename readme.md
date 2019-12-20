@@ -105,7 +105,7 @@ Once you have `coc.nvim` installed, you can then install Metals by running.
 ```
 
 If you'd like to use the latest changes on master, you can also just build from source by using a plugin
-manager to dowload the exension. If you do this and you've had `coc-metals` installed before with `:CocInstall`,
+manager to download the extension. If you do this and you've had `coc-metals` installed before with `:CocInstall`,
 make sure you run `:CocUninstall coc-metals` to remove it. Then, if you are using [`vim-plug`](https://github.com/junegunn/vim-plug)
 for example, enter the following into where you manage your plugins:
 
@@ -174,7 +174,7 @@ Update the "Server Version" setting to try out the latest pending Metals
 features.
 
 After updating the version, you'll be triggered to reload the window.
-This will be necessary before the new version will be dowloaded and used.
+This will be necessary before the new version will be downloaded and used.
 
 ![Update Metals Version](https://i.imgur.com/VUCdQvi.png)
 

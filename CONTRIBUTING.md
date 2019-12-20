@@ -2,7 +2,7 @@
 
 👍🎉 First off, thanks for taking the time to contribute! 🎉👍
 
-The issue you are trying to fix or the feature you are trying to impliment may actually be part of
+The issue you are trying to fix or the feature you are trying to implement may actually be part of
 [Metals](https://github.com/scalameta/metals) or even [coc.nvim](https://github.com/neoclide/coc.nvim)
 so it's always best to double check if you're not sure.
 
@@ -26,8 +26,8 @@ This will allow you be able to just build in the git repo, and then restart coc,
 ## coc-metals
 
 `coc-metals` is basically the [Metals VS Code extension](https://marketplace.visualstudio.com/items?itemName=scalameta.metals)
-ported over to be a `coc.nvim` extensino. The API's are very similiar, so you'll see identical code in some situations.
-The project is written in [TypeScript](https://www.typescriptlang.org/), built with [parcel](https://parceljs.org/), and
+ported over to be a `coc.nvim` extension. The API's are very similar, so you'll see identical code in some situations.
+The project is written in [TypeScript](https://www.typescriptlang.org/), built with [Parcel](https://parceljs.org/), and
 formatted with [Prettier](https://prettier.io/).
 
 To build the project locally
@@ -43,7 +43,7 @@ yarn format
 ```
 ## LSP
 
-More than likely, whatever you are looking to impliment will have something to do with LSP. It will be helpful
+More than likely, whatever you are looking to implement will have something to do with LSP. It will be helpful
 to read through the official [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) site
 if you're not familiar with the spec. It's a great resource.
 
