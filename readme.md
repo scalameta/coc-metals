@@ -242,7 +242,14 @@ function! CocExtensionStatus() abort
 endfunction
 let g:airline_section_c = '%f%{CocExtensionStatus()}'
 ```
+### Formatting on save
 
+If you'd like to have `:w` format usint Metals + Scalafmt, then make sure you have the following in
+your `:CocConfig`.
+
+```json
+"coc.preferences.formatOnSaveFiletypes": ["scala"]
+```
 ### Gitignore project/metals.sbt .metals/ and .bloop/
 
 The Metals server places logs and other files in the .metals/ directory. The Bloop compile server
