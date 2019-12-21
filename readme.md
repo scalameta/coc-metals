@@ -7,106 +7,32 @@
 
 ## Requirements
 
-- [coc.nvim](https://github.com/neoclide/coc.nvim)
-- Java 8 or 11 provided by OpenJDK or Oracle. Eclipse OpenJ9 is not supported, please make sure the JAVA_HOME environment variable points to a valid Java 8 or 11 installation.
-
-### LSP commands key mapping
-
-`coc.nvim` doesn't come with a default key mapping for LSP commands, so you need to
-configure it yourself.
-
-Here's a recommended configuration:
-
-```vim
-" ~/.vimrc
-" Configuration for coc.nvim
-
-" Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=300
-
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
-
-" always show signcolumns
-set signcolumn=yes
-
-" Some server have issues with backup files, see #649
-set nobackup
-set nowritebackup
-
-" Better display for messages
-set cmdheight=2
-
-" Use <c-space> for trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-
-" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" Use `[c` and `]c` for navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Remap for do codeAction of current line
-nmap <leader>ac <Plug>(coc-codeaction)
-
-" Remap for do action format
-nnoremap <silent> F :call CocAction('format')<CR>
-
-" Use K for show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-" Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-
-" Notify coc.nvim that <enter> has been pressed.
-" Currently used for the formatOnType feature.
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-```
+- [coc.nvim](https://github.com/neoclide/coc.nvim) - There are detiled instructions in their repo on
+how to get set up and running quickly.
+- Java 8 or 11 provided by OpenJDK or Oracle. Eclipse OpenJ9 is not supported, please make sure the
+JAVA_HOME environment variable points to a valid Java 8 or 11 installation.
+- ***`coc.nvim` doesn't come with a default mapping for LSP commands, so you need to configure this in
+order for any of the commands to work. You can find an example configuration and instructions
+[here](coc-mappings.vim)***
 
 ### Installing coc-metals
 
-Once you have `coc.nvim` installed, you can then install Metals by running.
+Once you have `coc.nvim` installed, you can then install Metals a few different ways, but the
+easiest is by running.
 
 ```vim
 :CocInstall coc-metals
 ```
 
-If you'd like to use the latest changes on master, you can also just build from source by using a plugin
-manager to download the extension. If you do this and you've had `coc-metals` installed before with `:CocInstall`,
-make sure you run `:CocUninstall coc-metals` to remove it. Then, if you are using [`vim-plug`](https://github.com/junegunn/vim-plug)
+If you'd like to use the latest changes on master, you can also just build from source by using
+`:CocInstall` with the repository url.
+
+```vim
+:CocInstall https://github.com/ckipp01/coc-metals
+```
+
+If you'd like to use the latest changes on master, but manage it using a plugin
+manager to download the extension, then if you are using [`vim-plug`](https://github.com/junegunn/vim-plug)
 for example, enter the following into where you manage your plugins:
 
 ```vim
@@ -114,6 +40,10 @@ Plug 'ckipp01/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 ```
 
 Then, issue a `:PlugInstall` to install the extension, and regularly a `:PlugUpdate` to update it and pull in the latest changes.
+
+*** Keep in mind that if you are installing directly from the repo via `:CocInstall` with the
+repository url or through a plugin manger, remove `coc-metals` with `:CocUninstall coc-metals`
+before you add it in with one of the other methods to not conflict with one another.
 
 ### Importing a build
 
