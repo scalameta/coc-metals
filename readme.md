@@ -3,7 +3,7 @@
 
 ![coc-metals](https://i.imgur.com/zofu4VI.png)
 ![npm](https://img.shields.io/npm/v/coc-metals?style=flat-square)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ce92ac.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ce92ac.svg?style=flat-square)](https://github.com/prettier/prettier) [![Greenkeeper badge](https://badges.greenkeeper.io/ckipp01/coc-metals.svg)](https://greenkeeper.io/)
 
 ## Requirements
 

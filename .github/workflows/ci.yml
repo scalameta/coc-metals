@@ -1,13 +1,6 @@
 name: coc-metals CI
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-      - /^greenkeeper.*$/
+on: [push, pull_request]
 
 jobs:
   build:
