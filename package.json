@@ -133,20 +133,20 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^12.12.20",
+    "@types/node": "^12.12.21",
     "coc.nvim": "0.0.74",
     "parcel-bundler": "^1.12.4",
     "prettier": "1.19.1",
     "rimraf": "^3.0.0",
     "ts-loader": "^6.0.3",
-    "typescript": "3.7.3"
+    "typescript": "3.7.4"
   },
   "dependencies": {
     "@types/semver": "^6.2.0",
     "@types/shell-quote": "^1.6.1",
     "locate-java-home": "^1.1.2",
     "promisify-child-process": "^3.1.3",
-    "semver": "^6.3.0",
+    "semver": "^7.1.1",
     "shell-quote": "^1.7.2",
     "vscode-languageserver-protocol": "^3.14.1"
   }
