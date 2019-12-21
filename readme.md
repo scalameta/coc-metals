@@ -7,6 +7,9 @@
 
 ## Requirements
 
+***`coc-metals` works with both [vim](https://www.vim.org/) and [neovim](https://neovim.io/), but
+I've found the experience to be a bit smoother on neovim.***
+
 - [coc.nvim](https://github.com/neoclide/coc.nvim) - There are detiled instructions in their repo on
 how to get set up and running quickly.
 - Java 8 or 11 provided by OpenJDK or Oracle. Eclipse OpenJ9 is not supported, please make sure the
@@ -39,7 +42,8 @@ for example, enter the following into where you manage your plugins:
 Plug 'ckipp01/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 ```
 
-Then, issue a `:PlugInstall` to install the extension, and regularly a `:PlugUpdate` to update it and pull in the latest changes.
+Then, issue a `:PlugInstall` to install the extension, and regularly a `:PlugUpdate` to update it
+and pull in the latest changes.
 
 *** Keep in mind that if you are installing directly from the repo via `:CocInstall` with the
 repository url or through a plugin manger, remove `coc-metals` with `:CocUninstall coc-metals`
@@ -47,14 +51,16 @@ before you add it in with one of the other methods to not conflict with one anot
 
 ### Importing a build
 
-The first time you open Metals in a new workspace it prompts you to import the build. Click "Import build" to start the installation step.
+The first time you open Metals in a new workspace it prompts you to import the build. Click
+"Import build" to start the installation step.
 
 ![Build Import](https://i.imgur.com/1EyQPTC.png)
 
   - "Not now" disables this prompt for 2 minutes.
   - "Don't show again" disables this prompt forever, use rm -rf .metals/ to re-enable the prompt.
   - Use tail -f .metals/metals.log to watch the build import progress.
-  - Behind the scenes, Metals uses Bloop to import sbt builds, but you don't need Bloop installed on your machine to run this step.
+  - Behind the scenes, Metals uses Bloop to import sbt builds, but you don't need Bloop installed
+  on your machine to run this step.
 
 Once the import step completes, compilation starts for your open *.scala files.
 
@@ -62,15 +68,20 @@ Once the sources have compiled successfully, you can navigate the codebase with 
 
 ### Custom sbt launcher
 
-By default, Metals runs an embedded sbt-launch.jar launcher that respects .sbtopts and .jvmopts. However, the environment variables SBT_OPTS and JAVA_OPTS are not respected.
+By default, Metals runs an embedded sbt-launch.jar launcher that respects .sbtopts and .jvmopts.
+However, the environment variables SBT_OPTS and JAVA_OPTS are not respected.
 
-Update the metals.sbtScript setting to use a custom sbt script instead of the default Metals launcher if you need further customizations like reading environment variables.
+Update the metals.sbtScript setting to use a custom sbt script instead of the default Metals
+launcher if you need further customizations like reading environment variables.
 
 ![Sbt Launcher](https://i.imgur.com/kbxNKzI.png)
 
 ### Speeding up import
 
-The "Import build" step can take a long time, especially the first time you run it in a new build. The exact time depends on the complexity of the build and if library dependencies need to be downloaded. For example, this step can take everything from 10 seconds in small cached builds up to 10-15 minutes in large uncached builds.
+The "Import build" step can take a long time, especially the first time you run it in a new build.
+The exact time depends on the complexity of the build and if library dependencies need to be
+downloaded. For example, this step can take everything from 10 seconds in small cached builds up to
+10-15 minutes in large uncached builds.
 
 Consult the Bloop documentation to learn how to speed up build import.
 
@@ -81,11 +92,14 @@ When you change build.sbt or sources under project/, you will be prompted to re-
 ![Build Re-Import](https://i.imgur.com/iocTVb6.png)
 
 ## Configure Java version
-The `coc-metals` extension uses by default the `JAVA_HOME` environment variable (via [`find-java-home`](https://www.npmjs.com/package/find-java-home)) to locate the `java` executable.
+The `coc-metals` extension uses by default the `JAVA_HOME` environment variable
+(via [`find-java-home`](https://www.npmjs.com/package/find-java-home)) to locate the `java` executable.
 
 ![No Java Home](https://i.imgur.com/clDfPMk.png)
 
-If no `JAVA_HOME` is detected you can then Open Settings by following the instructions or do it at a later time by using `:CocConfig` or `:CocConfigLocal` which will open up your configuration where you can manually enter your JAVA_HOME location.
+If no `JAVA_HOME` is detected you can then Open Settings by following the instructions or do it at
+a later time by using `:CocConfig` or `:CocConfigLocal` which will open up your configuration where
+you can manually enter your JAVA_HOME location.
 
 ![Enter Java Home](https://i.imgur.com/wVThrMq.png)
 
@@ -157,7 +171,9 @@ default mapping `<space> o`.
 
 ## Available Configuration Options
 
-The following configuration options are currently available. The easiest way to set these configurations is to enter `:CocConfig` or `:CocLocalConfig` to set your global or local configuration settings respectively.
+The following configuration options are currently available. The easiest way to set these
+configurations is to enter `:CocConfig` or `:CocLocalConfig` to set your global or local
+configuration settings respectively.
 
 If you'd like to get autocompletion help for the configuration values you can install [coc-json](https://github.com/neoclide/coc-json).
 
@@ -185,19 +201,9 @@ To properly support adding `|` in multiline strings we are using the
 
 ![coc-preferences-formatOnType](https://i.imgur.com/RWPHt2q.png)
 
-### Close buffer without exiting
-
-To close a buffer and return to the previous buffer, run the following command.
-
-```vim
-:bd
-```
-
-This command is helpful when navigating in library dependency sources in the .metals/readonly directory.
-
 ### Shut down the language server
 
-The Metals server is shutdown when you exit vim as usual.
+The Metals server is shutdown when you exit vim as you normally would.
 
 ```vim
 :wq
@@ -205,9 +211,44 @@ The Metals server is shutdown when you exit vim as usual.
 
 This step clean ups resources that are used by the server.
 
+### Statusline integration
+
+`coc.nvim` has multiple ways to integrate with various statusline plugins. You can find instructions
+for each of them located [here](https://github.com/neoclide/coc.nvim/wiki/Statusline-integration).
+Two noteworthy things that they add are the ability to see diagnostic information in the current
+buffer...
+
+![Diagnostic statusline](https://i.imgur.com/7uNYTYl.png)
+
+... and also progress information for longer standing processes.
+
+![Progress item](https://i.imgur.com/AAWZ4o4.png)
+
+If you don't use a statusline integration, but would still like to see this information, the easiest
+way is to add the following to your `.vimrc`.
+
+```vim
+set statusline^=%{coc#status()}
+```
+The `coc#status()` function will display both status and diagnostic information. However, if you are
+using an integration like I am in the photos that display your diagnostic information in the far
+right, but you'd like to see the status information in the middle, you can make a small function to
+just grab that information, and use it in your statusline. This is what I use for lightline to
+display only the status information in the middle of the statusline (`section_c`).
+
+```vim
+function! CocExtensionStatus() abort
+  return get(g:, 'coc_status', '')
+endfunction
+let g:airline_section_c = '%f%{CocExtensionStatus()}'
+```
+
 ### Gitignore project/metals.sbt .metals/ and .bloop/
 
-The Metals server places logs and other files in the .metals/ directory. The Bloop compile server places logs and compilation artifacts in the .bloop directory. Bloop plugin that generates Bloop configuration is added in the project/metals.sbt file. It's recommended to ignore these directories and file from version control systems like git.
+The Metals server places logs and other files in the .metals/ directory. The Bloop compile server
+places logs and compilation artifacts in the .bloop directory. Bloop plugin that generates Bloop
+configuration is added in the project/metals.sbt file. It's recommended to ignore these
+directories and file from version control systems like git.
 
 ```git
 # ~/.gitignore
@@ -218,10 +259,21 @@ project/metals.sbt
 
 ### Troubleshooting
 
-If you have any questions or issues with coc-metals, please submit an [issue](https://github.com/ckipp01/coc-metals/issues) in this repo if it pertains to the extension. If the issues is general to Metals, please submit it in the [Metals issue repo](https://github.com/scalameta/metals/issues). If you have any feature requests, we also have a feature request [issue repo](https://github.com/scalameta/metals-feature-requests).
+If you have any questions or issues with coc-metals, please submit an [issue](https://github.com/ckipp01/coc-metals/issues)
+in this repo if it pertains to the extension. If the issues is general to Metals, please submit it
+in the [Metals issue repo](https://github.com/scalameta/metals/issues). If you have any feature
+requests, we also have a feature request [issue repo](https://github.com/scalameta/metals-feature-requests).
 
 ### Contributing
 
-If you're interested in contributing, please visit the [CONTRIBUTING](CONTRIBUTING.md) guide for help on getting started.
-You can also take a look at the [project board](https://github.com/ckipp01/coc-metals/projects/1) to get an idea of what is being
-looked at or currently being worked on.
+If you're interested in contributing, please visit the [CONTRIBUTING](CONTRIBUTING.md) guide for
+help on getting started. You can also take a look at the [project board](https://github.com/ckipp01/coc-metals/projects/1)
+to get an idea of what is being looked at or currently being worked on.
+
+#### Theme
+
+The screen shots are a mixture of both vim and neovim. The theme is
+[onedark](https://github.com/joshdick/onedark.vim) with syntax highlighting added by
+[vim-scala](https://github.com/derekwyatt/vim-scala). The status bar is
+[vim-airline](https://github.com/vim-airline/vim-airline), and vim in being ran in
+[iTerm2](https://iterm2.com/).
