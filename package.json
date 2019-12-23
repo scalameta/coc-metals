@@ -133,7 +133,7 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^12.12.21",
+    "@types/node": "^13.1.0",
     "coc.nvim": "0.0.74",
     "parcel-bundler": "^1.12.4",
     "prettier": "1.19.1",
