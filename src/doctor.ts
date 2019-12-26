@@ -2,9 +2,11 @@ import { HTMLElement, Node } from "node-html-parser";
 import { workspace } from "coc.nvim";
 import { Commands } from "./commands";
 
-const padText = (text: string | Node): string => {
+const padText = (text: string | Node, index: number): string => {
   let neededPadding: number;
-  if (typeof text === "string") {
+  if (typeof text === "string" && index === 0) {
+    neededPadding = 22 - text.length;
+  } else if (typeof text === "string") {
     neededPadding = 18 - text.length;
   } else if ((text.rawText.match(/&/g) || []).length > 1) {
     neededPadding = 16;
@@ -20,11 +22,11 @@ const padText = (text: string | Node): string => {
 };
 
 const getRowText = (row: Node): string[] =>
-  row.childNodes.map(node => {
+  row.childNodes.map((node, index) => {
     if (node.rawText.startsWith("&")) {
-      return padText(node.childNodes[0]);
+      return padText(node.childNodes[0], index);
     } else {
-      return padText(node.rawText);
+      return padText(node.rawText, index);
     }
   });
 
@@ -45,7 +47,9 @@ export function makeVimDoctor(root): void {
   if (table) {
     const tableHeading: string = table
       .querySelector("thead")
-      .childNodes[0].childNodes.map((node: Node) => padText(node.rawText))
+      .childNodes[0].childNodes.map((node: Node, index: number) =>
+        padText(node.rawText, index)
+      )
       .join(" | ");
 
     const tableBody: string[] = table

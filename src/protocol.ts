@@ -59,6 +59,8 @@ export interface MetalsInputBoxResult {
   cancelled?: boolean;
 }
 
+// This currently isn't implemented in coc.nvim, so this is taken directly
+// from vscode in order to use it
 export interface InputBoxOptions {
   /** * The value to prefill in the input box.  */
   value?: string;

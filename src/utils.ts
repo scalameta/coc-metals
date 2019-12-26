@@ -143,3 +143,12 @@ export async function checkServerVersion() {
     }
   }
 }
+
+export function toggleLogs() {
+  const infoBuffer = workspace.documents.find(doc => doc.uri.endsWith("info"));
+  if (infoBuffer) {
+    workspace.nvim.command(`bd ${infoBuffer.bufnr}`);
+  } else {
+    workspace.nvim.command(Commands.OPEN_LOGS);
+  }
+}

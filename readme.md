@@ -147,9 +147,10 @@ window allowing you to search for `metals.doctor-run` command.
 
 ![Run Doctor Command](https://i.imgur.com/QaqhxF7.png)
 
-This command opens your browser with a table like this.
+This command opens an embedded doctor in your preview window. If you're not familiar with
+having multiple windows, you can use `<C-w> + w` to jump into it.
 
-![Run Doctor](https://i.imgur.com/yelm0jd.png)
+![Embedded Doctor](https://i.imgur.com/McaAFv5.png)
 
 ## Other Available Command
 
@@ -160,6 +161,7 @@ This command opens your browser with a table like this.
   - `metals.compile-cascade`
   - `metals.compile-cancel`
   - `metals.doctor-run`
+  - `metals.logs-toggle`
 
 ## Show document symbols
 

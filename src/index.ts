@@ -4,10 +4,11 @@ import { makeVimDoctor } from "./doctor";
 import { getJavaHome, getJavaOptions } from "./javaUtils";
 import { ExecuteClientCommand, MetalsInputBox } from "./protocol";
 import {
+  checkServerVersion,
   dottyIdeArtifact,
   migrateStringSettingToArray,
   trackDownloadProgress,
-  checkServerVersion
+  toggleLogs
 } from "./utils";
 import { exec } from "child_process";
 import {
@@ -277,6 +278,10 @@ function launchMetals(
       });
     });
 
+    registerCommand("metals.logs-toggle", () => {
+      toggleLogs();
+    });
+
     client.onNotification(ExecuteClientCommand.type, async params => {
       switch (params.command) {
         case "metals-goto-location":
@@ -314,16 +319,8 @@ function launchMetals(
         case "metals-diagnostics-focus":
           workspace.nvim.command("CocList diagnostics");
           break;
-        // TODO add in "metals-echo-command"
         case "metals-logs-toggle":
-          const infoBuffer = workspace.documents.find(doc =>
-            doc.uri.endsWith("info")
-          );
-          if (infoBuffer) {
-            workspace.nvim.command(`bd ${infoBuffer.bufnr}`);
-          } else {
-            workspace.nvim.command(Commands.OPEN_LOGS);
-          }
+          toggleLogs();
           break;
         default:
           workspace.showMessage(`Recieved unknown command: ${params.command}`);
