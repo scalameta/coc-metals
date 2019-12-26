@@ -1,15 +1,15 @@
-import {detechLauncConfigurationChanges} from "./activationUtils";
-import {Commands} from "./commands";
-import {makeVimDoctor} from "./doctor";
-import {getJavaHome, getJavaOptions} from "./javaUtils";
-import {ExecuteClientCommand, MetalsInputBox} from "./protocol";
+import { detechLauncConfigurationChanges } from "./activationUtils";
+import { Commands } from "./commands";
+import { makeVimDoctor } from "./doctor";
+import { getJavaHome, getJavaOptions } from "./javaUtils";
+import { ExecuteClientCommand, MetalsInputBox } from "./protocol";
 import {
   dottyIdeArtifact,
   migrateStringSettingToArray,
   trackDownloadProgress,
   checkServerVersion
 } from "./utils";
-import {exec} from "child_process";
+import { exec } from "child_process";
 import {
   commands,
   ExtensionContext,
@@ -19,8 +19,8 @@ import {
   ServerOptions,
   workspace
 } from "coc.nvim";
-import {HTMLElement, parse} from "node-html-parser";
-import {spawn, ChildProcessPromise} from "promisify-child-process";
+import { parse } from "node-html-parser";
+import { spawn, ChildProcessPromise } from "promisify-child-process";
 import {
   ExitNotification,
   ExecuteCommandRequest,
@@ -57,7 +57,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
   if (dottyArtifact && fs.existsSync(dottyArtifact)) {
     workspace.showMessage(
       `Metals will not start since Dotty is enabled for this workspace. ` +
-      `To enable Metals, remove the file ${dottyArtifact} and run ':CocCommand metals.restartServer'`,
+        `To enable Metals, remove the file ${dottyArtifact} and run ':CocCommand metals.restartServer'`,
       "warning"
     );
     return;
@@ -106,7 +106,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
   const customRepositoriesEnv =
     customRepositories.length == 0
       ? {}
-      : {COURSIER_REPOSITORIES: customRepositories};
+      : { COURSIER_REPOSITORIES: customRepositories };
 
   const fetchProcess: ChildProcessPromise = spawn(
     javaPath,
@@ -188,7 +188,7 @@ function launchMetals(
   metalsClasspath: string,
   serverProperties: string[],
   javaOptions: string[],
-  env: {COURSIER_REPOSITORIES?: string}
+  env: { COURSIER_REPOSITORIES?: string }
 ) {
   const baseProperties = [
     `-Dmetals.input-box=on`,
@@ -205,12 +205,12 @@ function launchMetals(
     .concat(mainArgs);
 
   const serverOptions: ServerOptions = {
-    run: {command: javaPath, args: launchArgs, options: {env}},
-    debug: {command: javaPath, args: launchArgs, options: {env}}
+    run: { command: javaPath, args: launchArgs, options: { env } },
+    debug: { command: javaPath, args: launchArgs, options: { env } }
   };
 
   const clientOptions: LanguageClientOptions = {
-    documentSelector: [{scheme: "file", language: "scala"}],
+    documentSelector: [{ scheme: "file", language: "scala" }],
     synchronize: {
       configurationSection: "metals"
     },
@@ -273,14 +273,11 @@ function launchMetals(
     commands.forEach(command => {
       registerCommand("metals." + command, async () => {
         workspace.showMessage("metals" + command);
-        client.sendRequest(ExecuteCommandRequest.type, {command});
+        client.sendRequest(ExecuteCommandRequest.type, { command });
       });
     });
 
     client.onNotification(ExecuteClientCommand.type, async params => {
-      workspace.nvim.call("coc#util#has_preview").then(preview => {
-        workspace.showMessage(`Response -> ${preview}`)
-      })
       switch (params.command) {
         case "metals-goto-location":
           const location =
@@ -302,18 +299,26 @@ function launchMetals(
           makeVimDoctor(root);
           break;
         case "metals-doctor-reload":
-          workspace.showMessage("enter")
           workspace.nvim.call("coc#util#has_preview").then(preview => {
             if (preview > 0) {
               const html: string = params.arguments && params.arguments[0];
               const root = parse(html);
-              workspace.showMessage("reload")
+              workspace.showMessage("reload");
               makeVimDoctor(root);
             }
-          })
-        // TODO add in "metals-logs-toggle"
-        // TODO add in "metals-diagnostics-focus"
+          });
+          // TODO add in "metals-diagnostics-focus"
           // TODO add in "metals-echo-command"
+          break;
+        case "metals-logs-toggle":
+          const infoBuffer = workspace.documents.find(doc =>
+            doc.uri.endsWith("info")
+          );
+          if (infoBuffer) {
+            workspace.nvim.command(`bd ${infoBuffer.bufnr}`);
+          } else {
+            workspace.nvim.command(Commands.OPEN_LOGS);
+          }
           break;
         default:
           workspace.showMessage(`Recieved unknown command: ${params.command}`);
@@ -326,10 +331,10 @@ function launchMetals(
         options.value
       ]);
       if (response === undefined) {
-        return {cancelled: true};
+        return { cancelled: true };
       } else {
         workspace.showMessage(response);
-        return {value: response};
+        return { value: response };
       }
     });
   });

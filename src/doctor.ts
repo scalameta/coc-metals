@@ -1,5 +1,6 @@
 import { HTMLElement, Node } from "node-html-parser";
 import { workspace } from "coc.nvim";
+import { Commands } from "./commands";
 
 const padText = (text: string | Node): string => {
   let neededPadding: number;
@@ -8,7 +9,8 @@ const padText = (text: string | Node): string => {
   } else if ((text.rawText.match(/&/g) || []).length > 1) {
     neededPadding = 16;
   } else {
-    neededPadding = 15; }
+    neededPadding = 15;
+  }
   const neededPre = Math.round(neededPadding / 2);
 
   const preSpacing = neededPre > 0 ? " ".repeat(neededPre) : " ";
@@ -43,40 +45,50 @@ export function makeVimDoctor(root): void {
   if (table) {
     const tableHeading: string = table
       .querySelector("thead")
-      .childNodes[0].childNodes.map(node => padText(node.rawText))
+      .childNodes[0].childNodes.map((node: Node) => padText(node.rawText))
       .join(" | ");
 
     const tableBody: string[] = table
       .querySelector("tbody")
       .childNodes.map(getRowText)
-      .map(x => x.join(" | "));
+      .map((row: string[]) => row.join(" | "));
 
     const doctor: string[] = [
       doctorTitle,
       "-------------",
       notes[0].rawText,
-      " ",
+      "",
       tableHeading,
       "-".repeat(144),
-      ...tableBody
+      ...tableBody,
+      ""
     ];
 
-    workspace.nvim.call("coc#util#preview_info", [doctor, "txt"], true);
+    workspace.nvim.call(
+      Commands.OPEN_PREVIEW,
+      [doctor, "txt", "setl nonumber", "setl nowrap"],
+      true
+    );
   } else {
     const errors: Node[] = notes[1].childNodes;
     const errorMessage: String = errors[0].toString();
     const errorList: string[] = errors[1].childNodes.map(
-      node => `  - ${node.rawText}`
+      (node: Node) => `  - ${node.rawText}`
     );
 
     const doctor: String[] = [
       doctorTitle,
       "-------------",
       errorMessage,
-      " ",
-      ...errorList
+      "",
+      ...errorList,
+      ""
     ];
 
-    workspace.nvim.call("coc#util#preview_info", [doctor, "txt"], true);
+    workspace.nvim.call(
+      Commands.OPEN_PREVIEW,
+      [doctor, "txt", "setl nonumber", "setl nowrap"],
+      true
+    );
   }
 }
