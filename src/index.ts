@@ -295,21 +295,26 @@ function launchMetals(
           break;
         case "metals-doctor-run":
           const html: string = params.arguments && params.arguments[0];
-          const root = parse(html);
-          makeVimDoctor(root);
+          if (html) {
+            const root = parse(html);
+            makeVimDoctor(root);
+          }
           break;
         case "metals-doctor-reload":
           workspace.nvim.call("coc#util#has_preview").then(preview => {
             if (preview > 0) {
               const html: string = params.arguments && params.arguments[0];
-              const root = parse(html);
-              workspace.showMessage("reload");
-              makeVimDoctor(root);
+              if (html) {
+                const root = parse(html);
+                makeVimDoctor(root);
+              }
             }
           });
-          // TODO add in "metals-diagnostics-focus"
-          // TODO add in "metals-echo-command"
           break;
+        case "metals-diagnostics-focus":
+          workspace.nvim.command("CocList diagnostics");
+          break;
+        // TODO add in "metals-echo-command"
         case "metals-logs-toggle":
           const infoBuffer = workspace.documents.find(doc =>
             doc.uri.endsWith("info")
