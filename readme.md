@@ -5,7 +5,30 @@
 ![npm](https://img.shields.io/npm/v/coc-metals?style=flat-square)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ce92ac.svg?style=flat-square)](https://github.com/prettier/prettier) [![Greenkeeper badge](https://badges.greenkeeper.io/ckipp01/coc-metals.svg)](https://greenkeeper.io/)
 
-## Requirements
+## Table of Contents
+  - [Requirements](#requirements)
+  - [Installing coc-metals](#installing-coc-metals)
+  - [Importing a build](#importing-a-build)
+    - [Custom sbt launcher](#custom-sbt-launcher)
+    - [Speeding up import](#speeding-up-import)
+    - [Importing changes](#importing-changes)
+  - [Configure Java version](#configure-java-version)
+  - [Using latest Metals SNAPSHOT](#using-latest-metals-snapshot)
+  - [List all workspace compile errors](#list-all-workspace-compile-errors)
+  - [Run doctor](#run-doctor)
+  - [Other Available Commands](#other-available-commands)
+  - [Show document symbols](#show-document-symbols)
+  - [Available Configuration Options](#available-configuration-options)
+  - [Enable on type formatting for multiline string formatting](#enable-on-type-formatting-for-multiline-string-formatting)
+  - [Shut down the language server](#shut-down-the-language-server)
+  - [Statusline integration](#statusline-integration)
+  - [Formatting on save](#formatting-on-save)
+  - [Gitignore](#gitignore)
+  - [Troubleshooting](#troubleshooting)
+  - [Contributing](#contributing)
+  - [Theme](#theme)
+
+### Requirements
 
 ***`coc-metals` works with both [vim](https://www.vim.org/) and [neovim](https://neovim.io/), but
 I've found the experience to be a bit smoother on neovim.***
@@ -66,7 +89,7 @@ Once the import step completes, compilation starts for your open *.scala files.
 
 Once the sources have compiled successfully, you can navigate the codebase with goto definition.
 
-### Custom sbt launcher
+#### Custom sbt launcher
 
 By default, Metals runs an embedded sbt-launch.jar launcher that respects .sbtopts and .jvmopts.
 However, the environment variables SBT_OPTS and JAVA_OPTS are not respected.
@@ -76,7 +99,7 @@ launcher if you need further customizations like reading environment variables.
 
 ![Sbt Launcher](https://i.imgur.com/kbxNKzI.png)
 
-### Speeding up import
+#### Speeding up import
 
 The "Import build" step can take a long time, especially the first time you run it in a new build.
 The exact time depends on the complexity of the build and if library dependencies need to be
@@ -85,13 +108,13 @@ downloaded. For example, this step can take everything from 10 seconds in small 
 
 Consult the Bloop documentation to learn how to speed up build import.
 
-### Importing changes
+#### Importing changes
 
 When you change build.sbt or sources under project/, you will be prompted to re-import the build.
 
 ![Build Re-Import](https://i.imgur.com/iocTVb6.png)
 
-## Configure Java version
+### Configure Java version
 The `coc-metals` extension uses by default the `JAVA_HOME` environment variable
 (via [`find-java-home`](https://www.npmjs.com/package/find-java-home)) to locate the `java` executable.
 
@@ -112,7 +135,7 @@ In order to get comment highlighting, please add:
 autocmd FileType json syntax match Comment +\/\/.\+$+
 ```
 
-## Using latest Metals SNAPSHOT
+### Using latest Metals SNAPSHOT
 
 Update the "Server Version" setting to try out the latest pending Metals
 features.
@@ -123,7 +146,7 @@ This will be necessary before the new version will be downloaded and used.
 ![Update Metals Version](https://i.imgur.com/VUCdQvi.png)
 
 
-## List all workspace compile errors
+### List all workspace compile errors
 
 To list all compilation errors and warnings in the workspace, run the following
 command.
@@ -139,7 +162,7 @@ open buffer.
 
 ![Diagnostics](https://i.imgur.com/cer22HW.png)
 
-## Run doctor
+### Run doctor
 
 To troubleshoot problems with your build workspace, open your coc commands by either
 using `:CocCommand` or the recommend mapping `<space> c`. This will open your command
@@ -152,7 +175,7 @@ having multiple windows, you can use `<C-w> + w` to jump into it.
 
 ![Embedded Doctor](https://i.imgur.com/McaAFv5.png)
 
-## Other Available Command
+### Other Available Commands
 
   - `metals.restartServer`
   - `metals.build-import`
@@ -163,7 +186,7 @@ having multiple windows, you can use `<C-w> + w` to jump into it.
   - `metals.doctor-run`
   - `metals.logs-toggle`
 
-## Show document symbols
+### Show document symbols
 
 Run `:CocList outline` to show a symbol outline for the current file or use the
 default mapping `<space> o`.
@@ -171,7 +194,7 @@ default mapping `<space> o`.
 ![Document Symbols](https://i.imgur.com/gEhAXV4.png)
 
 
-## Available Configuration Options
+### Available Configuration Options
 
 The following configuration options are currently available. The easiest way to set these
 configurations is to enter `:CocConfig` or `:CocLocalConfig` to set your global or local
@@ -193,7 +216,7 @@ If you'd like to get autocompletion help for the configuration values you can in
 `metals.scalafmtConfigPath` | Optional custom path to the .scalafmt.conf file. Should be relative to the workspace root directory and use forward slashes `/` for file separators (even on Windows).
 `metals.customRepositories` | Optional list of custom resolvers passed to Coursier when fetching metals dependencies.\n\nFor documentation on accepted values see the [Coursier documentation](https://get-coursier.io/docs/other-repositories). The extension will pass these to Coursier using the COURSIER_REPOSITORIES environment variable after joining the custom repositories with a pipe character (|).
 
-## Enable on type formatting for multiline string formatting
+### Enable on type formatting for multiline string formatting
 
 ![on-type](https://i.imgur.com/astTOKu.gif)
 
@@ -244,6 +267,7 @@ function! CocExtensionStatus() abort
 endfunction
 let g:airline_section_c = '%f%{CocExtensionStatus()}'
 ```
+
 ### Formatting on save
 
 If you'd like to have `:w` format using Metals + Scalafmt, then make sure you have the following in
@@ -252,7 +276,7 @@ your `:CocConfig`.
 ```json
 "coc.preferences.formatOnSaveFiletypes": ["scala"]
 ```
-### Gitignore project/metals.sbt .metals/ and .bloop/
+### Gitignore
 
 The Metals server places logs and other files in the .metals/ directory. The Bloop compile server
 places logs and compilation artifacts in the .bloop directory. A Bloop plugin that generates Bloop
@@ -279,7 +303,7 @@ If you're interested in contributing, please visit the [CONTRIBUTING](CONTRIBUTI
 help on getting started. You can also take a look at the [project board](https://github.com/ckipp01/coc-metals/projects/1)
 to get an idea of what is being looked at or currently being worked on.
 
-#### Theme
+### Theme
 
 The screen shots are a mixture of both vim and neovim. The theme is
 [onedark](https://github.com/joshdick/onedark.vim) with syntax highlighting added by
