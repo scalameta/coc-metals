@@ -1,6 +1,11 @@
 name: coc-metals CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+      - greenkeeper*
+  pull_request:
 
 jobs:
   build:
@@ -28,8 +33,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - name: Build Check 
-        run: yarn install 
+      - name: Build Check
+        run: yarn install
 
-      - name: Style Check 
+      - name: Style Check
         run: yarn format-check
