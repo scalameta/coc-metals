@@ -1,12 +1,14 @@
 import { detechLauncConfigurationChanges } from "./activationUtils";
 import { Commands } from "./commands";
+import { makeVimDoctor } from "./doctor";
 import { getJavaHome, getJavaOptions } from "./javaUtils";
-import { ExecuteClientCommand } from "./protocol";
+import { ExecuteClientCommand, MetalsInputBox } from "./protocol";
 import {
+  checkServerVersion,
   dottyIdeArtifact,
   migrateStringSettingToArray,
   trackDownloadProgress,
-  checkServerVersion
+  toggleLogs
 } from "./utils";
 import { exec } from "child_process";
 import {
@@ -18,14 +20,14 @@ import {
   ServerOptions,
   workspace
 } from "coc.nvim";
+import { parse } from "node-html-parser";
 import { spawn, ChildProcessPromise } from "promisify-child-process";
 import {
   ExitNotification,
   ExecuteCommandRequest,
   Location,
   Range,
-  ShutdownRequest,
-  ExecuteCommandParams
+  ShutdownRequest
 } from "vscode-languageserver-protocol";
 
 import * as fs from "fs";
@@ -49,7 +51,6 @@ export async function activate(context: ExtensionContext) {
         }
       });
     });
-  commands.executeCommand("setContext", "metals:enabled", true);
 }
 
 function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
@@ -190,7 +191,13 @@ function launchMetals(
   javaOptions: string[],
   env: { COURSIER_REPOSITORIES?: string }
 ) {
-  const baseProperties = [`-Dmetals.client=coc.nvim`, `-Xss4m`, `-Xms100m`];
+  const baseProperties = [
+    `-Dmetals.input-box=on`,
+    `-Dmetals.client=coc.nvim`,
+    `-Dmetals.execute-client-command=on`,
+    `-Xss4m`,
+    `-Xms100m`
+  ];
   const mainArgs = ["-classpath", metalsClasspath, "scala.meta.metals.Main"];
   // let user properties override base properties
   const launchArgs = baseProperties
@@ -265,12 +272,17 @@ function launchMetals(
     ];
 
     commands.forEach(command => {
-      registerCommand("metals." + command, async () =>
-        client.sendRequest(ExecuteCommandRequest.type, { command })
-      );
+      registerCommand("metals." + command, async () => {
+        workspace.showMessage("metals" + command);
+        client.sendRequest(ExecuteCommandRequest.type, { command });
+      });
     });
 
-    client.onNotification(ExecuteClientCommand.type, params => {
+    registerCommand("metals.logs-toggle", () => {
+      toggleLogs();
+    });
+
+    client.onNotification(ExecuteClientCommand.type, async params => {
       switch (params.command) {
         case "metals-goto-location":
           const location =
@@ -286,8 +298,45 @@ function launchMetals(
             workspace.selectRange(range);
           }
           break;
+        case "metals-doctor-run":
+          const html: string = params.arguments && params.arguments[0];
+          if (html) {
+            const root = parse(html);
+            makeVimDoctor(root);
+          }
+          break;
+        case "metals-doctor-reload":
+          workspace.nvim.call("coc#util#has_preview").then(preview => {
+            if (preview > 0) {
+              const html: string = params.arguments && params.arguments[0];
+              if (html) {
+                const root = parse(html);
+                makeVimDoctor(root);
+              }
+            }
+          });
+          break;
+        case "metals-diagnostics-focus":
+          workspace.nvim.command("CocList diagnostics");
+          break;
+        case "metals-logs-toggle":
+          toggleLogs();
+          break;
         default:
-          workspace.showMessage(`Unknown command: ${params.command}`);
+          workspace.showMessage(`Recieved unknown command: ${params.command}`);
+      }
+    });
+
+    client.onRequest(MetalsInputBox.type, async (options, requestToken) => {
+      const response = await workspace.callAsync<string>("input", [
+        `${options.prompt} `,
+        options.value
+      ]);
+      if (response === undefined) {
+        return { cancelled: true };
+      } else {
+        workspace.showMessage(response);
+        return { value: response };
       }
     });
   });

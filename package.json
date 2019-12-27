@@ -127,8 +127,13 @@
       },
       {
         "command": "metals.doctor-run",
-        "category": "Metals",
-        "title": "Run doctor"
+        "category": "metals",
+        "title": "run doctor"
+      },
+      {
+        "command": "metals.logs-toggle",
+        "category": "metals",
+        "title": "Toggle Logs"
       }
     ]
   },
@@ -145,6 +150,7 @@
     "@types/semver": "^6.2.0",
     "@types/shell-quote": "^1.6.1",
     "locate-java-home": "^1.1.2",
+    "node-html-parser": "^1.1.16",
     "promisify-child-process": "^3.1.3",
     "semver": "^7.1.1",
     "shell-quote": "^1.7.2",

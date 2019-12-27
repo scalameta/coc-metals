@@ -10,7 +10,7 @@
 ***`coc-metals` works with both [vim](https://www.vim.org/) and [neovim](https://neovim.io/), but
 I've found the experience to be a bit smoother on neovim.***
 
-- [coc.nvim](https://github.com/neoclide/coc.nvim) - There are detiled instructions in their repo on
+- [coc.nvim](https://github.com/neoclide/coc.nvim) - There are detailed instructions in their repo on
 how to get set up and running quickly.
 - Java 8 or 11 provided by OpenJDK or Oracle. Eclipse OpenJ9 is not supported, please make sure the
 JAVA_HOME environment variable points to a valid Java 8 or 11 installation.
@@ -46,7 +46,7 @@ Then, issue a `:PlugInstall` to install the extension, and regularly a `:PlugUpd
 and pull in the latest changes.
 
 *** Keep in mind that if you are installing directly from the repo via `:CocInstall` with the
-repository url or through a plugin manger, remove `coc-metals` with `:CocUninstall coc-metals`
+repository url or through a plugin manager, remove `coc-metals` with `:CocUninstall coc-metals`
 before you add it in with one of the other methods to not conflict with one another.
 
 ### Importing a build
@@ -147,9 +147,10 @@ window allowing you to search for `metals.doctor-run` command.
 
 ![Run Doctor Command](https://i.imgur.com/QaqhxF7.png)
 
-This command opens your browser with a table like this.
+This command opens an embedded doctor in your preview window. If you're not familiar with
+having multiple windows, you can use `<C-w> + w` to jump into it.
 
-![Run Doctor](https://i.imgur.com/yelm0jd.png)
+![Embedded Doctor](https://i.imgur.com/McaAFv5.png)
 
 ## Other Available Command
 
@@ -160,6 +161,7 @@ This command opens your browser with a table like this.
   - `metals.compile-cascade`
   - `metals.compile-cancel`
   - `metals.doctor-run`
+  - `metals.logs-toggle`
 
 ## Show document symbols
 
@@ -244,7 +246,7 @@ let g:airline_section_c = '%f%{CocExtensionStatus()}'
 ```
 ### Formatting on save
 
-If you'd like to have `:w` format usint Metals + Scalafmt, then make sure you have the following in
+If you'd like to have `:w` format using Metals + Scalafmt, then make sure you have the following in
 your `:CocConfig`.
 
 ```json
@@ -253,7 +255,7 @@ your `:CocConfig`.
 ### Gitignore project/metals.sbt .metals/ and .bloop/
 
 The Metals server places logs and other files in the .metals/ directory. The Bloop compile server
-places logs and compilation artifacts in the .bloop directory. Bloop plugin that generates Bloop
+places logs and compilation artifacts in the .bloop directory. A Bloop plugin that generates Bloop
 configuration is added in the project/metals.sbt file. It's recommended to ignore these
 directories and file from version control systems like git.
 
