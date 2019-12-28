@@ -18,7 +18,7 @@ const padText = (text: string | Node, index: number): string => {
   const preSpacing = neededPre > 0 ? " ".repeat(neededPre) : " ";
   const postSpacing =
     neededPre > 0 ? " ".repeat(neededPadding - neededPre) : " ";
-  return `${preSpacing}${text}${postSpacing}`;
+  return `${preSpacing}${text.toString().replace("\n", " ")}${postSpacing}`;
 };
 
 const getRowText = (row: Node): string[] =>
