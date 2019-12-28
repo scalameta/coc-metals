@@ -5,6 +5,10 @@
 ![npm](https://img.shields.io/npm/v/coc-metals?style=flat-square)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ce92ac.svg?style=flat-square)](https://github.com/prettier/prettier) [![Greenkeeper badge](https://badges.greenkeeper.io/ckipp01/coc-metals.svg)](https://greenkeeper.io/)
 
+`coc-metals` is the recommended `coc.nvim` extension for [Metals](https://scalameta.org/metals/), the
+Scala language server. `coc-metals` offers automated Metals installation, easy configuration,
+Metals-specific commands, an embedded doctor, and many other small features.
+
 ## Table of Contents
   - [Requirements](#requirements)
   - [Installing coc-metals](#installing-coc-metals)

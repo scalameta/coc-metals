@@ -1,15 +1,14 @@
-
 ---
 name: 🚀 Feature request
 about: Suggest a feature you'd like to see implemented
-labels: ""
+labels: "feature-request"
 ---
 
 **Describe the feature**
 
 <!-- A clear and concise description of what the feature is. -->
 
-**Potential ways to impliment?**
+**Potential ways to implement?**
 
 <!-- Have you thought about how this may be implemented? -->
 
