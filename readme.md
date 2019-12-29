@@ -4,6 +4,7 @@
 ![coc-metals](https://i.imgur.com/zofu4VI.png)
 ![npm](https://img.shields.io/npm/v/coc-metals?style=flat-square)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ce92ac.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=ckipp01/coc-metals)](https://dependabot.com)
 
 `coc-metals` is the recommended `coc.nvim` extension for [Metals](https://scalameta.org/metals/), the
 Scala language server. `coc-metals` offers automated Metals installation, easy configuration,
