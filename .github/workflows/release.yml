@@ -21,7 +21,7 @@ jobs:
       - name: Install Yarn
         run: curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
 
-      - name: Setup git env 
+      - name: Setup git env
         run: |
           git config --global user.email "ckipp@pm.me"
           git config --global user.name "coc-metals CI"
@@ -33,7 +33,7 @@ jobs:
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
-      - name: Install Dependencies 
+      - name: Install Dependencies
         run: yarn install
 
       - name: Set new version
@@ -44,9 +44,9 @@ jobs:
 
       - name: Commit changes
         run: git commit -am "Release ${{ steps.get_version.outputs.VERSION }}"
-      
-      - name: Set npm auth 
-        run: echo "//registry.yarnpkg.com/:_authToken=${{ secrets.NPM_PUBLISH }}" >>~/.npmrc
+
+      - name: Set npm auth
+        run: echo "//registry.yarnpkg.com/:_authToken=${{ secrets.NPM_COC_METALS_PUBLISH }}" >>~/.npmrc
 
       - name: Publish
         run: yarn publish
