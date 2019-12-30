@@ -191,13 +191,7 @@ function launchMetals(
   javaOptions: string[],
   env: { COURSIER_REPOSITORIES?: string }
 ) {
-  const baseProperties = [
-    `-Dmetals.input-box=on`,
-    `-Dmetals.client=coc.nvim`,
-    `-Dmetals.execute-client-command=on`,
-    `-Xss4m`,
-    `-Xms100m`
-  ];
+  const baseProperties = [`-Dmetals.client=coc-metals`, `-Xss4m`, `-Xms100m`];
   const mainArgs = ["-classpath", metalsClasspath, "scala.meta.metals.Main"];
   // let user properties override base properties
   const launchArgs = baseProperties
