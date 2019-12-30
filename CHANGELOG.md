@@ -1,6 +1,8 @@
 ## coc-metals changelog
 
-### upcoming (2019/12/30 10:06 +00:00)
+### v0.4.1 (2019/12/30 10:22 +00:00)
+- [941d695](https://github.com/ckipp01/coc-metals/commit/941d6952f7b0a80cb348fd920554d7fa3a42bd37) correct client id (@ckipp01)
+- [47b229b](https://github.com/ckipp01/coc-metals/commit/47b229b03ab8508fc25acfda62798de6fa8dc654) Release v0.4.0 (@ckipp01)
 - [bfd5d00](https://github.com/ckipp01/coc-metals/commit/bfd5d0009d1d6dfbc8ffb48caa149d5bd071720c) add in note to readme about using latest snapshot of Metals (@ckipp01)
 
 ### v0.4.0 (2019/12/30 09:49 +00:00)
