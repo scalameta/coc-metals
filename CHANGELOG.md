@@ -1,6 +1,18 @@
-## coc-metals generated changelog
+## coc-metals changelog
 
-### upcoming (2019/12/28 14:50 +00:00)
+### upcoming (2019/12/30 10:06 +00:00)
+- [bfd5d00](https://github.com/ckipp01/coc-metals/commit/bfd5d0009d1d6dfbc8ffb48caa149d5bd071720c) add in note to readme about using latest snapshot of Metals (@ckipp01)
+
+### v0.4.0 (2019/12/30 09:49 +00:00)
+- [447b995](https://github.com/ckipp01/coc-metals/commit/447b99501c40e719e9afdc0a1bcec87b3bb5db92) Bump @types/node from 13.1.0 to 13.1.1 (@dependabot-preview[bot])
+- [1ffe49e](https://github.com/ckipp01/coc-metals/commit/1ffe49e561a88e0e752b05a0ca2458f7dde88501) add in dependabot badge (@ckipp01)
+- [3c4fc58](https://github.com/ckipp01/coc-metals/commit/3c4fc58bf17f8cc8097355e2bcd070fc8d6b1dfc) Bump @types/node from 13.1.0 to 13.1.1 (@dependabot-preview[bot])
+- [ce33281](https://github.com/ckipp01/coc-metals/commit/ce3328122982309b21dca3fd8281b2b116288da5) remove greenkeeper (@ckipp01)
+- [080abee](https://github.com/ckipp01/coc-metals/commit/080abee47e433120a05bad97025db56199e34dec) improve doctor display for new lines (@ckipp01)
+- [e9a09c6](https://github.com/ckipp01/coc-metals/commit/e9a09c68eebd9d51ed31a5d6f1fc9ca3df43ea3d) update readme to include why using coc-metals if preferable to self-bootstrapping (@ckipp01)
+- [4ab5df9](https://github.com/ckipp01/coc-metals/commit/4ab5df98ea0ea0db20a65e2832f229536a5921a5) update bug issue template and add in feature requests and question templates (@ckipp01)
+- [969b955](https://github.com/ckipp01/coc-metals/commit/969b95541139d0792b088c18c517243ca6bbcbb5) add in automated release action (@ckipp01)
+- [2daf61b](https://github.com/ckipp01/coc-metals/commit/2daf61b2e3b755b2f5643e1e6a1dd571b331ecaa) add in a changelog (@ckipp01)
 - [b895f1e](https://github.com/ckipp01/coc-metals/commit/b895f1e66170a46a9f197a647a1770b5900b643f) only run on push for master and greenkeeper (@ckipp01)
 - [3f3082c](https://github.com/ckipp01/coc-metals/commit/3f3082c17a815d63f00d95d6399a31ebba8c810c) add in a table of contents (@ckipp01)
 - [6a9af3a](https://github.com/ckipp01/coc-metals/commit/6a9af3a1860b558e1f5e13bac4d72a20335ff926) move out utility function, update documentation, and better spacing for doctor (@ckipp01)
