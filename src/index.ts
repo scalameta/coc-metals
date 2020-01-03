@@ -1,6 +1,6 @@
 import { detechLauncConfigurationChanges } from "./activationUtils";
 import { Commands } from "./commands";
-import { makeVimDoctor } from "./doctor";
+import { makeVimDoctor } from "./embeddedDoctor";
 import { getJavaHome, getJavaOptions } from "./javaUtils";
 import { ExecuteClientCommand, MetalsInputBox } from "./protocol";
 import {
@@ -20,7 +20,6 @@ import {
   ServerOptions,
   workspace
 } from "coc.nvim";
-import { parse } from "node-html-parser";
 import { spawn, ChildProcessPromise } from "promisify-child-process";
 import {
   ExitNotification,
@@ -191,7 +190,12 @@ function launchMetals(
   javaOptions: string[],
   env: { COURSIER_REPOSITORIES?: string }
 ) {
-  const baseProperties = [`-Dmetals.client=coc-metals`, `-Xss4m`, `-Xms100m`];
+  const baseProperties = [
+    `-Dmetals.client=coc-metals`,
+    `-Dmetals.doctor-format=json`,
+    `-Xss4m`,
+    `-Xms100m`
+  ];
   const mainArgs = ["-classpath", metalsClasspath, "scala.meta.metals.Main"];
   // let user properties override base properties
   const launchArgs = baseProperties
@@ -293,20 +297,15 @@ function launchMetals(
           }
           break;
         case "metals-doctor-run":
-          const html: string = params.arguments && params.arguments[0];
-          if (html) {
-            const root = parse(html);
-            makeVimDoctor(root);
-          }
+          const doctorJson: string = params.arguments && params.arguments[0];
+          makeVimDoctor(JSON.parse(doctorJson));
           break;
         case "metals-doctor-reload":
           workspace.nvim.call("coc#util#has_preview").then(preview => {
             if (preview > 0) {
-              const html: string = params.arguments && params.arguments[0];
-              if (html) {
-                const root = parse(html);
-                makeVimDoctor(root);
-              }
+              const doctorJson: string =
+                params.arguments && params.arguments[0];
+              makeVimDoctor(JSON.parse(doctorJson));
             }
           });
           break;
