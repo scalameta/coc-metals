@@ -2,11 +2,7 @@ import { detechLauncConfigurationChanges } from "./activationUtils";
 import { Commands } from "./commands";
 import { makeVimDoctor } from "./embeddedDoctor";
 import { getJavaHome, getJavaOptions } from "./javaUtils";
-import {
-  ExecuteClientCommand,
-  MetalsInputBox,
-  MetalsDidFocus
-} from "./protocol";
+import { ExecuteClientCommand, MetalsInputBox, MetalsDidFocus, DecorationsRangesDidChange, PublishDecorationsParams } from "./metalsProtocol";
 import {
   checkServerVersion,
   dottyIdeArtifact,
@@ -36,6 +32,9 @@ import {
 
 import * as fs from "fs";
 import * as path from "path";
+import {MetalsFeatures} from "./MetalsFeatures";
+import DecorationProvider from "./decoration";
+import { InputBoxOptions } from "./portedProtocol";
 
 export async function activate(context: ExtensionContext) {
   detechLauncConfigurationChanges();
@@ -229,6 +228,11 @@ function launchMetals(
     clientOptions
   );
 
+  const features = new MetalsFeatures();
+  client.registerFeature(features);
+
+  const decorationProvider = new DecorationProvider
+
   function registerCommand(command: string, callback: (...args: any[]) => any) {
     context.subscriptions.push(commands.registerCommand(command, callback));
   }
@@ -279,6 +283,10 @@ function launchMetals(
     registerCommand("metals.logs-toggle", () => {
       toggleLogs();
     });
+
+    registerCommand("metals.expand-decoration", () => {
+      decorationProvider.showHover();
+    })
 
     client.onNotification(ExecuteClientCommand.type, async params => {
       switch (params.command) {
@@ -331,7 +339,16 @@ function launchMetals(
       }
     });
 
-    client.onRequest(MetalsInputBox.type, async (options, requestToken) => {
+    events.on("BufWinLeave", (bufnr: number) => {
+      const previousDocument = workspace.documents.find(
+        document => document.bufnr === bufnr
+      );
+      if (previousDocument && previousDocument.uri.endsWith(".worksheet.sc")) {
+        decorationProvider.clearDecorations(bufnr)
+      }
+    });
+
+    client.onRequest(MetalsInputBox.type, async (options: InputBoxOptions, requestToken) => {
       const response = await workspace.callAsync<string>("input", [
         `${options.prompt} `,
         options.value
@@ -343,5 +360,17 @@ function launchMetals(
         return { value: response };
       }
     });
+
+    // TODO add check for neovim
+
+    if (features.decorationProvider) {
+      client.onNotification(DecorationsRangesDidChange.type, (params: PublishDecorationsParams) => {
+        if (workspace.uri && workspace.uri === params.uri) {
+          decorationProvider.setDecorations(params)
+        }
+      });
+    }
+
+
   });
 }
