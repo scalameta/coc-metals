@@ -10,21 +10,10 @@ export namespace ExecuteClientCommand {
   );
 }
 
-// TODO not implimented
-export namespace MetalsStatus {
-  export const type = new NotificationType<MetalsStatusParams, void>(
-    "metals/status"
+export namespace MetalsDidFocus {
+  export const type = new NotificationType<string, void>(
+    "metals/didFocusTextDocument"
   );
-}
-
-// TODO not implimented
-export namespace MetalsSlowTask {
-  export const type = new RequestType<
-    MetalsSlowTaskParams,
-    MetalsSlowTaskResult,
-    void,
-    void
-  >("metals/slowTask");
 }
 
 export namespace MetalsInputBox {

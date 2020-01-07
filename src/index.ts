@@ -2,7 +2,11 @@ import { detechLauncConfigurationChanges } from "./activationUtils";
 import { Commands } from "./commands";
 import { makeVimDoctor } from "./embeddedDoctor";
 import { getJavaHome, getJavaOptions } from "./javaUtils";
-import { ExecuteClientCommand, MetalsInputBox } from "./protocol";
+import {
+  ExecuteClientCommand,
+  MetalsInputBox,
+  MetalsDidFocus
+} from "./protocol";
 import {
   checkServerVersion,
   dottyIdeArtifact,
@@ -18,7 +22,8 @@ import {
   LanguageClientOptions,
   RevealOutputChannelOn,
   ServerOptions,
-  workspace
+  workspace,
+  events
 } from "coc.nvim";
 import { spawn, ChildProcessPromise } from "promisify-child-process";
 import {
@@ -317,6 +322,17 @@ function launchMetals(
           break;
         default:
           workspace.showMessage(`Recieved unknown command: ${params.command}`);
+      }
+    });
+
+    events.on("BufWinEnter", (bufnr: number) => {
+      const currentDocument = workspace.documents.find(
+        document => document.bufnr === bufnr
+      );
+      // For now I'm just checking for scala since both scala and sc files will be marked
+      // as scala, and this is only relevant for decorations anyways.
+      if (currentDocument && currentDocument.filetype === "scala") {
+        client.sendNotification(MetalsDidFocus.type, currentDocument.uri);
       }
     });
 
