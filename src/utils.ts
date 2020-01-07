@@ -3,9 +3,7 @@ import { Commands } from "./commands";
 import {
   ConfigurationTarget,
   workspace,
-  WorkspaceConfiguration,
-  commands,
-  StatusBarItem
+  WorkspaceConfiguration
 } from "coc.nvim";
 import * as path from "path";
 import { ChildProcessPromise } from "promisify-child-process";
