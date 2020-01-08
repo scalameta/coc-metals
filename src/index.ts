@@ -143,8 +143,8 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
     }
   );
 
-  trackDownloadProgress(fetchProcess).then(
-    classpath => {
+  trackDownloadProgress(fetchProcess)
+    .then(classpath => {
       launchMetals(
         context,
         javaPath,
@@ -153,19 +153,13 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
         javaOptions,
         customRepositoriesEnv
       );
-    },
-    () => {
+    })
+    .catch(err => {
       const msg = (() => {
         const proxy =
-          `See https://scalameta.org/metals/docs/editors/vscode.html#http-proxy for instructions ` +
+          `See https://scalaeta.org/metals/docs/editors/vscode.html#http-proxy for instructions ` +
           `if you are using an HTTP proxy.`;
-        if (process.env.FLATPAK_SANDBOX_DIR) {
-          return (
-            `Failed to download Metals. It seems you are running Visual Studio Code inside the ` +
-            `Flatpak sandbox, which is known to interfere with the download of Metals. ` +
-            `Please, try running Visual Studio Code without Flatpak.`
-          );
-        } else if (serverVersion === defaultServerVersion) {
+        if (serverVersion === defaultServerVersion) {
           return (
             `Failed to download Metals, make sure you have an internet connection and ` +
             `the Java Home '${javaPath}' is valid. You can configure the Java Home in the settings.` +
@@ -180,11 +174,12 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
           );
         }
       })();
-      workspace.showPrompt(msg + `\n Open Settings?`).then(choice => {
-        if (choice) workspace.nvim.command(Commands.OPEN_COC_CONFIG, true);
-      });
-    }
-  );
+      workspace
+        .showPrompt(`${err.message}\n ${msg}\n Open Settings?`)
+        .then(choice => {
+          if (choice) workspace.nvim.command(Commands.OPEN_COC_CONFIG, true);
+        });
+    });
 }
 
 function launchMetals(
