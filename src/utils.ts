@@ -41,34 +41,36 @@ export function migrateStringSettingToArray(id: string): void {
   }
 }
 
-export async function trackDownloadProgress(
+export function trackDownloadProgress(
   download: ChildProcessPromise
 ): Promise<string> {
-  let stdout: Buffer[] = [];
-  const progress = new ProgressItem().createStatusBarItem("Preparing Metals");
-  download.stdout.on("data", (out: Buffer) => {
-    progress.update(out.toString());
-    stdout.push(out);
+  return new Promise(async (resolve, reject) => {
+    let stdout: Buffer[] = [];
+    const progress = new ProgressItem().createStatusBarItem("Preparing Metals");
+    download.stdout.on("data", (out: Buffer) => {
+      progress.update(out.toString());
+      stdout.push(out);
+    });
+    download.stderr.on("data", (err: Buffer) => {
+      const msg = err.toString().trim();
+      if (msg.startsWith("Downloaded") || msg.startsWith("Downloading")) {
+        progress.update(msg);
+      }
+    });
+    download.on("close", (code: number) => {
+      if (code != 0) {
+        // something went wrong, print stdout to the console to help troubleshoot.
+        stdout.forEach(buffer =>
+          workspace.showMessage(buffer.toString(), "error")
+        );
+        progress.dispose();
+        reject(new Error(`Coursier exit: ${code}`));
+      }
+    });
+    await download;
+    progress.dispose();
+    resolve(stdout.map(buffer => buffer.toString().trim()).join(""));
   });
-  download.stderr.on("data", (err: Buffer) => {
-    const msg = err.toString().trim();
-    if (msg.startsWith("Downloaded") || msg.startsWith("Downloading")) {
-      progress.update(msg);
-    }
-  });
-  download.on("close", (code: number) => {
-    if (code != 0) {
-      // something went wrong, print stdout to the console to help troubleshoot.
-      stdout.forEach(buffer =>
-        workspace.showMessage(buffer.toString(), "error")
-      );
-      progress.dispose();
-      throw Error(`Coursier exit: ${code}`);
-    }
-  });
-  await download;
-  progress.dispose();
-  return stdout.map(buffer => buffer.toString().trim()).join("");
 }
 
 export function isSupportedLanguage(
