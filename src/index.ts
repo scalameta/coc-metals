@@ -13,7 +13,7 @@ import {
   DecorationsRangesDidChange,
   PublishDecorationsParams
 } from "./metalsProtocol";
-import { checkServerVersion, trackDownloadProgress, toggleLogs } from "./utils";
+import { checkServerVersion, trackDownloadProgress, toggleLogs, wait } from "./utils";
 import { exec } from "child_process";
 import {
   commands,
@@ -31,13 +31,15 @@ import {
   ExitNotification,
   ExecuteCommandRequest,
   Location,
-  Range,
   ShutdownRequest
 } from "vscode-languageserver-protocol";
 import * as path from "path";
 import { MetalsFeatures } from "./MetalsFeatures";
 import DecorationProvider from "./decoration";
 import { InputBoxOptions } from "./portedProtocol";
+import { TreeViewController } from "./tvp/controller";
+import { TreeViewFeature } from "./tvp/feature";
+import { TreeViewsManager } from "./tvp/treeviews";
 
 export async function activate(context: ExtensionContext) {
   detechLauncConfigurationChanges();
@@ -221,7 +223,7 @@ function launchMetals(
   // correctly without it. I notice that this was also
   // done in some of the other coc-extensions, which
   // game me the idea to try it this way, and it works
-  const client: any = new LanguageClient(
+  const client = new LanguageClient(
     "metals",
     "Metals",
     serverOptions,
@@ -229,7 +231,9 @@ function launchMetals(
   );
 
   const features = new MetalsFeatures();
+  const treeViewFeature = new TreeViewFeature(client);
   client.registerFeature(features);
+  client.registerFeature(treeViewFeature);
 
   const floatFactory = new FloatFactory(
     workspace.nvim,
@@ -240,6 +244,17 @@ function launchMetals(
     true
   );
   const decorationProvider = new DecorationProvider(floatFactory);
+
+  const treeViewsManager = new TreeViewsManager(workspace.nvim, context.logger);
+  const treeViewController = new TreeViewController(
+    treeViewFeature,
+    treeViewsManager
+  );
+  context.subscriptions.push(
+    treeViewFeature,
+    treeViewsManager,
+    treeViewController
+  );
 
   function registerCommand(command: string, callback: (...args: any[]) => any) {
     context.subscriptions.push(commands.registerCommand(command, callback));
@@ -311,14 +326,11 @@ function launchMetals(
           const location =
             params.arguments && (params.arguments[0] as Location);
           if (location) {
-            const range = Range.create(
-              location.range.start.line,
-              location.range.start.character,
-              location.range.end.line,
-              location.range.end.character
-            );
-            workspace.jumpTo(location.uri, range.start);
-            workspace.selectRange(range);
+            await treeViewsManager.prepareWindowForGoto();
+            // It seems this line fixes weird issue with "returned a response with an unknown
+            // request id" after executing commands several times.
+            await wait(10);
+            await workspace.jumpTo(location.uri, location.range.start);
           }
           break;
         case "metals-doctor-run":

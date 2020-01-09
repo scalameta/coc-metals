@@ -88,3 +88,9 @@ export function toggleLogs() {
     workspace.nvim.command(Commands.OPEN_LOGS);
   }
 }
+
+export function wait(ms: number): Promise<any> {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+}

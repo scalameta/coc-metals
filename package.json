@@ -27,10 +27,11 @@
   "main": "lib/index.js",
   "scripts": {
     "clean": "rimraf lib",
-    "build": "parcel build src/index.ts --out-dir lib/ --target node --no-source-maps --experimental-scope-hoisting",
+    "build": "parcel build src/index.ts --out-dir lib/ --target node --no-source-maps",
     "format": "prettier --write src/*.ts",
     "format-check": "prettier --check src/*.ts",
-    "prepare": "npx npm-run-all clean build"
+    "prepare": "npx npm-run-all clean build",
+    "watch": "parcel serve src/index.ts --out-dir lib/ --target node"
   },
   "activationEvents": [
     "onLanguage:scala",
@@ -96,6 +97,98 @@
             "type": "string"
           },
           "markdownDescription": "Optional list of custom resolvers passed to Coursier when fetching metals dependencies.\n\nFor documentation on accepted values see the [Coursier documentation](https://get-coursier.io/docs/other-repositories).\n\nThe extension will pass these to Coursier using the COURSIER_REPOSITORIES environment variable after joining the custom repositories with a pipe character (|)."
+        },
+        "treeviews.initialWidth": {
+          "type": "number",
+          "default": 40,
+          "description": "Initial TreeViews panel width"
+        },
+        "treeviews.alignment": {
+          "type": "string",
+          "default": "left",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "description": "TreeViews panel position"
+        },
+        "treeviews.initialViews": {
+          "type": "object",
+          "default": [
+            {
+              "name": "metalsCompile",
+              "size": 10,
+              "expanded": [
+                [
+                  "metals://ongoing-compilations"
+                ]
+              ]
+            },
+            {
+              "name": "metalsBuild",
+              "size": 40,
+              "expanded": [
+                [
+                  "projects:"
+                ]
+              ]
+            }
+          ]
+        },
+        "treeviews.toggleNode": {
+          "type": "string",
+          "default": "<CR>",
+          "description": "Expand/Collapse tree node"
+        },
+        "treeviews.forceChildrenReload": {
+          "type": "string",
+          "default": "f",
+          "description": "Force reloading children of this node. Maybe be useful when wrong result is cached and tree contains invalid data."
+        },
+        "treeviews.gotoParentNode": {
+          "type": "string",
+          "default": "p",
+          "description": "Go to parent node"
+        },
+        "treeviews.gotoFirstChild": {
+          "type": "string",
+          "default": "K",
+          "description": "Go to first child"
+        },
+        "treeviews.gotoLastChild": {
+          "type": "string",
+          "default": "J",
+          "description": "Go to last child"
+        },
+        "treeviews.gotoPrevSibling": {
+          "type": "string",
+          "default": "<C-k>",
+          "description": "Go to prev sibling"
+        },
+        "treeviews.gotoNextSibling": {
+          "type": "string",
+          "default": "<C-j>",
+          "description": "Go to next sibling"
+        },
+        "treeviews.executeCommand": {
+          "type": "string",
+          "default": "r",
+          "description": "Execute command for node"
+        },
+        "treeviews.executeCommandAndOpenSplit": {
+          "type": "string",
+          "default": "i",
+          "description": "Execute command and open node under cursor in horizontal split (if node is class, trait and so on)"
+        },
+        "treeviews.executeCommandAndOpenVSplit": {
+          "type": "string",
+          "default": "s",
+          "description": "Execute command and open node under cursor in vertical split (if node is class, trait and so on)"
+        },
+        "treeviews.executeCommandAndOpenTab": {
+          "type": "string",
+          "default": "t",
+          "description": "Execute command and open node under cursor in tab (if node is class, trait and so on)"
         }
       }
     },
@@ -139,6 +232,11 @@
         "command": "metals.logs-toggle",
         "category": "metals",
         "title": "Toggle Logs"
+      },
+      {
+        "command": "metals.tvp",
+        "category": "metals",
+        "title": "Show TreeView panel"
       }
     ]
   },
