@@ -1,4 +1,4 @@
-import {Range, MarkedString} from "vscode-languageserver-protocol";
+import { Range, MarkedString } from "vscode-languageserver-protocol";
 
 /**
  * Things in here are things I've found to be pretty VS Code specific, and therefore
@@ -7,7 +7,6 @@ import {Range, MarkedString} from "vscode-languageserver-protocol";
  *
  * Keep in mind that some may not be fully implemented here in the same way.
  */
-
 
 export interface InputBoxOptions {
   /** * The value to prefill in the input box.  */
@@ -54,7 +53,6 @@ export interface InputBoxOptions {
  * Represents options for a specific decoration in a [decoration set](#TextEditorDecorationType).
  */
 export interface DecorationOptions {
-
   /**
    * Range to which this decoration is applied. The range must not be empty.
    */
@@ -65,16 +63,16 @@ export interface DecorationOptions {
    */
   hoverMessage?: MarkedString | MarkedString[];
 
-
   /**
    * Render options applied to the current decoration. For performance reasons, keep the
    * number of decoration specific options small, and use decoration types wherever possible.
    */
 
-   renderOptions?: DecorationInstanceRenderOptions
+  renderOptions?: DecorationInstanceRenderOptions;
 }
 
-export interface DecorationInstanceRenderOptions extends ThemableDecorationInstanceRenderOptions {
+export interface DecorationInstanceRenderOptions
+  extends ThemableDecorationInstanceRenderOptions {
   /**
    * Overwrite options for light themes.
    */

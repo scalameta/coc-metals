@@ -4,9 +4,7 @@ import {
   RequestType
 } from "vscode-languageserver-protocol";
 
-import {
-  InputBoxOptions, DecorationOptions
-} from "./portedProtocol"
+import { InputBoxOptions, DecorationOptions } from "./portedProtocol";
 
 export namespace ExecuteClientCommand {
   export const type = new NotificationType<ExecuteCommandParams, void>(
