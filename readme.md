@@ -8,7 +8,7 @@
 
 `coc-metals` is the recommended `coc.nvim` extension for [Metals](https://scalameta.org/metals/), the
 Scala language server. `coc-metals` offers automated Metals installation, easy configuration,
-Metals-specific commands, an embedded doctor, and many other small features.
+Metals-specific commands, an embedded doctor, implementation of the decoration protocol, and many other small features.
 
 ## Table of Contents
   - [Requirements](#requirements)
@@ -21,6 +21,7 @@ Metals-specific commands, an embedded doctor, and many other small features.
   - [Using latest Metals SNAPSHOT](#using-latest-metals-snapshot)
   - [List all workspace compile errors](#list-all-workspace-compile-errors)
   - [Run doctor](#run-doctor)
+  - [Worksheets](#worksheets)
   - [Other Available Commands](#other-available-commands)
   - [Show document symbols](#show-document-symbols)
   - [Available Configuration Options](#available-configuration-options)
@@ -35,8 +36,8 @@ Metals-specific commands, an embedded doctor, and many other small features.
 
 ### Requirements
 
-***`coc-metals` works with both [vim](https://www.vim.org/) and [neovim](https://neovim.io/), but
-I've found the experience to be a bit smoother on neovim.***
+***`coc-metals` works with both [Vim](https://www.vim.org/) and [Neovim](https://neovim.io/), but
+we recommend neovim for a smoother experience and extra features such as the decoration protocol.***
 
 - [coc.nvim](https://github.com/neoclide/coc.nvim) - There are detailed instructions in their repo on
 how to get set up and running quickly.
@@ -182,6 +183,22 @@ This command opens an embedded doctor in your preview window. If you're not fami
 having multiple windows, you can use `<C-w> + w` to jump into it.
 
 ![Embedded Doctor](https://i.imgur.com/McaAFv5.png)
+
+### Worksheets
+
+Metals allows users to create a `*.worksheet.sc` file and see evaluations right in the file. In Vim,
+this is done using comments that are inserted which will allow you to hover on them to expand. In
+Neovim, this is done using Neovim's [virtual text](https://neovim.io/doc/user/api.html#nvim_buf_set_virtual_text())
+to implement Metal's [Decoration Protocol](https://scalameta.org/metals/docs/editors/decoration-protocol.html).
+If using Neovim, make sure to have the following line in included in your `.vimrc` along with your `coc.nvim` mappings.
+
+```vim
+nnoremap <leader>ws :call CocAction('runCommand', 'metals.expand-decoration')<CR>
+```
+Then, when on the line that you'd like to expand the decoration to get the hover information, execute a
+`<leader>ws` in order to see the expanded text for that line.
+
+![Decorations with worksheets](https://i.imgur.com/X8bVmu8.png)
 
 ### Other Available Commands
 
