@@ -5,8 +5,10 @@ import { getJavaHome, getJavaOptions } from "./javaUtils";
 import {
   ExecuteClientCommand,
   MetalsInputBox,
-  MetalsDidFocus
-} from "./protocol";
+  MetalsDidFocus,
+  DecorationsRangesDidChange,
+  PublishDecorationsParams
+} from "./metalsProtocol";
 import {
   checkServerVersion,
   dottyIdeArtifact,
@@ -23,7 +25,8 @@ import {
   RevealOutputChannelOn,
   ServerOptions,
   workspace,
-  events
+  events,
+  FloatFactory
 } from "coc.nvim";
 import { spawn, ChildProcessPromise } from "promisify-child-process";
 import {
@@ -36,6 +39,9 @@ import {
 
 import * as fs from "fs";
 import * as path from "path";
+import { MetalsFeatures } from "./MetalsFeatures";
+import DecorationProvider from "./decoration";
+import { InputBoxOptions } from "./portedProtocol";
 
 export async function activate(context: ExtensionContext) {
   detechLauncConfigurationChanges();
@@ -229,6 +235,19 @@ function launchMetals(
     clientOptions
   );
 
+  const features = new MetalsFeatures();
+  client.registerFeature(features);
+
+  const floatFactory = new FloatFactory(
+    workspace.nvim,
+    workspace.env,
+    false,
+    100,
+    100,
+    true
+  );
+  const decorationProvider = new DecorationProvider(floatFactory);
+
   function registerCommand(command: string, callback: (...args: any[]) => any) {
     context.subscriptions.push(commands.registerCommand(command, callback));
   }
@@ -279,6 +298,12 @@ function launchMetals(
     registerCommand("metals.logs-toggle", () => {
       toggleLogs();
     });
+
+    if (features.decorationProvider) {
+      registerCommand("metals.expand-decoration", () => {
+        decorationProvider.showHover();
+      });
+    }
 
     client.onNotification(ExecuteClientCommand.type, async params => {
       switch (params.command) {
@@ -331,17 +356,43 @@ function launchMetals(
       }
     });
 
-    client.onRequest(MetalsInputBox.type, async (options, requestToken) => {
-      const response = await workspace.callAsync<string>("input", [
-        `${options.prompt} `,
-        options.value
-      ]);
-      if (response === undefined) {
-        return { cancelled: true };
-      } else {
-        workspace.showMessage(response);
-        return { value: response };
+    client.onRequest(
+      MetalsInputBox.type,
+      async (options: InputBoxOptions, requestToken) => {
+        const response = await workspace.callAsync<string>("input", [
+          `${options.prompt} `,
+          options.value
+        ]);
+        if (response === undefined) {
+          return { cancelled: true };
+        } else {
+          workspace.showMessage(response);
+          return { value: response };
+        }
       }
-    });
+    );
+
+    if (features.decorationProvider) {
+      client.onNotification(
+        DecorationsRangesDidChange.type,
+        (params: PublishDecorationsParams) => {
+          if (workspace.uri && workspace.uri === params.uri) {
+            decorationProvider.setDecorations(params);
+          }
+        }
+      );
+
+      events.on("BufWinLeave", (bufnr: number) => {
+        const previousDocument = workspace.documents.find(
+          document => document.bufnr === bufnr
+        );
+        if (
+          previousDocument &&
+          previousDocument.uri.endsWith(".worksheet.sc")
+        ) {
+          decorationProvider.clearDecorations(bufnr);
+        }
+      });
+    }
   });
 }
