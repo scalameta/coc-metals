@@ -40,7 +40,7 @@ jobs:
         run: yarn version --no-git-tag-version --new-version ${{ steps.get_version.outputs.VERSION }}
 
       - name: Generate new changelog
-        run: npx github-changes -o ckipp01 -r coc-metals --no-merges -t "coc-metals changelog" -k ${{ secrets.GITHUB_CI }}
+        run: npx github-changes -o ckipp01 -r coc-metals --no-merges -t "coc-metals changelog" -k ${{ secrets.GITHUB_COC_METALS }}
 
       - name: Commit changes
         run: git commit -am "Release ${{ steps.get_version.outputs.VERSION }}"
