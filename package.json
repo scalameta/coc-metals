@@ -11,10 +11,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ckipp01/coc-metals"
+    "url": "https://github.com/scalameta/coc-metals"
   },
-  "author": "ckipp01 <ckipp@pm.me>",
-  "bugs": "https://github.com/ckipp01/coc-metals/issues",
+  "contributors": [
+    {
+      "name": "ckipp01 <ckipp@pm.me>",
+      "url": "https://github.com/ckipp01"
+    }
+  ],
+  "bugs": "https://github.com/scalameta/coc-metals/issues",
   "license": "MIT",
   "engines": {
     "coc": ">=0.0.66"

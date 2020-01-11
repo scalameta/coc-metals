@@ -4,7 +4,7 @@
 ![coc-metals](https://i.imgur.com/zofu4VI.png)
 ![npm](https://img.shields.io/npm/v/coc-metals?style=flat-square)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ce92ac.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=ckipp01/coc-metals)](https://dependabot.com)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=scalameta/coc-metals)](https://dependabot.com)
 
 `coc-metals` is the recommended `coc.nvim` extension for [Metals](https://scalameta.org/metals/), the
 Scala language server. `coc-metals` offers automated Metals installation, easy configuration,
@@ -63,7 +63,7 @@ If you'd like to use the latest changes on master, you can also just build from 
 `:CocInstall` with the repository url.
 
 ```vim
-:CocInstall https://github.com/ckipp01/coc-metals
+:CocInstall https://github.com/scalameta/coc-metals
 ```
 
 If you'd like to use the latest changes on master, but manage it using a plugin
@@ -71,7 +71,7 @@ manager to download the extension, then if you are using [`vim-plug`](https://gi
 for example, enter the following into where you manage your plugins:
 
 ```vim
-Plug 'ckipp01/coc-metals', {'do': 'yarn install --frozen-lockfile'}
+Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 ```
 
 Then, issue a `:PlugInstall` to install the extension, and regularly a `:PlugUpdate` to update it
@@ -317,7 +317,7 @@ project/metals.sbt
 
 ### Troubleshooting
 
-If you have any questions or issues with coc-metals, please submit an [issue](https://github.com/ckipp01/coc-metals/issues)
+If you have any questions or issues with coc-metals, please submit an [issue](https://github.com/scalameta/coc-metals/issues)
 in this repo if it pertains to the extension. If the issues is general to Metals, please submit it
 in the [Metals issue repo](https://github.com/scalameta/metals/issues). If you have any feature
 requests, we also have a feature request [issue repo](https://github.com/scalameta/metals-feature-requests).
@@ -325,8 +325,7 @@ requests, we also have a feature request [issue repo](https://github.com/scalame
 ### Contributing
 
 If you're interested in contributing, please visit the [CONTRIBUTING](CONTRIBUTING.md) guide for
-help on getting started. You can also take a look at the [project board](https://github.com/ckipp01/coc-metals/projects/1)
-to get an idea of what is being looked at or currently being worked on.
+help on getting started.
 
 ### Theme
 
