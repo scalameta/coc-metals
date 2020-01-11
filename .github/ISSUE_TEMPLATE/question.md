@@ -21,7 +21,7 @@ labels: "question"
 
 **Additional context**
 
-<!-- Add any other context about the problem here. -->
+<!-- Add any other context about the question here. -->
 
 **Search terms**
 
