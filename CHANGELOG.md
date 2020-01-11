@@ -1,5 +1,23 @@
 ## coc-metals changelog
 
+### v0.5.1 (2020/01/11 08:31 +00:00)
+- [fe9067c](https://github.com/ckipp01/coc-metals/commit/fe9067c9900dd6edddc2b06e76f911e7da2c2961) update token for ci (@ckipp01)
+
+### v0.5.0 (2020/01/11 08:18 +00:00)
+- [be6d2c5](https://github.com/ckipp01/coc-metals/commit/be6d2c581fcd4b6eaa62dc44b3093a65553af85a) add in general task template (@ckipp01)
+- [30cb135](https://github.com/ckipp01/coc-metals/commit/30cb135b9c530c9c732628c2c0556185f01261d5) update readme with decoration information for worksheets (@ckipp01)
+- [8fc9eb1](https://github.com/ckipp01/coc-metals/commit/8fc9eb1257c9f72be740d03acf3e194e03d8daeb) add in the ability to use neovim virtual text for decorations (@ckipp01)
+- [aaa132a](https://github.com/ckipp01/coc-metals/commit/aaa132a432b801a26efe9c711957a4bb4e1b9ad3) basic decorations working (@ckipp01)
+- [1c10961](https://github.com/ckipp01/coc-metals/commit/1c109610359c12f97cf2cc92b1dbccdd8f68f7c4) Bump @types/node from 13.1.5 to 13.1.6 (@dependabot-preview[bot])
+- [70471e1](https://github.com/ckipp01/coc-metals/commit/70471e10925248ea3b1b50e4f609881488e04a26) Bump @types/node from 13.1.4 to 13.1.5 (@dependabot-preview[bot])
+- [70e7232](https://github.com/ckipp01/coc-metals/commit/70e7232fb0a0f2fc468d3e63dec738832a0f44fd) catch coursier err in a nicer way and update recommended mappings (@ckipp01)
+- [d476e89](https://github.com/ckipp01/coc-metals/commit/d476e89e44405765087ff377d7e8ecc84b0fa4f6) add in a bufenter listener to trigger a didFocusTextDocument (@ckipp01)
+- [daf752f](https://github.com/ckipp01/coc-metals/commit/daf752f7b868d59ace820c53fc90045fef629d82) Bump @types/node from 13.1.2 to 13.1.4 (@dependabot-preview[bot])
+- [2dfbce3](https://github.com/ckipp01/coc-metals/commit/2dfbce37d27ab73206d007eae916fb3b1b59319a) use returned json rather than html for doctor (@ckipp01)
+- [da07a11](https://github.com/ckipp01/coc-metals/commit/da07a11f5861c0f1cff5af8c40748a0cb1a0f26e) Bump @types/node from 13.1.1 to 13.1.2 (@dependabot-preview[bot])
+- [9862cc4](https://github.com/ckipp01/coc-metals/commit/9862cc4f1380c9895daf76320c1ed494795cee0e) correct github ci token (@ckipp01)
+- [524b754](https://github.com/ckipp01/coc-metals/commit/524b754b16d451e7bfab9efac12b5db57d45644d) Release v0.4.1 (@ckipp01)
+
 ### v0.4.1 (2019/12/30 10:22 +00:00)
 - [941d695](https://github.com/ckipp01/coc-metals/commit/941d6952f7b0a80cb348fd920554d7fa3a42bd37) correct client id (@ckipp01)
 - [47b229b](https://github.com/ckipp01/coc-metals/commit/47b229b03ab8508fc25acfda62798de6fa8dc654) Release v0.4.0 (@ckipp01)
