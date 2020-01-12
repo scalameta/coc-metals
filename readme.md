@@ -193,7 +193,7 @@ to implement Metal's [Decoration Protocol](https://scalameta.org/metals/docs/edi
 If using Neovim, make sure to have the following line in included in your `.vimrc` along with your `coc.nvim` mappings.
 
 ```vim
-nnoremap <leader>ws :call CocAction('runCommand', 'metals.expand-decoration')<CR>
+nmap <Leader>ws <Plug>(coc-metals-expand-decoration)
 ```
 Then, when on the line that you'd like to expand the decoration to get the hover information, execute a
 `<leader>ws` in order to see the expanded text for that line.

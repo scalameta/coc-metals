@@ -300,9 +300,16 @@ function launchMetals(
     });
 
     if (features.decorationProvider) {
-      registerCommand("metals.expand-decoration", () => {
-        decorationProvider.showHover();
-      });
+      context.subscriptions.push(
+        workspace.registerKeymap(
+          ["n"],
+          "metals-expand-decoration",
+          () => {
+            decorationProvider.showHover();
+          },
+          { sync: false }
+        )
+      );
     }
 
     client.onNotification(ExecuteClientCommand.type, async params => {
