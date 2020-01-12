@@ -1,5 +1,11 @@
 ## coc-metals changelog
 
+### v0.5.2 (2020/01/12 20:01 +00:00)
+- [0325ff9](https://github.com/ckipp01/coc-metals/commit/0325ff9f5df7350a88819ece2eeb79634bb7690d) update the way the worksheet hover commands are called (@ckipp01)
+- [04aaf7a](https://github.com/ckipp01/coc-metals/commit/04aaf7ac1c39848bd7d5f8e3fdaafafcfb236374) fix odd spacing for warning icon (@ckipp01)
+- [98730a8](https://github.com/ckipp01/coc-metals/commit/98730a881cd483b6d6fd801abc07d6918d8321f6) change namespace to scalameta (@ckipp01)
+- [006d2b8](https://github.com/ckipp01/coc-metals/commit/006d2b893e6fcb9d13ce7de370c524310b508883) Release v0.5.1 (@ckipp01)
+
 ### v0.5.1 (2020/01/11 08:31 +00:00)
 - [fe9067c](https://github.com/ckipp01/coc-metals/commit/fe9067c9900dd6edddc2b06e76f911e7da2c2961) update token for ci (@ckipp01)
 
@@ -38,8 +44,8 @@
 - [6a9af3a](https://github.com/ckipp01/coc-metals/commit/6a9af3a1860b558e1f5e13bac4d72a20335ff926) move out utility function, update documentation, and better spacing for doctor (@ckipp01)
 - [fdc0888](https://github.com/ckipp01/coc-metals/commit/fdc088829696f54453fe921f0e34e9c3880c92a9) add in diagnostics focus (@ckipp01)
 - [27ed15c](https://github.com/ckipp01/coc-metals/commit/27ed15c0eaf6721ced74fe77a368788d84899f9b) rebase and update dependencies (@ckipp01)
-- [9ab1792](https://github.com/ckipp01/coc-metals/commit/9ab17921f2da323b20c741c377e8f3c006b6d138) input box working and embeded doctor displaying (@ckipp01)
 - [5613fd8](https://github.com/ckipp01/coc-metals/commit/5613fd8c5e4191474ee82fa8758e871befb59bc9) add in toggle logs (@ckipp01)
+- [9ab1792](https://github.com/ckipp01/coc-metals/commit/9ab17921f2da323b20c741c377e8f3c006b6d138) input box working and embeded doctor displaying (@ckipp01)
 - [4ed5ec2](https://github.com/ckipp01/coc-metals/commit/4ed5ec2d439b8df129b858711822246ffa3b06bc) remove package-lock (@ckipp01)
 - [5614055](https://github.com/ckipp01/coc-metals/commit/5614055d927715690120e605da71f4d6b44293c6) chore(package): update lockfile package-lock.json (@greenkeeper[bot])
 - [b4e3ccc](https://github.com/ckipp01/coc-metals/commit/b4e3ccc4f533a018fd28e546c369a83d3e6ab4e9) chore(package): update @types/node to version 13.1.0 (@greenkeeper[bot])
