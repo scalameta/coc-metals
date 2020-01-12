@@ -6,10 +6,8 @@ const padText = (text: string, index: number): string => {
   let neededPadding: number;
   if (index === 0) {
     neededPadding = 22 - text.length;
-  } else if (text === "✅") {
-    neededPadding = 16;
-  } else if (text === "⚠️ ") {
-    neededPadding = 15;
+  } else if (text.length <= 2) {
+    neededPadding = 15 + text.length;
   } else {
     neededPadding = 18 - text.length;
   }
