@@ -1,5 +1,9 @@
 ## coc-metals changelog
 
+### upcoming (2020/01/13 16:33 +00:00)
+- [cc59558](https://github.com/ckipp01/coc-metals/commit/cc5955845830078260de70fdb9e945901f0a1314) update default to new 0.8.0 cobalt (@ckipp01)
+- [630597f](https://github.com/ckipp01/coc-metals/commit/630597f853450931dcc5d262661bf7ff0fdc8f78) Release v0.5.2 (@ckipp01)
+
 ### v0.5.2 (2020/01/12 20:01 +00:00)
 - [0325ff9](https://github.com/ckipp01/coc-metals/commit/0325ff9f5df7350a88819ece2eeb79634bb7690d) update the way the worksheet hover commands are called (@ckipp01)
 - [04aaf7a](https://github.com/ckipp01/coc-metals/commit/04aaf7ac1c39848bd7d5f8e3fdaafafcfb236374) fix odd spacing for warning icon (@ckipp01)
