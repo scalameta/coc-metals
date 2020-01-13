@@ -15,7 +15,7 @@
 " Finally, keep in mind that these are "suggested" settings. Play around with them
 " and change them to your liking.
 
-" if hidden is not set, TextEdit might fail.
+" If hidden is not set, TextEdit might fail.
 set hidden
 
 " Some servers have issues with backup files
@@ -28,10 +28,10 @@ set cmdheight=2
 " You will have bad experience with diagnostic messages with the default 4000.
 set updatetime=300
 
-" don't give |ins-completion-menu| messages.
+" Don't give |ins-completion-menu| messages.
 set shortmess+=c
 
-" always show signcolumns
+" Always show signcolumns
 set signcolumn=yes
 
 " Use tab for trigger completion with characters ahead and navigate.
@@ -115,7 +115,6 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
-" Using CocList
 " Show all diagnostics
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
@@ -132,3 +131,8 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+" Notify coc.nvim that <enter> has been pressed.
+" Currently used for the formatOnType feature.
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"

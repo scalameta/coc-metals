@@ -46,9 +46,6 @@ JAVA_HOME environment variable points to a valid Java 8 or 11 installation.
 - ***`coc.nvim` doesn't come with a default mapping for LSP commands, so you need to configure this in
 order for any of the commands to work. You can find an example configuration and instructions
 [here](coc-mappings.vim)***
-- ***While `coc-metals` is still somewhat young, some of the features being released may require the
-latest snapshot of Metals since there has been a lot of changes since the last stable release.
-If something doesn't seem to be working as expected, please try it with the latest snapshot.***
 
 ### Installing coc-metals
 
