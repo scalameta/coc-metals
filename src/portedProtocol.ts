@@ -60,8 +60,10 @@ export interface DecorationOptions {
 
   /**
    * A message that should be rendered when hovering over the decoration.
+   *
+   * Note that this is changed a bit to more accomodate what we are getting from Metals
    */
-  hoverMessage?: MarkedString | MarkedString[];
+  hoverMessage?: MarkedString;
 
   /**
    * Render options applied to the current decoration. For performance reasons, keep the

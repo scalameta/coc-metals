@@ -14,9 +14,14 @@ export default class DecorationProvider {
   }
 
   public async setDecorations(decorationParams: PublishDecorationsParams) {
-    this.currentDecorations = [];
     const doc = workspace.getDocument(decorationParams.uri);
     const { buffer } = doc;
+    // NOTE: For now, worksheets seem small enough that what we are doing
+    // here by clearing the entire namespace and emptying the decorations
+    // array doesn't really matter. If this ever becomes an issue, we can
+    // address in then.
+    buffer.clearNamespace(this.decorationNameSpace);
+    this.currentDecorations = [];
 
     decorationParams.options.forEach((option: DecorationOptions) => {
       this.currentDecorations.push(option);
@@ -32,9 +37,14 @@ export default class DecorationProvider {
       decoration => decoration.range.end.line === position.line
     );
 
-    if (hoverText) {
+    if (hoverText && typeof hoverText.hoverMessage !== "string") {
       await this.floatFactory.create(
-        [{ content: hoverText.hoverMessage.value, filetype: "scala" }],
+        [
+          {
+            content: hoverText.hoverMessage.value,
+            filetype: hoverText.hoverMessage.language
+          }
+        ],
         true,
         0
       );
