@@ -103,7 +103,7 @@ However, the environment variables SBT_OPTS and JAVA_OPTS are not respected.
 Update the metals.sbtScript setting to use a custom sbt script instead of the default Metals
 launcher if you need further customizations like reading environment variables.
 
-![Sbt Launcher](https://i.imgur.com/kbxNKzI.png)
+![sbt-launcher](https://i.imgur.com/meciPTg.png)
 
 #### Speeding up import
 
@@ -130,7 +130,7 @@ If no `JAVA_HOME` is detected you can then Open Settings by following the instru
 a later time by using `:CocConfig` or `:CocConfigLocal` which will open up your configuration where
 you can manually enter your JAVA_HOME location.
 
-![Enter Java Home](https://i.imgur.com/wVThrMq.png)
+![java-home](https://i.imgur.com/wK07Vju.png)
 
 `coc.nvim` uses [jsonc](https://code.visualstudio.com/docs/languages/json) as
 a configuration file format. It's basically json with comment support.
@@ -195,7 +195,7 @@ nmap <Leader>ws <Plug>(coc-metals-expand-decoration)
 Then, when on the line that you'd like to expand the decoration to get the hover information, execute a
 `<leader>ws` in order to see the expanded text for that line.
 
-![Decorations with worksheets](https://i.imgur.com/X8bVmu8.png)
+![Decorations with worksheets](https://i.imgur.com/Bt6DMtH.png)
 
 ### Other Available Commands
 
@@ -326,8 +326,8 @@ help on getting started.
 
 ### Theme
 
-The screen shots are a mixture of both vim and neovim. The theme is
+The screen shots are in [Neovim](https://neovim.io/). The theme is
 [onedark](https://github.com/joshdick/onedark.vim) with syntax highlighting added by
 [vim-scala](https://github.com/derekwyatt/vim-scala). The status bar is
-[vim-airline](https://github.com/vim-airline/vim-airline), and vim in being ran in
+[vim-airline](https://github.com/vim-airline/vim-airline), and all being ran in
 [iTerm2](https://iterm2.com/).
