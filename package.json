@@ -144,6 +144,7 @@
   },
   "devDependencies": {
     "@types/node": "^13.1.7",
+    "@types/semver": "^6.2.0",
     "coc.nvim": "0.0.74",
     "parcel-bundler": "^1.12.4",
     "prettier": "1.19.1",
@@ -152,9 +153,8 @@
     "typescript": "3.7.5"
   },
   "dependencies": {
-    "@types/semver": "^6.2.0",
     "@types/shell-quote": "^1.6.1",
-    "locate-java-home": "^1.1.2",
+    "metals-languageclient": "^0.1.2",
     "promisify-child-process": "^3.1.3",
     "semver": "^7.1.1",
     "shell-quote": "^1.7.2",

@@ -1,7 +1,8 @@
 import { detechLauncConfigurationChanges } from "./activationUtils";
 import { Commands } from "./commands";
 import { makeVimDoctor } from "./embeddedDoctor";
-import { getJavaHome, getJavaOptions } from "./javaUtils";
+import { getJavaOptions } from "./javaUtils";
+import { getJavaHome } from "metals-languageclient";
 import {
   ExecuteClientCommand,
   MetalsInputBox,
@@ -47,7 +48,7 @@ export async function activate(context: ExtensionContext) {
   detechLauncConfigurationChanges();
   await checkServerVersion();
 
-  getJavaHome()
+  getJavaHome(workspace.getConfiguration("metals").get("javaHome"))
     .then(javaHome => fetchAndLaunchMetals(context, javaHome))
     .catch(_ => {
       const message =
