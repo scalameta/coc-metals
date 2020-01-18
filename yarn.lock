@@ -3265,13 +3265,14 @@ merge2@^1.2.3:
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.3.0.tgz#5b366ee83b2f1582c48f87e47cf1a9352103ca81"
   integrity sha512-2j4DAdlBOkiSZIsaXk4mTE3sRS02yBHAtfy127xRV3bQUFqXkjHCHLW6Scv7DwNRbIWNHH8zpnz9zMaKXIdvYw==
 
-metals-languageclient@^0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/metals-languageclient/-/metals-languageclient-0.1.6.tgz#1cc7f98527721a63eb1a3c18f229ffcc368032fe"
-  integrity sha512-v2F/EBzEzdJ9WMtGF0zt7lvD9v7cXKCtWJ4+ct7iO7hpObFJRGdixSviKG37eHVtden4yqU0CIPvMtJi6OYagA==
+metals-languageclient@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/metals-languageclient/-/metals-languageclient-0.1.8.tgz#91f39029ff065a85977b96391183bd9bee98c8ab"
+  integrity sha512-Moha1CDawWQJyQo4fDtoDhOW7OpyhodrYd+3ez0hpPMAtFkA8oTd2SwwkRrPjaHe8Cg32gEgTWlEYM1VCcVenA==
   dependencies:
     fp-ts "^2.4.1"
     locate-java-home "^1.1.2"
+    promisify-child-process "^3.1.3"
     semver "^7.1.1"
     shell-quote "^1.7.2"
 

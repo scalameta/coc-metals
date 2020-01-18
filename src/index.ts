@@ -92,7 +92,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
     .getConfiguration("metals")
     .get<string[]>("serverProperties")!;
 
-  const javaOptions = getJavaOptions(workspace.workspaceFolders[0]!.uri);
+  const javaOptions = getJavaOptions(workspace.workspaceFolder?.uri);
 
   const fetchProperties: string[] = serverProperties.filter(
     p => !p.startsWith("-agentlib")
