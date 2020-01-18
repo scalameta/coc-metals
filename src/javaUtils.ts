@@ -1,39 +1,7 @@
-import locateJavaHome from "locate-java-home";
 import { workspace } from "coc.nvim";
 import { parse } from "shell-quote";
-import * as semver from "semver";
 import * as fs from "fs";
 import * as path from "path";
-
-export function getJavaHome(): Promise<string> {
-  const userJavaHome = workspace.getConfiguration("metals").get("javaHome");
-  if (typeof userJavaHome === "string" && userJavaHome.trim() !== "") {
-    return Promise.resolve(userJavaHome);
-  } else {
-    const JAVA_HOME = process.env["JAVA_HOME"];
-    if (JAVA_HOME) return Promise.resolve(JAVA_HOME);
-    else {
-      return new Promise((resolve, reject) => {
-        locateJavaHome({ version: ">=1.8 <=1.11" }, (err, javaHomes) => {
-          if (err) {
-            reject(err);
-          } else if (!javaHomes || javaHomes.length === 0) {
-            reject(new Error("No suitable Java version found"));
-          } else {
-            javaHomes.sort((a, b) => {
-              const byVersion = -semver.compare(a.version, b.version);
-              if (byVersion === 0) return b.security - a.security;
-              else return byVersion;
-            });
-            const jdkHome = javaHomes.find(j => j.isJDK);
-            if (jdkHome) resolve(jdkHome.path);
-            else resolve(javaHomes[0].path);
-          }
-        });
-      });
-    }
-  }
-}
 
 function javaOpts(): string[] {
   function expandVariable(variable: string | undefined): string[] {
