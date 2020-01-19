@@ -34,8 +34,6 @@ import {
   Range,
   ShutdownRequest
 } from "vscode-languageserver-protocol";
-
-import * as fs from "fs";
 import * as path from "path";
 import { MetalsFeatures } from "./MetalsFeatures";
 import DecorationProvider from "./decoration";
