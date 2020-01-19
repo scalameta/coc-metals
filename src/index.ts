@@ -13,7 +13,12 @@ import {
   DecorationsRangesDidChange,
   PublishDecorationsParams
 } from "./metalsProtocol";
-import { checkServerVersion, trackDownloadProgress, toggleLogs, wait } from "./utils";
+import {
+  checkServerVersion,
+  trackDownloadProgress,
+  toggleLogs,
+  wait
+} from "./utils";
 import { exec } from "child_process";
 import {
   commands,

@@ -143,7 +143,7 @@
         "treeviews.forceChildrenReload": {
           "type": "string",
           "default": "f",
-          "description": "Force reloading children of this node. Maybe be useful when wrong result is cached and tree contains invalid data."
+          "description": "Force the reloading of the children of this node. May be useful when the wrong result is cached and tree contains invalid data."
         },
         "treeviews.gotoParentNode": {
           "type": "string",
