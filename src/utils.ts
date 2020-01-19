@@ -5,85 +5,21 @@ import {
   workspace,
   WorkspaceConfiguration
 } from "coc.nvim";
-import * as path from "path";
 import { ChildProcessPromise } from "promisify-child-process";
-import { TextDocument } from "vscode-languageserver-protocol";
 import * as semver from "semver";
 import ProgressItem from "./ProgressItem";
-
-export function dottyIdeArtifact(): string | undefined {
-  // TODO the fsPath doesn't exist in the coc api, so make sure
-  // the joined path is correct
-  if (workspace.workspaceFolders) {
-    return path.join(workspace.workspaceFolders[0].uri, ".dotty-ide-artifact");
-  }
-}
-
-export function migrateStringSettingToArray(id: string): void {
-  const setting = workspace
-    .getConfiguration("metals")
-    .inspect<string | string[]>(id)!;
-
-  if (typeof setting.globalValue === "string") {
-    workspace.getConfiguration("metals").update(
-      id,
-      setting.globalValue.split(" ").filter(e => e.length > 0),
-      true
-    );
-  }
-
-  if (typeof setting.workspaceValue === "string") {
-    workspace.getConfiguration("metals").update(
-      id,
-      setting.workspaceValue.split(" ").filter(e => e.length > 0),
-      true
-    );
-  }
-}
+import { downloadProgress } from "metals-languageclient";
 
 export function trackDownloadProgress(
   download: ChildProcessPromise
 ): Promise<string> {
-  return new Promise(async (resolve, reject) => {
-    let stdout: Buffer[] = [];
-    const progress = new ProgressItem().createStatusBarItem("Preparing Metals");
-    download.stdout.on("data", (out: Buffer) => {
-      progress.update(out.toString());
-      stdout.push(out);
-    });
-    download.stderr.on("data", (err: Buffer) => {
-      const msg = err.toString().trim();
-      if (msg.startsWith("Downloaded") || msg.startsWith("Downloading")) {
-        progress.update(msg);
-      }
-    });
-    download.on("close", (code: number) => {
-      if (code != 0) {
-        // something went wrong, print stdout to the console to help troubleshoot.
-        stdout.forEach(buffer =>
-          workspace.showMessage(buffer.toString(), "error")
-        );
-        progress.dispose();
-        reject(new Error(`Coursier exit: ${code}`));
-      }
-    });
-    await download;
-    progress.dispose();
-    resolve(stdout.map(buffer => buffer.toString().trim()).join(""));
+  const progress = new ProgressItem().createStatusBarItem("Preparing Metals");
+  return downloadProgress({
+    download,
+    onProgress: progress.update,
+    onError: progress.dispose,
+    onComplete: progress.dispose
   });
-}
-
-export function isSupportedLanguage(
-  languageId: TextDocument["languageId"]
-): boolean {
-  switch (languageId) {
-    case "scala":
-    case "sc":
-    case "java":
-      return true;
-    default:
-      return false;
-  }
 }
 
 function serverVersionInfo(

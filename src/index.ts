@@ -1,7 +1,11 @@
 import { detechLauncConfigurationChanges } from "./activationUtils";
 import { Commands } from "./commands";
 import { makeVimDoctor } from "./embeddedDoctor";
-import { getJavaHome, getJavaOptions } from "metals-languageclient";
+import {
+  getJavaHome,
+  getJavaOptions,
+  checkDottyIde
+} from "metals-languageclient";
 import {
   ExecuteClientCommand,
   MetalsInputBox,
@@ -9,13 +13,7 @@ import {
   DecorationsRangesDidChange,
   PublishDecorationsParams
 } from "./metalsProtocol";
-import {
-  checkServerVersion,
-  dottyIdeArtifact,
-  migrateStringSettingToArray,
-  trackDownloadProgress,
-  toggleLogs
-} from "./utils";
+import { checkServerVersion, trackDownloadProgress, toggleLogs } from "./utils";
 import { exec } from "child_process";
 import {
   commands,
@@ -36,8 +34,6 @@ import {
   Range,
   ShutdownRequest
 } from "vscode-languageserver-protocol";
-
-import * as fs from "fs";
 import * as path from "path";
 import { MetalsFeatures } from "./MetalsFeatures";
 import DecorationProvider from "./decoration";
@@ -64,11 +60,11 @@ export async function activate(context: ExtensionContext) {
 }
 
 function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
-  const dottyArtifact = dottyIdeArtifact();
-  if (dottyArtifact && fs.existsSync(dottyArtifact)) {
+  const dottyIde = checkDottyIde(workspace.workspaceFolder?.uri);
+  if (dottyIde.enabled) {
     workspace.showMessage(
       `Metals will not start since Dotty is enabled for this workspace. ` +
-        `To enable Metals, remove the file ${dottyArtifact} and run ':CocCommand metals.restartServer'`,
+        `To enable Metals, remove the file ${dottyIde.path} and run ':CocCommand metals.restartServer'`,
       "warning"
     );
     return;
@@ -84,9 +80,6 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
   const serverVersion = serverVersionConfig
     ? serverVersionConfig
     : defaultServerVersion;
-
-  migrateStringSettingToArray("serverProperties");
-  migrateStringSettingToArray("customRepositories");
 
   const serverProperties: string[] = workspace
     .getConfiguration("metals")
