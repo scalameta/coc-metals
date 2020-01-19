@@ -1,8 +1,7 @@
 import { detechLauncConfigurationChanges } from "./activationUtils";
 import { Commands } from "./commands";
 import { makeVimDoctor } from "./embeddedDoctor";
-import { getJavaOptions } from "./javaUtils";
-import { getJavaHome } from "metals-languageclient";
+import { getJavaHome, getJavaOptions } from "metals-languageclient";
 import {
   ExecuteClientCommand,
   MetalsInputBox,
@@ -93,7 +92,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
     .getConfiguration("metals")
     .get<string[]>("serverProperties")!;
 
-  const javaOptions = getJavaOptions();
+  const javaOptions = getJavaOptions(workspace.workspaceFolder?.uri);
 
   const fetchProperties: string[] = serverProperties.filter(
     p => !p.startsWith("-agentlib")
