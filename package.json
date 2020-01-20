@@ -177,12 +177,12 @@
         },
         "treeviews.executeCommandAndOpenSplit": {
           "type": "string",
-          "default": "i",
+          "default": "s",
           "description": "Execute command and open node under cursor in horizontal split (if node is class, trait and so on)"
         },
         "treeviews.executeCommandAndOpenVSplit": {
           "type": "string",
-          "default": "s",
+          "default": "v",
           "description": "Execute command and open node under cursor in vertical split (if node is class, trait and so on)"
         },
         "treeviews.executeCommandAndOpenTab": {
