@@ -58,15 +58,18 @@ export class TreeViewsManager implements Disposable {
       await Promise.all(openWindows.map(({window}) => window.close(true)))
       treeViews.forEach(view => curtab.setVar(view, undefined, false))
     } else {
-      await this.makeTreeViewPanel()
       const viewsConfigs = this.config.get<TreeViewDescription[]>("initialViews")
       const windows = await sequence(
         treeViews
           .filter(view => viewsConfigs.find(c => c.name === view) !== undefined)
           .sort(this.viewsComparator(viewsConfigs)),
-        async (viewId, idx, arr) => {
+        async (viewId, idx) => {
+          if (idx == 0) {
+            await this.makeTreeViewPanel(viewId)
+          } else {
+            await this.nvim.command(`new ${viewId}`)
+          }
           const window = await this.assignOrCreateTreeView(curtab, viewId)
-          if (idx + 1 != arr.length) await this.nvim.command('new')
           return {name: viewId, window} as WindowWithTree
         }
       )
@@ -99,11 +102,11 @@ export class TreeViewsManager implements Disposable {
     } else if (openWindows.length != 0) {
       const window = openWindows[0].window
       await this.nvim.call('win_gotoid', window.id)
-      await this.nvim.command('new')
+      await this.nvim.command(`new ${viewName}`)
       const newWindow = await this.assignOrCreateTreeView(curtab, viewName)
       return [true, openWindows.concat({name: viewName, window: newWindow})]
     } else {
-      await this.makeTreeViewPanel()
+      await this.makeTreeViewPanel(viewName)
       const newWindow = await this.assignOrCreateTreeView(curtab, viewName)
       return [true, openWindows.concat({name: viewName, window: newWindow})]
     }
@@ -124,10 +127,10 @@ export class TreeViewsManager implements Disposable {
     return treeView.revealDocInTreeView(textDocument, position).then(() => undefined)
   }
 
-  private makeTreeViewPanel(): Promise<void> {
+  private makeTreeViewPanel(viewName: string): Promise<void> {
     const initWidth = this.config.get<number>("initialWidth")
     const position = this.config.get<string>("alignment") == "right" ? "botright" : "topleft"
-    return this.nvim.command(`silent ${position} vertical ${initWidth} new`)
+    return this.nvim.command(`silent ${position} vertical ${initWidth} new ${viewName}`)
   }
 
   private async getOpenWindows(treeViews: string[]): Promise<[Tabpage, WindowWithTree[]]> {
@@ -145,7 +148,7 @@ export class TreeViewsManager implements Disposable {
     const model = this.view2treemodel.get(viewId)
     model.show()
     if (mbTreeView !== undefined) {
-      await this.nvim.command(`buffer ${mbTreeView.bufferId}`)
+      await this.nvim.call('coc#util#jumpTo', [0, 1])
     } else {
       const buffer = await this.nvim.buffer
       const treeView = new TreeView(this.nvim, this.config, buffer, model, this.logger)
