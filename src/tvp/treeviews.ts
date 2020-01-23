@@ -28,11 +28,11 @@ export class TreeViewsManager implements Disposable {
   constructor(private nvim: Neovim, private logger: log4js.Logger) {
     this.config = workspace.configurations.getConfiguration("treeviews")
 
-    this.nvim.command('highlight default TvpClass guifg=Red ctermfg=Red', true)
-    this.nvim.command('highlight default TvpObject guifg=Blue ctermfg=Blue', true)
-    this.nvim.command('highlight default TvpTrait guifg=Brown ctermfg=Brown', true)
-    this.nvim.command('highlight default TvpMethod guifg=DarkGreen ctermfg=DarkGreen', true)
-    this.nvim.command('highlight default TvpVal guifg=Cyan ctermfg=Cyan', true)
+    this.nvim.command('highlight default link TvpClass Constant', true)
+    this.nvim.command('highlight default link TvpObject PreProc', true)
+    this.nvim.command('highlight default link TvpTrait Statement', true)
+    this.nvim.command('highlight default link TvpMethod Identifier', true)
+    this.nvim.command('highlight default link TvpVal Type', true)
     this.nvim.command('sign define TvpClass linehl=TvpClass', true)
     this.nvim.command('sign define TvpObject linehl=TvpObject', true)
     this.nvim.command('sign define TvpTrait linehl=TvpTrait', true)
