@@ -12,14 +12,10 @@ import {
 import { commands } from 'coc.nvim'
 import { TreeViewProvider } from './provider'
 
-interface TreeViewParams { }
-
-interface TreeViewOptions { }
-
-export class TreeViewFeature implements DynamicFeature<TreeViewParams> {
+export class TreeViewFeature implements DynamicFeature<void> {
 
   private requestType =
-    new RequestType<TreeViewParams, any, void, TreeViewOptions>('metals/treeView')
+    new RequestType<void, any, void, void>('metals/treeView')
   private treeViewChildrenParamsType =
     new RequestType<TreeViewChildrenParams, TreeViewChildrenResult, void, void>('metals/treeViewChildren')
   private treeViewRevealType =
@@ -72,7 +68,7 @@ export class TreeViewFeature implements DynamicFeature<TreeViewParams> {
             ): Promise<TreeViewNode[]> => {
               const result = client
                 .sendRequest(this.treeViewChildrenParamsType, { viewId, nodeUri: parentNode })
-                .then(r => r.nodes)
+                .then(response => response.nodes)
               return Promise.resolve(result)
             },
 
@@ -129,7 +125,7 @@ export class TreeViewFeature implements DynamicFeature<TreeViewParams> {
   }
 
   /* tslint:disable:no-empty */
-  public register(_message: RPCMessageType, _data: RegistrationData<TreeViewParams>): void { }
+  public register(_message: RPCMessageType, _data: RegistrationData<void>): void { }
 
   /* tslint:disable:no-empty */
   public unregister(_: string): void { }
