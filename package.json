@@ -237,6 +237,16 @@
         "command": "metals.tvp",
         "category": "metals",
         "title": "Show TreeView panel"
+      },
+      {
+        "command": "metals.tvp.view",
+        "category": "metals",
+        "title": "Execute different operations with Tree Views"
+      },
+      {
+        "command": "metals.revealInTreeView",
+        "category": "metals",
+        "title": "Reveal current class, trait or object in Tree View"
       }
     ]
   },

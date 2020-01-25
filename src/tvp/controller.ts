@@ -4,6 +4,25 @@ import { TreeModel } from "./model"
 import { TreeViewFeature } from "./feature"
 import { TreeViewsManager, WindowProp } from "./treeviews"
 
+interface QuickpickAction {
+  title: string
+  action: string
+}
+
+const tvpViewActions: QuickpickAction[] = [
+  {title: 'Expand/Collapse tree node', action: 'ToggleNode'},
+  {title: 'Force the reloading of the children of this node.', action: 'ForceChildrenReload'},
+  {title: 'Go to parent node', action: 'ParentNode'},
+  {title: 'Go to first child', action: 'FirstSibling'},
+  {title: 'Go to last child', action: 'LastSibling'},
+  {title: 'Go to prev sibling', action: 'PrevSibling'},
+  {title: 'Go to next sibling', action: 'NextSibling'},
+  {title: 'Execute command for node', action: 'ExecuteCommand'},
+  {title: 'Execute command and open node under cursor in horizontal split', action: 'ExecuteCommandAndOpenSplit'},
+  {title: 'Execute command and open node under cursor in vertical split', action: 'ExecuteCommandAndOpenVSplit'},
+  {title: 'Execute command and open node under cursor in tab', action: 'ExecuteCommandAndOpenTab'}
+]
+
 export class TreeViewController implements Disposable {
   private treeModels: Map<string, TreeModel> = new Map()
   private listeners: Disposable[] = []
@@ -30,8 +49,8 @@ export class TreeViewController implements Disposable {
       })
     )
 
-    this.listeners.push(
-      commands.registerCommand("metals.tvp.view", (action, viewId) => {
+    const tvpViewHandler =
+      (action, viewId) => {
         switch (action) {
           case "ToggleNode":
             return treeViewsManager.toggleTreeViewNode()
@@ -58,9 +77,14 @@ export class TreeViewController implements Disposable {
           case "Hidden":
             return treeViewsManager.viewHidden(viewId)
           default:
-            return
+            workspace.showQuickpick(tvpViewActions.map(action => action.title)).then(num => {
+              if (num === -1) return
+              tvpViewHandler(tvpViewActions[num].action, undefined)
+            })
         }
-      })
+      }
+    this.listeners.push(
+      commands.registerCommand("metals.tvp.view", tvpViewHandler)
     )
 
     this.listeners.push(
