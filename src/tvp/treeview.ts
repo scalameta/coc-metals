@@ -76,12 +76,20 @@ export class TreeView implements Disposable {
     await window.setCursor([curLine, 1])
   }
 
-  public handleModelUpdates(ev0: TreeModelUpdate): void {
-    const isRoot = ev0.root.underlying.nodeUri === undefined
+  public handleModelUpdates(initEvent: TreeModelUpdate): void {
     // hide root in trees
-    const ev = isRoot
-      ? {root: ev0.newNodes[1], oldNodes: ev0.oldNodes.slice(1), newNodes: ev0.newNodes.slice(1), focusEvent: ev0.focusEvent}
-      : ev0
+    let ev: TreeModelUpdate;
+    if (initEvent.root.underlying.nodeUri === undefined) {
+      ev = {
+        root: initEvent.newNodes[1],
+        oldNodes: initEvent.oldNodes.slice(1),
+        newNodes: initEvent.newNodes.slice(1),
+        focusEvent: initEvent.focusEvent
+      }
+    } else {
+      ev = initEvent
+    }
+
     this.eventQueue = this.eventQueue.then(async _ => {
       const offset = await this.model.findNodeOffset(ev.root) - 1
       if (offset === undefined) return
