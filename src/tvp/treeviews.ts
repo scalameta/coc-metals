@@ -26,7 +26,7 @@ export class TreeViewsManager implements Disposable {
   private lastWindowProp: [WindowProp, number] = [WindowProp.Default, 0]
 
   constructor(private nvim: Neovim, private logger: log4js.Logger) {
-    this.config = workspace.configurations.getConfiguration("treeviews")
+    this.config = workspace.configurations.getConfiguration("metals.treeviews")
 
     this.nvim.command('highlight default link TvpClass Constant', true)
     this.nvim.command('highlight default link TvpObject PreProc', true)
@@ -289,9 +289,9 @@ export class TreeViewsManager implements Disposable {
     }
   }
 
-  public async viewHidden(viewId: string): Promise<void> {
+  public viewHidden(viewId: string): void {
     const model = this.view2treemodel.get(viewId)
-    if (model !== undefined) await model.hide()
+    if (model !== undefined) model.hide()
   }
 
   public dispose(): void {

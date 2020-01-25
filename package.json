@@ -98,12 +98,12 @@
           },
           "markdownDescription": "Optional list of custom resolvers passed to Coursier when fetching metals dependencies.\n\nFor documentation on accepted values see the [Coursier documentation](https://get-coursier.io/docs/other-repositories).\n\nThe extension will pass these to Coursier using the COURSIER_REPOSITORIES environment variable after joining the custom repositories with a pipe character (|)."
         },
-        "treeviews.initialWidth": {
+        "metals.treeviews.initialWidth": {
           "type": "number",
           "default": 40,
           "description": "Initial TreeViews panel width"
         },
-        "treeviews.alignment": {
+        "metals.treeviews.alignment": {
           "type": "string",
           "default": "left",
           "enum": [
@@ -112,7 +112,7 @@
           ],
           "description": "TreeViews panel position"
         },
-        "treeviews.initialViews": {
+        "metals.treeviews.initialViews": {
           "type": "object",
           "default": [
             {
@@ -135,57 +135,57 @@
             }
           ]
         },
-        "treeviews.toggleNode": {
+        "metals.treeviews.toggleNode": {
           "type": "string",
           "default": "<CR>",
           "description": "Expand/Collapse tree node"
         },
-        "treeviews.forceChildrenReload": {
+        "metals.treeviews.forceChildrenReload": {
           "type": "string",
           "default": "f",
           "description": "Force the reloading of the children of this node. May be useful when the wrong result is cached and tree contains invalid data."
         },
-        "treeviews.gotoParentNode": {
+        "metals.treeviews.gotoParentNode": {
           "type": "string",
           "default": "p",
           "description": "Go to parent node"
         },
-        "treeviews.gotoFirstChild": {
+        "metals.treeviews.gotoFirstChild": {
           "type": "string",
           "default": "K",
           "description": "Go to first child"
         },
-        "treeviews.gotoLastChild": {
+        "metals.treeviews.gotoLastChild": {
           "type": "string",
           "default": "J",
           "description": "Go to last child"
         },
-        "treeviews.gotoPrevSibling": {
+        "metals.treeviews.gotoPrevSibling": {
           "type": "string",
           "default": "<C-k>",
           "description": "Go to prev sibling"
         },
-        "treeviews.gotoNextSibling": {
+        "metals.treeviews.gotoNextSibling": {
           "type": "string",
           "default": "<C-j>",
           "description": "Go to next sibling"
         },
-        "treeviews.executeCommand": {
+        "metals.treeviews.executeCommand": {
           "type": "string",
           "default": "r",
           "description": "Execute command for node"
         },
-        "treeviews.executeCommandAndOpenSplit": {
+        "metals.treeviews.executeCommandAndOpenSplit": {
           "type": "string",
           "default": "s",
           "description": "Execute command and open node under cursor in horizontal split (if node is class, trait and so on)"
         },
-        "treeviews.executeCommandAndOpenVSplit": {
+        "metals.treeviews.executeCommandAndOpenVSplit": {
           "type": "string",
           "default": "v",
           "description": "Execute command and open node under cursor in vertical split (if node is class, trait and so on)"
         },
-        "treeviews.executeCommandAndOpenTab": {
+        "metals.treeviews.executeCommandAndOpenTab": {
           "type": "string",
           "default": "t",
           "description": "Execute command and open node under cursor in tab (if node is class, trait and so on)"
