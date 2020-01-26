@@ -27,10 +27,11 @@
   "main": "lib/index.js",
   "scripts": {
     "clean": "rimraf lib",
-    "build": "parcel build src/index.ts --out-dir lib/ --target node --no-source-maps --experimental-scope-hoisting",
+    "build": "parcel build src/index.ts --out-dir lib/ --target node --no-source-maps",
     "format": "prettier --write src/*.ts",
     "format-check": "prettier --check src/*.ts",
-    "prepare": "npx npm-run-all clean build"
+    "prepare": "npx npm-run-all clean build",
+    "watch": "parcel serve src/index.ts --out-dir lib/ --target node"
   },
   "activationEvents": [
     "onLanguage:scala",
@@ -96,6 +97,98 @@
             "type": "string"
           },
           "markdownDescription": "Optional list of custom resolvers passed to Coursier when fetching metals dependencies.\n\nFor documentation on accepted values see the [Coursier documentation](https://get-coursier.io/docs/other-repositories).\n\nThe extension will pass these to Coursier using the COURSIER_REPOSITORIES environment variable after joining the custom repositories with a pipe character (|)."
+        },
+        "metals.treeviews.initialWidth": {
+          "type": "number",
+          "default": 40,
+          "description": "Initial TreeViews panel width"
+        },
+        "metals.treeviews.alignment": {
+          "type": "string",
+          "default": "left",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "description": "TreeViews panel position"
+        },
+        "metals.treeviews.initialViews": {
+          "type": "object",
+          "default": [
+            {
+              "name": "metalsCompile",
+              "size": 10,
+              "expanded": [
+                [
+                  "metals://ongoing-compilations"
+                ]
+              ]
+            },
+            {
+              "name": "metalsBuild",
+              "size": 40,
+              "expanded": [
+                [
+                  "projects:"
+                ]
+              ]
+            }
+          ]
+        },
+        "metals.treeviews.toggleNode": {
+          "type": "string",
+          "default": "<CR>",
+          "description": "Expand/Collapse tree node"
+        },
+        "metals.treeviews.forceChildrenReload": {
+          "type": "string",
+          "default": "f",
+          "description": "Force the reloading of the children of this node. May be useful when the wrong result is cached and tree contains invalid data."
+        },
+        "metals.treeviews.gotoParentNode": {
+          "type": "string",
+          "default": "p",
+          "description": "Go to parent node"
+        },
+        "metals.treeviews.gotoFirstChild": {
+          "type": "string",
+          "default": "K",
+          "description": "Go to first child"
+        },
+        "metals.treeviews.gotoLastChild": {
+          "type": "string",
+          "default": "J",
+          "description": "Go to last child"
+        },
+        "metals.treeviews.gotoPrevSibling": {
+          "type": "string",
+          "default": "<C-k>",
+          "description": "Go to prev sibling"
+        },
+        "metals.treeviews.gotoNextSibling": {
+          "type": "string",
+          "default": "<C-j>",
+          "description": "Go to next sibling"
+        },
+        "metals.treeviews.executeCommand": {
+          "type": "string",
+          "default": "r",
+          "description": "Execute command for node"
+        },
+        "metals.treeviews.executeCommandAndOpenSplit": {
+          "type": "string",
+          "default": "s",
+          "description": "Execute command and open node under cursor in horizontal split (if node is class, trait and so on)"
+        },
+        "metals.treeviews.executeCommandAndOpenVSplit": {
+          "type": "string",
+          "default": "v",
+          "description": "Execute command and open node under cursor in vertical split (if node is class, trait and so on)"
+        },
+        "metals.treeviews.executeCommandAndOpenTab": {
+          "type": "string",
+          "default": "t",
+          "description": "Execute command and open node under cursor in tab (if node is class, trait and so on)"
         }
       }
     },
@@ -139,6 +232,21 @@
         "command": "metals.logs-toggle",
         "category": "metals",
         "title": "Toggle Logs"
+      },
+      {
+        "command": "metals.tvp",
+        "category": "metals",
+        "title": "Show TreeView panel"
+      },
+      {
+        "command": "metals.tvp.view",
+        "category": "metals",
+        "title": "Execute different operations with Tree Views"
+      },
+      {
+        "command": "metals.revealInTreeView",
+        "category": "metals",
+        "title": "Reveal current class, trait or object in Tree View"
       }
     ]
   },
@@ -156,6 +264,6 @@
     "metals-languageclient": "^0.1.10",
     "promisify-child-process": "^3.1.3",
     "semver": "^7.1.1",
-    "vscode-languageserver-protocol": "^3.15.1"
+    "vscode-languageserver-protocol": "3.15.0-next.6"
   }
 }
