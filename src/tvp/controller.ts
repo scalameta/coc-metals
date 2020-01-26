@@ -33,7 +33,7 @@ export class TreeViewController implements Disposable {
   ) {
     this.listeners.push(
       treeViewFeature.providerEvents()(provider => {
-        const model = new TreeModel(provider)
+        const model = new TreeModel(provider, true)
         this.treeModels.set(provider.viewId, model)
         treeViewsManager.addTreeModel(model)
       })
