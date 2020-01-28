@@ -252,7 +252,7 @@
   },
   "devDependencies": {
     "@types/node": "^13.5.0",
-    "@types/semver": "^6.2.0",
+    "@types/semver": "^7.1.0",
     "coc.nvim": "0.0.74",
     "parcel-bundler": "^1.12.4",
     "prettier": "1.19.1",
