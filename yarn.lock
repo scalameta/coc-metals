@@ -2345,9 +2345,9 @@ form-data@~2.3.2:
     mime-types "^2.1.12"
 
 fp-ts@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.4.1.tgz#d20c785ff8179930922c7477c31f1ca44f763ae9"
-  integrity sha512-dPal5+rPN7k4ciZ2+O0+i75bbp17uTUoRkWWqJpkKed7wVcA5y/2jH4ZhunzUrJPuaG+mN9ZNf0pv5P7u/k7JQ==
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.4.2.tgz#a24cd18d1f3a484913838de482125e6ddabdd939"
+  integrity sha512-/6dNmbu2CRhwR+/OpjLYT3OAlIlyrnY1qjbGDeyYkisTqQfbIdWL1P4sn28yKhcBLcfIvjo9614sfo0EKscOMA==
 
 fragment-cache@^0.2.1:
   version "0.2.1"
@@ -3280,10 +3280,10 @@ merge2@^1.2.3:
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.3.0.tgz#5b366ee83b2f1582c48f87e47cf1a9352103ca81"
   integrity sha512-2j4DAdlBOkiSZIsaXk4mTE3sRS02yBHAtfy127xRV3bQUFqXkjHCHLW6Scv7DwNRbIWNHH8zpnz9zMaKXIdvYw==
 
-metals-languageclient@0.1.11:
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/metals-languageclient/-/metals-languageclient-0.1.11.tgz#e23eb3b87c6290c4f6db57d2fd1f247f1d8c19f7"
-  integrity sha512-TJkQR/6pP77vnxaYS3hl/P9z9UoW406sNvSYWKAVqemAM8hoynCpFqU+pWWAtmebi6+qeSFRlQVJbVOHfdvY6g==
+metals-languageclient@0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/metals-languageclient/-/metals-languageclient-0.1.12.tgz#2109257a3d5e8c5c926cb177dccbe182b5030fd5"
+  integrity sha512-GydUHeP4ApTbm1w5+oyj3BV1KrlNUnGlcepIW28811XSDCclYKKleqsgwDxFNDtnbSTYVRsorxHQ3Jzc9xaThA==
   dependencies:
     fp-ts "^2.4.1"
     locate-java-home "^1.1.2"
