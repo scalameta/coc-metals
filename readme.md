@@ -10,6 +10,11 @@
 Scala language server. `coc-metals` offers automated Metals installation, easy configuration,
 Metals-specific commands, an embedded doctor, implementation of the decoration protocol, and many other small features.
 
+***NOTE: The readme is up-to-date with the master branch, so not all features
+will be available if you're using the latest stable release. The [vim
+page](https://scalameta.org/metals/docs/editors/vim.html) on the Metals site is synced with the
+latest stable release***
+
 ## Table of Contents
   - [Requirements](#requirements)
   - [Installing coc-metals](#installing-coc-metals)
@@ -22,6 +27,7 @@ Metals-specific commands, an embedded doctor, implementation of the decoration p
   - [List all workspace compile errors](#list-all-workspace-compile-errors)
   - [Run doctor](#run-doctor)
   - [Worksheets](#worksheets)
+  - [Tree View Protocol](#tree-view-protocol)
   - [Other Available Commands](#other-available-commands)
   - [Show document symbols](#show-document-symbols)
   - [Available Configuration Options](#available-configuration-options)
@@ -197,6 +203,29 @@ Then, when on the line that you'd like to expand the decoration to get the hover
 
 ![Decorations with worksheets](https://i.imgur.com/Bt6DMtH.png)
 
+### Tree View Protocol
+
+![Tree View Protocol](https://i.imgur.com/ryUPx3l.png)
+coc-metals has a built-in implementation of the [Tree View Protocol](https://scalameta.org/metals/docs/editors/tree-view-protocol.html).
+If you have the [recommended mappings](coc-mappings.vim) copied, you'll notice
+that in the bottom you'll have some TVP related settings. You can start by
+opening the TVP panel by using the default `<space> t`. Once open, you'll see
+there are two parts to the panel. The first being the `MetalsCompile` where you
+can see the status of ongoing compilations for your modules and also options to
+compile.
+
+![MetalsCompile](https://i.imgur.com/QBPHNQo.gif)
+
+You are able to trigger the compiles while being on top of the option you are
+attempting to trigger and pressing `r`. You can change this default in the
+settings. You can find all the relevant TVP settings below in the [Available Configuration Options](#available-configuration-options).
+
+The second part of the TVP panel is a view of your project and external dependencies.
+You can navigate through them by jumping to the next or previous nodes, the last
+or first nodes, or jumping to parent or first child nodes. There are shortcuts
+to all of these found below. You will see the traits, classes, objects,
+members, and methods are all color coded.
+
 ### Other Available Commands
 
   - `metals.restartServer`
@@ -225,18 +254,31 @@ configuration settings respectively.
 If you'd like to get autocompletion help for the configuration values you can install [coc-json](https://github.com/neoclide/coc-json).
 
 
-   Configuration Option     |      Description
-----------------------------|---------------------------
-`metals.serverVersion`      | The version of the Metals server artifact. Requires reloading the window.
-`metals.serverProperties`   | Optional list of properties to pass along to the Metals server. By default, the environment variable `JAVA_OPTS` and `.jvmopts` file are respected.
-`metals.javaHome`           | Optional path to the Java home directory. Requires reloading the window.\n\nDefaults to the most recent Java 8 version computed by the `locate-java-home` npm package.
-`metals.sbtScript`          | Optional absolute path to an `sbt` executable to use for running `sbt bloopInstall`. By default, Metals uses `java -jar sbt-launch.jar` with an embedded launcher while respecting `.jvmopts` and `.sbtopts`.\n\nUpdate this setting if your `sbt` script requires more customizations like using environment variables.
-`metals.millScript`         | Optional absolute path to a `mill` executable to use for running `mill mill.contrib.Bloop/install`. By default, Metals uses an embedded `millw` script while respecting `.mill-version` file. Update this setting if your `mill` script requires more customizations.
-`metals.mavenScript`        | Optional absolute path to a `mvn` executable to use for running `mvn ch.epfl.scala:maven-bloop_2.10:<bloop_version>:bloopInstall`. By default, Metals uses an embedded `mvnw` script. Update this setting if your `mvn` script requires more customizations.
-`metals.gradleScript`       | Optional absolute path to a `gradle` executable to use for running `gradle bloopInstall`. By default, Metals uses an embedded `gradlew` script. Update this setting if your `gradle` script requires more customizations.
-`metals.pantsTargets`       | The pants targets to export.  Space separated list of Pants targets to export, for example `src/main/scala:: src/main/java::`. Syntax such as `src/{main,test}::` is not supported."
-`metals.scalafmtConfigPath` | Optional custom path to the .scalafmt.conf file. Should be relative to the workspace root directory and use forward slashes `/` for file separators (even on Windows).
-`metals.customRepositories` | Optional list of custom resolvers passed to Coursier when fetching metals dependencies.\n\nFor documentation on accepted values see the [Coursier documentation](https://get-coursier.io/docs/other-repositories). The extension will pass these to Coursier using the COURSIER_REPOSITORIES environment variable after joining the custom repositories with a pipe character (|).
+   Configuration Option                         |      Description
+----------------------------                    |---------------------------
+`metals.serverVersion`                          | The version of the Metals server artifact. Requires reloading the window.
+`metals.serverProperties`                       | Optional list of properties to pass along to the Metals server. By default, the environment variable `JAVA_OPTS` and `.jvmopts` file are respected.
+`metals.javaHome`                               | Optional path to the Java home directory. Requires reloading the window.\n\nDefaults to the most recent Java 8 version computed by the `locate-java-home` npm package.
+`metals.sbtScript`                              | Optional absolute path to an `sbt` executable to use for running `sbt bloopInstall`. By default, Metals uses `java -jar sbt-launch.jar` with an embedded launcher while respecting `.jvmopts` and `.sbtopts`.\n\nUpdate this setting if your `sbt` script requires more customizations like using environment variables.
+`metals.millScript`                             | Optional absolute path to a `mill` executable to use for running `mill mill.contrib.Bloop/install`. By default, Metals uses an embedded `millw` script while respecting `.mill-version` file. Update this setting if your `mill` script requires more customizations.
+`metals.mavenScript`                            | Optional absolute path to a `mvn` executable to use for running `mvn ch.epfl.scala:maven-bloop_2.10:<bloop_version>:bloopInstall`. By default, Metals uses an embedded `mvnw` script. Update this setting if your `mvn` script requires more customizations.
+`metals.gradleScript`                           | Optional absolute path to a `gradle` executable to use for running `gradle bloopInstall`. By default, Metals uses an embedded `gradlew` script. Update this setting if your `gradle` script requires more customizations.
+`metals.pantsTargets`                           | The pants targets to export.  Space separated list of Pants targets to export, for example `src/main/scala:: src/main/java::`. Syntax such as `src/{main,test}::` is not supported."
+`metals.scalafmtConfigPath`                     | Optional custom path to the .scalafmt.conf file. Should be relative to the workspace root directory and use forward slashes `/` for file separators (even on Windows).
+`metals.customRepositories`                     | Optional list of custom resolvers passed to Coursier when fetching metals dependencies.\n\nFor documentation on accepted values see the [Coursier documentation](https://get-coursier.io/docs/other-repositories). The extension will pass these to Coursier using the COURSIER_REPOSITORIES environment variable after joining the custom repositories with a pipe character (|).
+`metals.treeviews.toggleNode`                   | Expand / Collapse tree node (default `<CR>`)
+`metals.treeviews.initialWidth`                 | Initial Tree Views panels (default `40`)
+`metals.treeviews.initialViews`                 | Initial views that the Tree View Panel Dispalys. Done mess with this unless you know what you're doing.
+`metals.treeviews.gotoLastChild`                | Go to the last child Node (defalt `J`)
+`metals.treeviews.gotoParentNode`               | Go to parent Node (default `p`)
+`metals.treeviews.gotoFirstChild`               | Go to first child Node (default `K`)
+`metals.treeviews.executeCommand`               | Execute command for node (default `r`)
+`metals.treeviews.gotoPrevSibling`              | Go to prev sibling (default `<C-k>`)
+`metals.treeviews.gotoNextSibling`              | Go to next sibling (default `<C-j>`)
+`metals.treeviews.forceChildrenReload`          | Force the reloading of the children of this node. May be useful when the wrong result is cached and tree contains invalid data. (default `f`)
+`metals.treeviews.executeCommandAndOpenTab`     | Execute command and open node under cursor in tab (if node is class, trait and so on) (default `t`)
+`metals.treeviews.executeCommandAndOpenSplit`   | Execute command and open node under cursor in horizontal split (if node is class, trait and so on) (default `s`)
+`metals.treeviews.executeCommandAndOpenVSplit`  | Execute command and open node under cursor in horizontal split (if node is class, trait and so on) (default `v`)
 
 ### Enable on type formatting for multiline string formatting
 

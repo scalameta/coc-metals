@@ -1,6 +1,6 @@
 " These default mappings should either go in your .vimrc or in a file
 " that you're going to source from your .vimrc. For example, you can
-" simply copy this file into your ~ directory and then put the following
+" copy this file into your ~ directory and then put the following
 " in your .vimrc to source it
 "
 " coc.nvim lsp mappings
@@ -10,7 +10,7 @@
 "
 "
 " If you're curious how to share this or your .vimrc with both vim and nvim,
-" you can find a great article here about this https://neovim.io/doc/user/nvim.html#nvim-from-vim
+" you can find a great instructions about this here https://neovim.io/doc/user/nvim.html#nvim-from-vim
 "
 " Finally, keep in mind that these are "suggested" settings. Play around with them
 " and change them to your liking.
@@ -25,7 +25,7 @@ set nowritebackup
 " Better display for messages
 set cmdheight=2
 
-" You will have bad experience with diagnostic messages with the default 4000.
+" You will have a bad experience with diagnostic messages with the default of 4000.
 set updatetime=300
 
 " Don't give |ins-completion-menu| messages.
@@ -112,7 +112,7 @@ command! -nargs=0 Format :call CocAction('format')
 " Use `:Fold` to fold current buffer
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
-" Add status line support, for integration with other plugin, checkout `:h coc-status`
+" Add status line support, for integration with other plugins, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Show all diagnostics
@@ -144,4 +144,4 @@ nnoremap <silent> <space>tb :<C-u>CocCommand metals.tvp metalsBuild<CR>
 " Toggle Tree View 'metalsCompile'
 nnoremap <silent> <space>tc :<C-u>CocCommand metals.tvp metalsCompile<CR>
 " Reveal current current class (trait or object) in Tree View 'metalsBuild'
-nnoremap <silent> <space>ts :<C-u>CocCommand metals.revealInTreeView metalsBuild<CR>
+nnoremap <silent> <space>tf :<C-u>CocCommand metals.revealInTreeView metalsBuild<CR>
