@@ -1,10 +1,10 @@
-import { detechLauncConfigurationChanges } from "./activationUtils";
 import { Commands } from "./commands";
 import { makeVimDoctor } from "./embeddedDoctor";
 import {
   getJavaHome,
   getJavaOptions,
-  checkDottyIde
+  checkDottyIde,
+  restartServer
 } from "metals-languageclient";
 import {
   ExecuteClientCommand,
@@ -17,9 +17,9 @@ import {
   checkServerVersion,
   trackDownloadProgress,
   toggleLogs,
-  wait
+  wait,
+  detectLaunchConfigurationChanges
 } from "./utils";
-import { exec } from "child_process";
 import {
   commands,
   ExtensionContext,
@@ -33,10 +33,8 @@ import {
 } from "coc.nvim";
 import { spawn, ChildProcessPromise } from "promisify-child-process";
 import {
-  ExitNotification,
   ExecuteCommandRequest,
-  Location,
-  ShutdownRequest
+  Location
 } from "vscode-languageserver-protocol";
 import * as path from "path";
 import { MetalsFeatures } from "./MetalsFeatures";
@@ -47,7 +45,7 @@ import { TreeViewFeature } from "./tvp/feature";
 import { TreeViewsManager } from "./tvp/treeviews";
 
 export async function activate(context: ExtensionContext) {
-  detechLauncConfigurationChanges();
+  detectLaunchConfigurationChanges();
   await checkServerVersion();
 
   getJavaHome(workspace.getConfiguration("metals").get("javaHome"))
@@ -222,12 +220,6 @@ function launchMetals(
     revealOutputChannelOn: RevealOutputChannelOn.Never
   };
 
-  // TODO fix this any
-  // I know this any here is a bit gross, but I can't
-  // get any of the sendRequests to work or type check
-  // correctly without it. I notice that this was also
-  // done in some of the other coc-extensions, which
-  // game me the idea to try it this way, and it works
   const client = new LanguageClient(
     "metals",
     "Metals",
@@ -265,27 +257,7 @@ function launchMetals(
     context.subscriptions.push(commands.registerCommand(command, callback));
   }
 
-  registerCommand("metals.restartServer", () => {
-    // First try to gracefully shutdown the server with LSP `shutdown` and `exit`.
-    // If Metals doesn't respond within 4 seconds we kill the process.
-    const timeout = (ms: number) =>
-      new Promise((_resolve, reject) => setTimeout(reject, ms));
-    const gracefullyTerminate = client
-      .sendRequest(ShutdownRequest.type)
-      .then(() => {
-        client.sendNotification(ExitNotification.type);
-        workspace.showMessage("Metals is restarting");
-      });
-
-    Promise.race([gracefullyTerminate, timeout(4000)]).catch(() => {
-      workspace.showMessage(
-        "Metals is unresponsive, killing the process and starting a new server.",
-        "warning"
-      );
-      const serverPid = client["_serverProcess"].pid;
-      exec(`kill ${serverPid}`);
-    });
-  });
+  registerCommand("metals.restartServer", restartServer(client, workspace));
 
   context.subscriptions.push(client.start());
 
