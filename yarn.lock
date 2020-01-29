@@ -3267,16 +3267,17 @@ merge2@^1.2.3:
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.3.0.tgz#5b366ee83b2f1582c48f87e47cf1a9352103ca81"
   integrity sha512-2j4DAdlBOkiSZIsaXk4mTE3sRS02yBHAtfy127xRV3bQUFqXkjHCHLW6Scv7DwNRbIWNHH8zpnz9zMaKXIdvYw==
 
-metals-languageclient@^0.1.10:
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/metals-languageclient/-/metals-languageclient-0.1.10.tgz#30087dd67afcc785adc310e79d8801b260610ba0"
-  integrity sha512-M2H9IfXuNCbklqnjbVO24US8y8kOWReOsIUEd3osVSdFctC0LaqGAcnVWlXUO3YlNDBvPs0TzgcadI/FGs3B3w==
+metals-languageclient@^0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/metals-languageclient/-/metals-languageclient-0.1.12.tgz#2109257a3d5e8c5c926cb177dccbe182b5030fd5"
+  integrity sha512-GydUHeP4ApTbm1w5+oyj3BV1KrlNUnGlcepIW28811XSDCclYKKleqsgwDxFNDtnbSTYVRsorxHQ3Jzc9xaThA==
   dependencies:
     fp-ts "^2.4.1"
     locate-java-home "^1.1.2"
     promisify-child-process "^3.1.3"
     semver "^7.1.1"
     shell-quote "^1.7.2"
+    vscode-languageserver-protocol "^3.15.2"
 
 micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4:
   version "3.1.10"
@@ -5466,7 +5467,7 @@ vscode-languageserver-protocol@3.15.0-next.6:
     vscode-jsonrpc "^4.1.0-next.2"
     vscode-languageserver-types "^3.15.0-next.2"
 
-vscode-languageserver-protocol@3.15.2:
+vscode-languageserver-protocol@3.15.2, vscode-languageserver-protocol@^3.15.2:
   version "3.15.2"
   resolved "https://registry.yarnpkg.com/vscode-languageserver-protocol/-/vscode-languageserver-protocol-3.15.2.tgz#e52c62923140b2655ad2472f6f29cfb83bacf5b8"
   integrity sha512-GdL05JKOgZ76RDg3suiGCl9enESM7iQgGw4x93ibTh4sldvZmakHmTeZ4iUApPPGKf6O3OVBtrsksBXnHYaxNg==
