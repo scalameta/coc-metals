@@ -29,7 +29,8 @@ export class Node {
     public viewNode: TreeViewNode,
     public level: number,
     private provider: TreeViewProvider,
-    private emitter: Emitter<TreeModelUpdate>
+    private emitter: Emitter<TreeModelUpdate>,
+    private autoExpand: boolean
   ) {
     this.expanded = false
   }
@@ -43,19 +44,27 @@ export class Node {
   }
 
   public async expand(): Promise<boolean> {
+    async function expandInternal(initNode: Node, state: number, curNode: Node): Promise<boolean> {
+      curNode.provider.sendTreeNodeVisibilityNotification(curNode.viewNode.nodeUri, false)
+      curNode.expanded = true
+      const children = await curNode.getChildren()
+      if (children.length === 1 && children[0].expandable() && curNode.autoExpand) {
+        return expandInternal(initNode, state, children[0])
+      } else {
+        const newNodes = await initNode.collectVisibleNodes()
+        if (state === initNode.lastTouch && !initNode.defunct) {
+          curNode.emitter.fire({root: initNode.makeView(), oldNodes: [initNode.makeView()], newNodes, focusEvent: false})
+          return true
+        } else {
+          return false
+        }
+      }
+    }
+
     if (this.defunct) return false
 
-    this.provider.sendTreeNodeVisibilityNotification(this.viewNode.nodeUri, false)
-    this.expanded = true
     const curState = await this.touch()
-    await this.getChildren()
-    const newNodes = await this.collectVisibleNodes()
-    if (curState === this.lastTouch && !this.defunct) {
-      this.emitter.fire({root: this.makeView(), oldNodes: [this.makeView()], newNodes, focusEvent: false})
-      return true
-    } else {
-      return false
-    }
+    return expandInternal(this, curState, this)
   }
 
   public async collapse(): Promise<boolean> {
@@ -78,7 +87,7 @@ export class Node {
       if (node.isExpanded()) {
         acc.push(curPath)
         const children = await node.getChildren()
-        return children.reduce((zP, child) => {
+        return children.reduce(async (zP, child) => {
           return zP.then(z => findOpenNodes(z, curPath.concat(child.viewNode.nodeUri), child))
         }, Promise.resolve(acc))
       } else {
@@ -90,6 +99,9 @@ export class Node {
       if (openNodes.length != 0) {
         const children = await node.getChildren()
         const childToNodes = groupBy(openNodes.filter(node => node.length != 0), arr => arr[0])
+        if (children.length === 1 && node.autoExpand && childToNodes.size === 0 && children[0].expandable()) {
+          childToNodes.set(children[0].viewNode.nodeUri, [[""]])
+        }
         await Promise.all(children.map(child => {
           const mbOpenNodes = childToNodes.get(child.viewNode.nodeUri)
           if (mbOpenNodes === undefined) {
@@ -100,6 +112,42 @@ export class Node {
             return reloadSubtree(child, nextOpenNodes)
           }
         }))
+      }
+    }
+
+    function eq(v1: NodeView, v2: NodeView): boolean {
+      return v1.expanded === v2.expanded &&
+        v1.level === v2.level &&
+        v1.expandable === v2.expandable &&
+        v1.underlying.nodeUri === v2.underlying.nodeUri &&
+        v1.underlying.viewId === v2.underlying.viewId &&
+        v1.underlying.label === v2.underlying.label
+    }
+
+    function optimizeEvent(ev: TreeModelUpdate): TreeModelUpdate | undefined {
+      let start = 0
+      while (start < ev.oldNodes.length &&
+             start < ev.newNodes.length &&
+             eq(ev.oldNodes[start], ev.newNodes[start])) {
+        start++
+      }
+      let end = 0
+      while (start + end < ev.oldNodes.length &&
+             start + end < ev.newNodes.length &&
+             eq(ev.oldNodes[ev.oldNodes.length - end - 1], ev.newNodes[ev.newNodes.length - end - 1])) {
+        end++
+      }
+      const oldNodes = end !== 0 ? ev.oldNodes.slice(start, -end) : ev.oldNodes.slice(start)
+      const newNodes = end !== 0 ? ev.newNodes.slice(start, -end) : ev.newNodes.slice(start)
+      if (oldNodes.length === 0 && newNodes.length === 0) {
+        return undefined
+      } else {
+        return {
+          root: newNodes.length > 0 ? newNodes[0] : ev.newNodes[start],
+          oldNodes,
+          newNodes,
+          focusEvent: false
+        }
       }
     }
 
@@ -115,14 +163,18 @@ export class Node {
       this.viewNode = viewNode
     }
     const visibleNodes = await this.collectVisibleNodes()
-    this.emitter.fire({root: this.makeView(), oldNodes, newNodes: visibleNodes, focusEvent: false})
+
+    const mbEvent = optimizeEvent({root: this.makeView(), oldNodes, newNodes: visibleNodes, focusEvent: false})
+    if (mbEvent !== undefined) {
+      this.emitter.fire(mbEvent)
+    }
   }
 
   public getChildren(): Promise<Node[]> {
     if (this.children === undefined) {
       const level = this.level
       const promise = Promise.resolve(this.provider.loadNodeChildren(this.viewNode.nodeUri))
-        .then(nodes => nodes.map(node => new Node(node, level + 1, this.provider, this.emitter)))
+        .then(nodes => nodes.map(node => new Node(node, level + 1, this.provider, this.emitter, this.autoExpand)))
       return this.children = promise
     } else {
       return this.children
@@ -187,11 +239,12 @@ export class TreeModel implements Disposable {
   private visible: boolean = false
 
   constructor(
-    public provider: TreeViewProvider,
+    private provider: TreeViewProvider,
+    private autoExpand: boolean
   ) {
     const viewId = provider.viewId
     const treeViewNode: TreeViewNode = { viewId, label: viewId }
-    this.rootNode = new Node(treeViewNode, 0, provider, this.emitter)
+    this.rootNode = new Node(treeViewNode, 0, provider, this.emitter, this.autoExpand)
     provider.updatedNodes(node => {
       if (node.nodeUri !== undefined) {
         void this.findNodeByUri(node.nodeUri).then(treeNode => {
@@ -227,21 +280,20 @@ export class TreeModel implements Disposable {
     } else {
       const children = await node.getChildren()
       return children
-        .reduce((stateP, child) => {
-          return stateP.then(state => {
-            if (state.result) {
-              return state
-            } else {
-              return child.height().then(childHeight => {
-                if (state.height + childHeight <= offset) {
-                  return {height: state.height + childHeight, result: undefined}
-                } else {
-                  return this.findNodeWithOffsetInternal(child, offset - state.height)
-                    .then(result => ({height: 0, result}))
-                }
-              })
-            }
-          })
+        .reduce(async (stateP, child) => {
+          const state = await stateP
+          if (state.result) {
+            return state
+          } else {
+            return child.height().then(childHeight => {
+              if (state.height + childHeight <= offset) {
+                return {height: state.height + childHeight, result: undefined}
+              } else {
+                return this.findNodeWithOffsetInternal(child, offset - state.height)
+                  .then(result => ({height: 0, result}))
+              }
+            })
+          }
         }, Promise.resolve({height: 1, result: undefined}))
         .then(state => state.result)
     }
@@ -258,7 +310,7 @@ export class TreeModel implements Disposable {
       } else if (node.isExpanded()) {
         const children = await node.getChildren()
         const init: [number, boolean] = [acc[0] + 1, acc[1]]
-        return children.reduce((zP, child) => {
+        return children.reduce(async (zP, child) => {
           return zP.then(z => findNodeOffsetInternal(z, child))
         }, Promise.resolve(init))
       } else {
@@ -276,16 +328,15 @@ export class TreeModel implements Disposable {
         return result
       } else if (parent.isExpanded()) {
         const children = await parent.getChildren()
-        return children.reduce((zP, child) => {
-          return zP.then(z => {
-            if (z !== undefined) {
-              return z
-            } else if (child.viewNode.nodeUri === node.viewNode.nodeUri) {
-              return parent
-            } else {
-              return internal(undefined, child)
-            }
-          })
+        return children.reduce(async (zP, child) => {
+          const z = await zP
+          if (z !== undefined) {
+            return z
+          } else if (child.viewNode.nodeUri === node.viewNode.nodeUri) {
+            return parent
+          } else {
+            return internal(undefined, child)
+          }
         }, Promise.resolve(undefined))
       } else {
         return undefined
@@ -336,7 +387,7 @@ export class TreeModel implements Disposable {
         return node
       } else if (node.isExpanded()) {
         const children = await node.getChildren()
-        return children.reduce((zP, child) => {
+        return children.reduce(async (zP, child) => {
           return zP.then(z => findNodeByUriInternal(z, child))
         }, Promise.resolve(undefined))
       } else {

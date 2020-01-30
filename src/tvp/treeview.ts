@@ -53,7 +53,7 @@ export class TreeView implements Disposable {
 
     await this.nvim.command(`au BufWinLeave <buffer> CocCommand metals.tvp.view Hidden ${this.model.viewId}`)
 
-    await this.nvim.command("setlocal nonumber norelativenumber nobuflisted nowrap noswapfile winfixwidth")// cursorline")
+    await this.nvim.command("setlocal nonumber norelativenumber nobuflisted nowrap noswapfile winfixwidth winfixheight")// cursorline")
     await this.nvim.command("setlocal statusline=%f buftype=nofile bufhidden=hide")
 
     this.model.updateEvents(ev => this.handleModelUpdates(ev))
@@ -71,7 +71,7 @@ export class TreeView implements Disposable {
     return this.buffer.id
   }
 
-  private async method(window: Window, topLine: number, curLine: number): Promise<void> {
+  private async restoreCursor(window: Window, topLine: number, curLine: number): Promise<void> {
     await window.setCursor([topLine, 1])
     await window.setCursor([curLine, 1])
   }
@@ -105,7 +105,7 @@ export class TreeView implements Disposable {
           const needRedraw = tabpageWindows.find(tabwindow => tabwindow.id === w.id) !== undefined
           if (needRedraw) {
             await this.nvim.call("win_gotoid", [w.id])
-            await this.method(w, 1, offset + 1)
+            await this.restoreCursor(w, 1, offset + 1)
             await this.nvim.command('redraw')
           }
         })
@@ -127,7 +127,7 @@ export class TreeView implements Disposable {
           await this.insertRows(offset, ev.newNodes)
           await sequence(offsets, async ({window, curLine, topLine}) => {
             if (topLine !== undefined) {
-              await this.method(window, topLine, offset + 1)
+              await this.restoreCursor(window, topLine, curLine)
               await this.nvim.call('win_execute', [window.id, `redraw`])
             } else {
               await window.setCursor([curLine, 1])
