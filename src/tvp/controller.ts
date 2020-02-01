@@ -50,7 +50,7 @@ export class TreeViewController implements Disposable {
     )
 
     const tvpViewHandler =
-      (action, viewId) => {
+      (action: string, viewId: string | undefined) => {
         switch (action) {
           case "ToggleNode":
             return treeViewsManager.toggleTreeViewNode()
@@ -83,6 +83,7 @@ export class TreeViewController implements Disposable {
             })
         }
       }
+
     this.listeners.push(
       commands.registerCommand("metals.tvp.view", tvpViewHandler)
     )
