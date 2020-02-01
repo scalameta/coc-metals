@@ -29,17 +29,14 @@ import {
   LanguageClient,
   LanguageClientOptions,
   RevealOutputChannelOn,
-  ServerOptions,
   workspace,
   events,
   FloatFactory
 } from "coc.nvim";
-import { spawn, ChildProcessPromise } from "promisify-child-process";
 import {
   ExecuteCommandRequest,
   Location
 } from "vscode-languageserver-protocol";
-import * as path from "path";
 import { MetalsFeatures } from "./MetalsFeatures";
 import DecorationProvider from "./decoration";
 import { InputBoxOptions } from "./portedProtocol";
