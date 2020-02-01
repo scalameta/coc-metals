@@ -2,9 +2,12 @@ import { Commands } from "./commands";
 import { makeVimDoctor } from "./embeddedDoctor";
 import {
   getJavaHome,
-  getJavaOptions,
   checkDottyIde,
-  restartServer
+  restartServer,
+  fetchMetals,
+  getServerOptions,
+  getJavaConfig,
+  JavaConfig
 } from "metals-languageclient";
 import {
   ExecuteClientCommand,
@@ -48,9 +51,9 @@ export async function activate(context: ExtensionContext) {
   detectLaunchConfigurationChanges();
   await checkServerVersion();
 
-  getJavaHome(workspace.getConfiguration("metals").get("javaHome"))
-    .then(javaHome => fetchAndLaunchMetals(context, javaHome))
-    .catch(_ => {
+  getJavaHome(workspace.getConfiguration("metals").get("javaHome")).then(
+    javaHome => fetchAndLaunchMetals(context, javaHome),
+    () => {
       const message =
         "Unable to find a Java 8 or Java 11 installation on this computer. " +
         "To fix this problem, update the 'Java Home' setting to point to a Java 8 or Java 11 home directory";
@@ -61,7 +64,8 @@ export async function activate(context: ExtensionContext) {
           workspace.nvim.command(Commands.OPEN_COC_CONFIG, true);
         }
       });
-    });
+    }
+  );
 }
 
 function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
@@ -75,9 +79,6 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
     return;
   }
 
-  const javaPath = path.join(javaHome, "bin", "java");
-  const coursierPath = path.join(context.extensionPath, "./coursier");
-
   const config = workspace.getConfiguration("metals");
   const serverVersionConfig: string = config.get<string>("serverVersion");
   const defaultServerVersion = config.inspect<string>("serverVersion")!
@@ -86,77 +87,27 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
     ? serverVersionConfig
     : defaultServerVersion;
 
-  const serverProperties: string[] = workspace
-    .getConfiguration("metals")
-    .get<string[]>("serverProperties")!;
-
-  const javaOptions = getJavaOptions(workspace.workspaceFolder?.uri);
-
-  const fetchProperties: string[] = serverProperties.filter(
-    p => !p.startsWith("-agentlib")
+  const serverProperties = config.get<string[] | undefined>("serverProperties");
+  const customRepositories = config.get<string[] | undefined>(
+    "customRepositories "
   );
 
-  if (fetchProperties.length > 0) {
-    workspace.showMessage(
-      `Additional server properties detected: ${fetchProperties.join(", ")}`
-    );
-  }
+  const javaConfig = getJavaConfig({
+    workspaceRoot: workspace.workspaceFolder?.uri,
+    javaHome,
+    customRepositories,
+    extensionPath: context.extensionPath
+  });
 
-  const customRepositories: string = config
-    .get<string[]>("customRepositories")!
-    .join("|");
-
-  if (customRepositories.indexOf("|") !== -1) {
-    workspace.showMessage(
-      `Custom repositories detected: ${customRepositories}`
-    );
-  }
-
-  const customRepositoriesEnv =
-    customRepositories.length == 0
-      ? {}
-      : { COURSIER_REPOSITORIES: customRepositories };
-
-  const fetchProcess: ChildProcessPromise = spawn(
-    javaPath,
-    javaOptions.concat(fetchProperties).concat([
-      "-jar",
-      coursierPath,
-      "fetch",
-      "-p",
-      "--ttl",
-      // Use infinite ttl to avoid redunant "Checking..." logs when using SNAPSHOT
-      // versions. Metals SNAPSHOT releases are effectively immutable since we
-      // never publish the same version twice.
-      "Inf",
-      `org.scalameta:metals_2.12:${serverVersion}`,
-      "-r",
-      "bintray:scalacenter/releases",
-      "-r",
-      "sonatype:public",
-      "-r",
-      "sonatype:snapshots",
-      "-p"
-    ]),
-    {
-      env: {
-        COURSIER_NO_TERM: "true",
-        ...customRepositoriesEnv,
-        ...process.env
-      }
-    }
-  );
+  const fetchProcess = fetchMetals({
+    serverVersion,
+    serverProperties,
+    javaConfig
+  });
 
   trackDownloadProgress(fetchProcess)
     .then(classpath => {
-      launchMetals(
-        context,
-        javaPath,
-        classpath,
-        serverProperties,
-        javaOptions,
-        customRepositoriesEnv
-      );
+      launchMetals(context, classpath, serverProperties, javaConfig);
     })
     .catch(err => {
       const msg = (() => {
@@ -166,13 +117,13 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
         if (serverVersion === defaultServerVersion) {
           return (
             `Failed to download Metals, make sure you have an internet connection and ` +
-            `the Java Home '${javaPath}' is valid. You can configure the Java Home in the settings.` +
+            `the Java Home '${javaHome}' is valid. You can configure the Java Home in the settings.` +
             proxy
           );
         } else {
           return (
             `Failed to download Metals, make sure you have an internet connection, ` +
-            `the Metals version '${serverVersion}' is correct and the Java Home '${javaPath}' is valid. ` +
+            `the Metals version '${serverVersion}' is correct and the Java Home '${javaHome}' is valid. ` +
             `You can configure the Metals version and Java Home in the settings.` +
             proxy
           );
@@ -188,29 +139,17 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
 
 function launchMetals(
   context: ExtensionContext,
-  javaPath: string,
   metalsClasspath: string,
   serverProperties: string[],
-  javaOptions: string[],
-  env: { COURSIER_REPOSITORIES?: string }
+  javaConfig: JavaConfig
 ) {
-  const baseProperties = [
-    `-Dmetals.client=coc-metals`,
-    `-Dmetals.doctor-format=json`,
-    `-Xss4m`,
-    `-Xms100m`
-  ];
-  const mainArgs = ["-classpath", metalsClasspath, "scala.meta.metals.Main"];
-  // let user properties override base properties
-  const launchArgs = baseProperties
-    .concat(javaOptions)
-    .concat(serverProperties)
-    .concat(mainArgs);
-
-  const serverOptions: ServerOptions = {
-    run: { command: javaPath, args: launchArgs, options: { env } },
-    debug: { command: javaPath, args: launchArgs, options: { env } }
-  };
+  const serverOptions = getServerOptions({
+    metalsClasspath,
+    serverProperties,
+    javaConfig,
+    clientName: "coc-metals",
+    doctorFormat: "json"
+  });
 
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: "file", language: "scala" }],
