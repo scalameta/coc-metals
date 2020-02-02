@@ -60,7 +60,7 @@ export class TreeView implements Disposable {
 
     const viewsConfigs = this.config.get<TreeViewDescription[]>("initialViews")
     await this.model.rootNode.expand()
-    const mbDesc = viewsConfigs.find(c => c.name === this.model.viewId)
+    const mbDesc = viewsConfigs?.find(c => c.name === this.model.viewId)
     if (mbDesc !== undefined) {
       await Promise.all(mbDesc.expanded.map(parents => this.model.revealByParents(parents.concat(""))))
       await this.nvim.call('coc#util#jumpTo', [0, 1])
@@ -91,8 +91,9 @@ export class TreeView implements Disposable {
     }
 
     this.eventQueue = this.eventQueue.then(async _ => {
-      const offset = await this.model.findNodeOffset(ev.root) - 1
-      if (offset === undefined) return
+      const nodeOffset = await this.model.findNodeOffset(ev.root)
+      if (nodeOffset === undefined) return
+      const offset = nodeOffset - 1
 
       const tabpage = await this.nvim.tabpage
       const allWindows = await this.nvim.windows

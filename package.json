@@ -27,7 +27,7 @@
   "main": "lib/index.js",
   "scripts": {
     "clean": "rimraf lib",
-    "build": "parcel build src/index.ts --out-dir lib/ --target node --no-source-maps",
+    "build": "tsc --noEmit && parcel build src/index.ts --out-dir lib/ --target node --no-source-maps",
     "format": "prettier --write src/*.ts",
     "format-check": "prettier --check src/*.ts",
     "prepare": "npx npm-run-all clean build",
@@ -252,7 +252,6 @@
   },
   "devDependencies": {
     "@types/node": "^13.7.0",
-    "coc.nvim": "0.0.74",
     "npm-run-all": "^4.1.5",
     "parcel-bundler": "^1.12.4",
     "prettier": "1.19.1",
@@ -261,10 +260,10 @@
     "typescript": "3.7.5"
   },
   "dependencies": {
-    "metals-languageclient": "0.1.14",
+    "coc.nvim": "0.0.74",
+    "metals-languageclient": "0.1.15",
     "promisify-child-process": "^3.1.3",
-    "semver": "^7.1.2",
-    "vscode-languageserver-protocol": "3.15.2"
+    "vscode-languageserver-protocol": "3.15.0-next.6"
   },
   "resolutions": {
     "vscode-jsonrpc": "^5"

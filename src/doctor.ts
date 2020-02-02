@@ -1,13 +1,22 @@
-export interface DoctorResult {
+type NonEmptyArray<A> = { 0: A } & A[];
+
+export type DoctorResult = {
   /** The name of Doctor */
   title: string;
   /** Head text to be displayed always */
   headerText: string;
-  /** Suggestion Doctor messages that contain suggestions if no targets are found */
-  messages?: DoctorMessage[];
-  /** Status information for each target */
-  targets?: DoctorTargetInfo[];
-}
+} & (
+  | {
+      /** Suggestion Doctor messages that contain suggestions if no targets are found */
+      messages: NonEmptyArray<DoctorMessage>;
+      targets: never;
+    }
+  | {
+      messages: never;
+      /** Status information for each target */
+      targets: NonEmptyArray<DoctorTargetInfo>;
+    }
+);
 
 export interface DoctorMessage {
   /** Title for each message */

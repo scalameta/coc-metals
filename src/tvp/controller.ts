@@ -75,7 +75,7 @@ export class TreeViewController implements Disposable {
           case "ExecuteCommandAndOpenTab":
             return treeViewsManager.executeCommand(WindowProp.Tab)
           case "Hidden":
-            return treeViewsManager.viewHidden(viewId)
+            return viewId && treeViewsManager.viewHidden(viewId)
           default:
             workspace.showQuickpick(tvpViewActions.map(action => action.title)).then(num => {
               if (num === -1) return

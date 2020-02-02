@@ -56,9 +56,9 @@ export class TreeViewsManager implements Disposable {
     const [curtab, openWindows] = await this.getOpenWindows(treeViews)
     if (openWindows.length > 0) {
       await Promise.all(openWindows.map(({window}) => window.close(true)))
-      treeViews.forEach(view => curtab.setVar(view, undefined, false))
+      treeViews.forEach(view => curtab.setVar(view, 0, false))
     } else {
-      const viewsConfigs = this.config.get<TreeViewDescription[]>("initialViews")
+      const viewsConfigs = this.config.get<TreeViewDescription[]>("initialViews") ?? []
       const windows = await sequence(
         treeViews
           .filter(view => viewsConfigs.find(c => c.name === view) !== undefined)
@@ -82,7 +82,7 @@ export class TreeViewsManager implements Disposable {
     if (!this.checkTreeViewAvailability(treeViews)) return
     if (!this.checkTreeViewExistence(treeViews, viewName)) return
     const [opened, windows] = await this.toggleTreeViewInternal(treeViews, viewName, false)
-    const viewsConfigs = this.config.get<TreeViewDescription[]>("initialViews")
+    const viewsConfigs = this.config.get<TreeViewDescription[]>("initialViews") ?? []
     if (opened) return this.alignWindows(windows, viewsConfigs)
   }
 
@@ -96,7 +96,7 @@ export class TreeViewsManager implements Disposable {
     if (mbWindow !== undefined) {
       if (!onlyOpen) {
         await mbWindow.window.close(true)
-        await curtab.setVar(viewName, undefined, false)
+        await curtab.setVar(viewName, 0, false)
       }
       return [false, []]
     } else if (openWindows.length != 0) {
@@ -121,10 +121,10 @@ export class TreeViewsManager implements Disposable {
     if (!this.checkTreeViewAvailability(treeViews)) return
     if (!this.checkTreeViewExistence(treeViews, viewName)) return
     const [opened, windows] = await this.toggleTreeViewInternal(treeViews, viewName, true)
-    const viewsConfigs = this.config.get<TreeViewDescription[]>("initialViews")
+    const viewsConfigs = this.config.get<TreeViewDescription[]>("initialViews") ?? []
     if (opened) await this.alignWindows(windows, viewsConfigs)
     const treeView = this.view2treeview.get(viewName)
-    return treeView.revealDocInTreeView(textDocument, position).then(() => undefined)
+    return treeView?.revealDocInTreeView(textDocument, position).then(() => undefined)
   }
 
   private makeTreeViewPanel(viewName: string): Promise<void> {
@@ -146,10 +146,10 @@ export class TreeViewsManager implements Disposable {
   private async assignOrCreateTreeView(curtab: Tabpage, viewId: string): Promise<Window> {
     const mbTreeView = this.view2treeview.get(viewId)
     const model = this.view2treemodel.get(viewId)
-    model.show()
+    model?.show()
     if (mbTreeView !== undefined) {
       await this.nvim.call('coc#util#jumpTo', [0, 1])
-    } else {
+    } else if (model !== undefined) {
       const buffer = await this.nvim.buffer
       const treeView = new TreeView(this.nvim, this.config, buffer, model, this.logger)
       await treeView.init()
@@ -269,7 +269,7 @@ export class TreeViewsManager implements Disposable {
       const windows = await tabpage.windows
       const mbWindow = windows.find(window => allTreeViews.find(wId => window.id === wId) === undefined)
       if (mbWindow === undefined) {
-        const initWidth = this.config.get<number>("initialWidth")
+        const initWidth = this.config.get<number>("initialWidth") ?? 0
         const position = this.config.get<string>("alignment") == "right" ? "topleft" : "botright"
         if (windows.length > 0) {
           const fullWidth = await windows[0].width
