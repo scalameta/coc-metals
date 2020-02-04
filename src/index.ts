@@ -77,17 +77,15 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
   }
 
   const config = workspace.getConfiguration("metals");
-  const serverVersionConfig: string = config.get<string>("serverVersion");
+  const serverVersionConfig = config.get<string>("serverVersion");
   const defaultServerVersion = config.inspect<string>("serverVersion")!
     .defaultValue!;
   const serverVersion = serverVersionConfig
     ? serverVersionConfig
     : defaultServerVersion;
 
-  const serverProperties = config.get<string[] | undefined>("serverProperties");
-  const customRepositories = config.get<string[] | undefined>(
-    "customRepositories "
-  );
+  const serverProperties = config.get<string[]>("serverProperties") ?? [];
+  const customRepositories = config.get<string[]>("customRepositories ");
 
   const javaConfig = getJavaConfig({
     workspaceRoot: workspace.workspaceFolder?.uri,
@@ -281,21 +279,18 @@ function launchMetals(
       }
     });
 
-    client.onRequest(
-      MetalsInputBox.type,
-      async (options: InputBoxOptions, requestToken) => {
-        const response = await workspace.callAsync<string>("input", [
-          `${options.prompt} `,
-          options.value
-        ]);
-        if (response === undefined) {
-          return { cancelled: true };
-        } else {
-          workspace.showMessage(response);
-          return { value: response };
-        }
+    client.onRequest(MetalsInputBox.type, async (options: InputBoxOptions) => {
+      const response = await workspace.callAsync<string>("input", [
+        `${options.prompt} `,
+        options.value
+      ]);
+      if (response === undefined) {
+        return { cancelled: true };
+      } else {
+        workspace.showMessage(response);
+        return { value: response };
       }
-    );
+    });
 
     if (features.decorationProvider) {
       client.onNotification(

@@ -26,7 +26,10 @@ export default class DecorationProvider {
     decorationParams.options.forEach((option: DecorationOptions) => {
       this.currentDecorations.push(option);
       buffer.setVirtualText(this.decorationNameSpace, option.range.end.line, [
-        [option.renderOptions.after.contentText.replace("//", "‣"), "test"]
+        [
+          option.renderOptions?.after?.contentText?.replace("//", "‣") ?? "",
+          "test"
+        ]
       ]);
     });
   }
@@ -37,7 +40,11 @@ export default class DecorationProvider {
       decoration => decoration.range.end.line === position.line
     );
 
-    if (hoverText && typeof hoverText.hoverMessage !== "string") {
+    if (
+      hoverText &&
+      typeof hoverText.hoverMessage !== "string" &&
+      hoverText.hoverMessage
+    ) {
       await this.floatFactory.create(
         [
           {

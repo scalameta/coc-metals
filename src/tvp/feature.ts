@@ -43,7 +43,7 @@ export class TreeViewFeature implements DynamicFeature<void> {
     if (capabilities.experimental == null) {
       capabilities.experimental = {}
     }
-    capabilities.experimental.treeViewProvider = true
+    (capabilities.experimental as any).treeViewProvider = true
   }
 
   public initialize(

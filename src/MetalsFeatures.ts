@@ -15,10 +15,9 @@ export class MetalsFeatures implements StaticFeature {
     if (!params.capabilities.experimental) {
       params.capabilities.experimental = {};
     }
-    params.capabilities.experimental.debuggingProvider = false;
-    params.capabilities.experimental.decorationProvider = workspace.isNvim
-      ? true
-      : false;
+    (params.capabilities.experimental as any).debuggingProvider = false;
+    (params.capabilities.experimental as any).decorationProvider =
+      workspace.isNvim;
   }
   fillClientCapabilities(): void {}
   initialize(capabilities: ServerCapabilities): void {
