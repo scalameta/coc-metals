@@ -269,7 +269,7 @@ export class TreeViewsManager implements Disposable {
       const windows = await tabpage.windows
       const mbWindow = windows.find(window => allTreeViews.find(wId => window.id === wId) === undefined)
       if (mbWindow === undefined) {
-        const initWidth = this.config.get<number>("initialWidth") ?? 0
+        const initWidth = this.config.get<number>("initialWidth")!
         const position = this.config.get<string>("alignment") == "right" ? "topleft" : "botright"
         if (windows.length > 0) {
           const fullWidth = await windows[0].width
