@@ -24,11 +24,11 @@ jobs:
           git config --global user.name "Scalameta bot"
 
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Get the tag version
         id: get_version
-        run: echo ::set-output name=NEW_NEW_VERSION::${GITHUB_REF#refs/tags/v}
+        run: echo ::set-output name=NEW_VERSION::${GITHUB_REF#refs/tags/v}
 
       - name: Install Dependencies
         run: yarn install
@@ -37,7 +37,7 @@ jobs:
         run: yarn version --no-git-tag-version --new-version ${{ steps.get_version.outputs.NEW_VERSION }}
 
       - name: Generate new changelog
-        run: npx github-changes -o scalameta -r coc-metals --no-merges -t "coc-metals changelog" -k ${{ secrets.GITHUB_COC_METALS }}
+        run: npx github-changes -o scalameta -r coc-metals --no-merges -t "coc-metals changelog" -k ${{ secrets.GITUB_TOKEN }}
 
       - name: Commit changes
         run: git commit -am "Release ${{ steps.get_version.outputs.NEW_VERSION }}"
@@ -49,6 +49,4 @@ jobs:
         run: yarn publish
 
       - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_COC_METALS }}
+        run: git push origin HEAD:master
