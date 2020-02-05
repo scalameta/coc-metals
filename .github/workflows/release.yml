@@ -9,9 +9,6 @@ jobs:
   build:
     runs-on: "ubuntu-18.04"
 
-    env:
-      NODE_ENV: test
-
     steps:
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -23,27 +20,27 @@ jobs:
 
       - name: Setup git env
         run: |
-          git config --global user.email "ckipp@pm.me"
-          git config --global user.name "coc-metals CI"
+          git config --global user.email "bot@scalameta.org"
+          git config --global user.name "Scalameta bot"
 
       - name: Checkout
         uses: actions/checkout@v1
 
       - name: Get the tag version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+        run: echo ::set-output name=NEW_NEW_VERSION::${GITHUB_REF#refs/tags/v}
 
       - name: Install Dependencies
         run: yarn install
 
       - name: Set new version
-        run: yarn version --no-git-tag-version --new-version ${{ steps.get_version.outputs.VERSION }}
+        run: yarn version --no-git-tag-version --new-version ${{ steps.get_version.outputs.NEW_VERSION }}
 
       - name: Generate new changelog
-        run: npx github-changes -o ckipp01 -r coc-metals --no-merges -t "coc-metals changelog" -k ${{ secrets.GITHUB_COC_METALS }}
+        run: npx github-changes -o scalameta -r coc-metals --no-merges -t "coc-metals changelog" -k ${{ secrets.GITHUB_COC_METALS }}
 
       - name: Commit changes
-        run: git commit -am "Release ${{ steps.get_version.outputs.VERSION }}"
+        run: git commit -am "Release ${{ steps.get_version.outputs.NEW_VERSION }}"
 
       - name: Set npm auth
         run: echo "//registry.yarnpkg.com/:_authToken=${{ secrets.NPM_COC_METALS_PUBLISH }}" >>~/.npmrc
