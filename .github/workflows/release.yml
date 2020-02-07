@@ -37,7 +37,7 @@ jobs:
         run: yarn version --no-git-tag-version --new-version ${{ steps.get_version.outputs.NEW_VERSION }}
 
       - name: Generate new changelog
-        run: npx github-changes -o scalameta -r coc-metals --no-merges -t "coc-metals changelog" -k ${{ secrets.GITUB_TOKEN }}
+        run: npx github-changes -o scalameta -r coc-metals --no-merges -t "coc-metals changelog" -k ${{ secrets.GITUB_COC_METALS }}
 
       - name: Commit changes
         run: git commit -am "Release ${{ steps.get_version.outputs.NEW_VERSION }}"
