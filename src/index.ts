@@ -14,7 +14,8 @@ import {
   MetalsInputBox,
   MetalsDidFocus,
   DecorationsRangesDidChange,
-  PublishDecorationsParams
+  PublishDecorationsParams,
+  MetalsNewScalaFileParams
 } from "./metalsProtocol";
 import {
   checkServerVersion,
@@ -43,6 +44,7 @@ import { InputBoxOptions } from "./portedProtocol";
 import { TreeViewController } from "./tvp/controller";
 import { TreeViewFeature } from "./tvp/feature";
 import { TreeViewsManager } from "./tvp/treeviews";
+import path = require("path");
 
 export async function activate(context: ExtensionContext) {
   detectLaunchConfigurationChanges();
@@ -230,6 +232,70 @@ function launchMetals(
         )
       );
     }
+
+    registerCommand("metals.new-scala-file", async () => {
+      const currentDoc = await workspace.document;
+      const currentPath = currentDoc.uri;
+      const parentDir = path.dirname(currentPath);
+
+      const fileOptions = [
+        {
+          kind: "class",
+          value: 0,
+          label: "Class"
+        },
+        {
+          kind: "object",
+          value: 1,
+          label: "Object"
+        },
+        {
+          kind: "trait",
+          value: 2,
+          label: "Trait"
+        },
+        {
+          kind: "package-object",
+          value: 3,
+          label: "Package Object"
+        },
+        {
+          kind: "worksheet",
+          value: 4,
+          label: "Worksheet"
+        }
+      ];
+
+      const fileSelection = await workspace.showQuickpick(
+        fileOptions.map(option => option.label),
+        "Select the kind of file to create"
+      );
+
+      const desiredFileType =
+        fileOptions.find(option => fileSelection === option.value)?.kind || "";
+
+      if (desiredFileType !== "") {
+        const fileName = await workspace.callAsync<string>("input", [
+          "Name:",
+          ""
+        ]);
+        const arg: MetalsNewScalaFileParams = {
+          directory: parentDir,
+          name: fileName,
+          kind: desiredFileType
+        };
+        client
+          .sendRequest(ExecuteCommandRequest.type, {
+            command: "new-scala-file",
+            arguments: [arg]
+          })
+          .then(result => {
+            workspace.openResource(result);
+          });
+      } else {
+        return;
+      }
+    });
 
     client.onNotification(ExecuteClientCommand.type, async params => {
       switch (params.command) {

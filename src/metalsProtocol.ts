@@ -60,3 +60,9 @@ export namespace MetalsDidFocus {
     "metals/didFocusTextDocument"
   );
 }
+
+export interface MetalsNewScalaFileParams {
+  directory?: string;
+  name: string;
+  kind: string;
+}
