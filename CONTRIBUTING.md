@@ -12,7 +12,7 @@ coc-metals is a `coc.nvim` extension, so firstly, it's important to get an idea 
 They have a great wiki with a lot of resources about how to configure and use `coc.nvim`, and they have a
 specific page dedicated to extension which can be found [here](https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions).
 
-`coc.nvim` will try to load extensions that are located under `$VIMCONFIG/coc-extensions`. What I've found to be
+`coc.nvim` will try to load extensions that are located under `$VIMCONFIG/coc/extensions`. What I've found to be
 the easiest to do while developing is to add `coc-metals` to dependences in the `package.json` file located
 in this directory. Then, create a symbolic link from where you have cloned this repo to the `node_modules` directory.
 On my machine, it looks like this.
