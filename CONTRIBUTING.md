@@ -18,7 +18,7 @@ in this directory. Then, create a symbolic link from where you have cloned this 
 On my machine, it looks like this.
 
 ```sh
-ls -s ~/Documents/js-workspace/coc-metals ~/.config/coc/extensions/node_modules/coc-metals
+ln -s ~/Documents/js-workspace/coc-metals ~/.config/coc/extensions/node_modules/coc-metals
 ```
 
 This will allow you be able to just build in the git repo, and then restart coc, and have the new extension working.
