@@ -9,6 +9,7 @@ export interface DecorationProvider {}
 export interface QuickPickProvider {}
 export interface InputBoxProvider {}
 export interface DidFocusProvider {}
+export interface SlowTaskProvider {}
 
 export class MetalsFeatures implements StaticFeature {
   debuggingProvider?: DebuggingProvider;
@@ -16,6 +17,7 @@ export class MetalsFeatures implements StaticFeature {
   quickPickProvider?: QuickPickProvider;
   inputBoxProvider?: InputBoxProvider;
   didFocusProvider?: DidFocusProvider;
+  slowTaskProvider?: SlowTaskProvider;
 
   fillInitializeParams(params: InitializeParams): void {
     if (!params.capabilities.experimental) {
@@ -27,6 +29,7 @@ export class MetalsFeatures implements StaticFeature {
     (params.capabilities.experimental as any).quickPickProvider = true;
     (params.capabilities.experimental as any).inputBoxProvider = true;
     (params.capabilities.experimental as any).didFocusProvider = true;
+    (params.capabilities.experimental as any).slowTaskProvider = false;
   }
   fillClientCapabilities(): void {}
   initialize(capabilities: ServerCapabilities): void {
@@ -36,6 +39,7 @@ export class MetalsFeatures implements StaticFeature {
       this.quickPickProvider = capabilities.experimental.quickPickProvider;
       this.inputBoxProvider = capabilities.experimental.inputBoxProvider;
       this.didFocusProvider = capabilities.experimental.didFocusProvider;
+      this.slowTaskProvider = capabilities.experimental.slowTaskProvider;
     }
   }
 }
