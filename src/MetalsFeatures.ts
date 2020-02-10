@@ -8,12 +8,14 @@ export interface DebuggingProvider {}
 export interface DecorationProvider {}
 export interface QuickPickProvider {}
 export interface InputBoxProvider {}
+export interface DidFocusProvider {}
 
 export class MetalsFeatures implements StaticFeature {
   debuggingProvider?: DebuggingProvider;
   decorationProvider?: DecorationProvider;
   quickPickProvider?: QuickPickProvider;
   inputBoxProvider?: InputBoxProvider;
+  didFocusProvider?: DidFocusProvider;
 
   fillInitializeParams(params: InitializeParams): void {
     if (!params.capabilities.experimental) {
@@ -24,6 +26,7 @@ export class MetalsFeatures implements StaticFeature {
       workspace.isNvim;
     (params.capabilities.experimental as any).quickPickProvider = true;
     (params.capabilities.experimental as any).inputBoxProvider = true;
+    (params.capabilities.experimental as any).didFocusProvider = true;
   }
   fillClientCapabilities(): void {}
   initialize(capabilities: ServerCapabilities): void {
@@ -32,6 +35,7 @@ export class MetalsFeatures implements StaticFeature {
       this.decorationProvider = capabilities.experimental.decorationProvider;
       this.quickPickProvider = capabilities.experimental.quickPickProvider;
       this.inputBoxProvider = capabilities.experimental.inputBoxProvider;
+      this.didFocusProvider = capabilities.experimental.didFocusProvider;
     }
   }
 }
