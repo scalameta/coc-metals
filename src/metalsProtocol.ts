@@ -60,3 +60,14 @@ export namespace MetalsDidFocus {
     "metals/didFocusTextDocument"
   );
 }
+
+export interface MetalsNewScalaFileParams {
+  directory?: string;
+  name: string;
+  kind: "class" | "object" | "trait" | "package-object" | "worksheet";
+}
+
+export interface NewFileOptions {
+  kind: "class" | "object" | "trait" | "package-object" | "worksheet";
+  label: "Class" | "Object" | "Trait" | "Package Object" | "Worksheet";
+}

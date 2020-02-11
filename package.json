@@ -251,6 +251,11 @@
         "command": "metals.revealInTreeView",
         "category": "metals",
         "title": "Reveal current class, trait or object in Tree View"
+      },
+      {
+        "command": "metals.new-scala-file",
+        "category": "Metals",
+        "title": "New Scala File..."
       }
     ]
   },
