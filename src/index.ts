@@ -274,7 +274,7 @@ function launchMetals(
           "Name: ",
           ""
         ]);
-        if (fileName === "") {
+        if (fileName.trim() === "") {
           workspace.showMessage("New file must have a name.", "error");
         } else {
           const arg: MetalsNewScalaFileParams = {
