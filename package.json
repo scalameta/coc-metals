@@ -255,7 +255,7 @@
       {
         "command": "metals.new-scala-file",
         "category": "Metals",
-        "title": "New Scala File..."
+        "title": "Create a new Scala file"
       }
     ]
   },
