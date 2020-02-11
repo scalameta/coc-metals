@@ -103,11 +103,11 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
     javaConfig
   });
 
-  trackDownloadProgress(fetchProcess)
-    .then(classpath => {
+  trackDownloadProgress(fetchProcess).then(
+    classpath => {
       launchMetals(context, classpath, serverProperties, javaConfig);
-    })
-    .catch(err => {
+    },
+    () => {
       const msg = (() => {
         const proxy =
           `See https://scalaeta.org/metals/docs/editors/vscode.html#http-proxy for instructions ` +
@@ -127,12 +127,11 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
           );
         }
       })();
-      workspace
-        .showPrompt(`${err.message}\n ${msg}\n Open Settings?`)
-        .then(choice => {
-          if (choice) workspace.nvim.command(Commands.OPEN_COC_CONFIG, true);
-        });
-    });
+      workspace.showPrompt(`${msg}\n Open Settings?`).then(choice => {
+        if (choice) workspace.nvim.command(Commands.OPEN_COC_CONFIG, true);
+      });
+    }
+  );
 }
 
 function launchMetals(
