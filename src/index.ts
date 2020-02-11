@@ -15,7 +15,8 @@ import {
   MetalsDidFocus,
   DecorationsRangesDidChange,
   PublishDecorationsParams,
-  MetalsNewScalaFileParams
+  MetalsNewScalaFileParams,
+  NewFileOptions
 } from "./metalsProtocol";
 import {
   checkServerVersion,
@@ -44,7 +45,7 @@ import { InputBoxOptions } from "./portedProtocol";
 import { TreeViewController } from "./tvp/controller";
 import { TreeViewFeature } from "./tvp/feature";
 import { TreeViewsManager } from "./tvp/treeviews";
-import path = require("path");
+import * as path from "path";
 
 export async function activate(context: ExtensionContext) {
   detectLaunchConfigurationChanges();
@@ -238,30 +239,25 @@ function launchMetals(
       const currentPath = currentDoc.uri;
       const parentDir = path.dirname(currentPath);
 
-      const fileOptions = [
+      const fileOptions: NewFileOptions[] = [
         {
           kind: "class",
-          value: 0,
           label: "Class"
         },
         {
           kind: "object",
-          value: 1,
           label: "Object"
         },
         {
           kind: "trait",
-          value: 2,
           label: "Trait"
         },
         {
           kind: "package-object",
-          value: 3,
           label: "Package Object"
         },
         {
           kind: "worksheet",
-          value: 4,
           label: "Worksheet"
         }
       ];
@@ -271,27 +267,24 @@ function launchMetals(
         "Select the kind of file to create"
       );
 
-      const desiredFileType =
-        fileOptions.find(option => fileSelection === option.value)?.kind || "";
+      const desiredFileType: NewFileOptions | undefined =
+        fileOptions[fileSelection];
 
-      if (desiredFileType !== "") {
+      if (desiredFileType !== undefined) {
         const fileName = await workspace.callAsync<string>("input", [
-          "Name:",
+          "Name: ",
           ""
         ]);
         const arg: MetalsNewScalaFileParams = {
           directory: parentDir,
           name: fileName,
-          kind: desiredFileType
+          kind: desiredFileType.kind
         };
-        client
-          .sendRequest(ExecuteCommandRequest.type, {
-            command: "new-scala-file",
-            arguments: [arg]
-          })
-          .then(result => {
-            workspace.openResource(result);
-          });
+        const result = await client.sendRequest(ExecuteCommandRequest.type, {
+          command: "new-scala-file",
+          arguments: [arg]
+        });
+        workspace.openResource(result);
       } else {
         return;
       }
