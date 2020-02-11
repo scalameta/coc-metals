@@ -274,16 +274,20 @@ function launchMetals(
           "Name: ",
           ""
         ]);
-        const arg: MetalsNewScalaFileParams = {
-          directory: parentDir,
-          name: fileName,
-          kind: desiredFileType.kind
-        };
-        const result = await client.sendRequest(ExecuteCommandRequest.type, {
-          command: "new-scala-file",
-          arguments: [arg]
-        });
-        workspace.openResource(result);
+        if (fileName === "") {
+          workspace.showMessage("New file must have a name.", "error");
+        } else {
+          const arg: MetalsNewScalaFileParams = {
+            directory: parentDir,
+            name: fileName,
+            kind: desiredFileType.kind
+          };
+          const result = await client.sendRequest(ExecuteCommandRequest.type, {
+            command: "new-scala-file",
+            arguments: [arg]
+          });
+          workspace.openResource(result);
+        }
       } else {
         return;
       }
