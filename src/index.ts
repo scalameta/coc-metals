@@ -144,8 +144,7 @@ function launchMetals(
     metalsClasspath,
     serverProperties,
     javaConfig,
-    clientName: "coc-metals",
-    doctorFormat: "json"
+    clientName: "coc-metals"
   });
 
   const clientOptions: LanguageClientOptions = {
