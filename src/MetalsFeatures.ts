@@ -12,6 +12,7 @@ export interface DidFocusProvider {}
 export interface SlowTaskProvider {}
 export interface ExecuteClientCommandProvider {}
 export interface DoctorProvider {}
+export interface StatusBarProvider {}
 
 export class MetalsFeatures implements StaticFeature {
   debuggingProvider?: DebuggingProvider;
@@ -22,6 +23,7 @@ export class MetalsFeatures implements StaticFeature {
   slowTaskProvider?: SlowTaskProvider;
   executeClientCommandProvider?: ExecuteClientCommandProvider;
   doctorProvider?: DoctorProvider;
+  statusBarProvider?: StatusBarProvider;
 
   fillInitializeParams(params: InitializeParams): void {
     if (!params.capabilities.experimental) {
@@ -37,6 +39,8 @@ export class MetalsFeatures implements StaticFeature {
     (params.capabilities
       .experimental as any).executeClientCommandProvider = true;
     (params.capabilities.experimental as any).doctorProvider = "json";
+    (params.capabilities.experimental as any).statusBarProvider =
+      "show-message";
   }
   fillClientCapabilities(): void {}
   initialize(capabilities: ServerCapabilities): void {
@@ -50,6 +54,7 @@ export class MetalsFeatures implements StaticFeature {
       this.executeClientCommandProvider =
         capabilities.experimental.executeClientCommandProvider;
       this.doctorProvider = capabilities.experimental.doctorProvider;
+      this.statusBarProvider = capabilities.experimental.statusBarProvider;
     }
   }
 }
