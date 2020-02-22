@@ -45,6 +45,14 @@
     "workspaceContains:**/scala/**"
   ],
   "contributes": {
+    "rootPatterns": [
+      {
+        "filetype": "scala",
+        "patterns": [
+          "build.sbt"
+        ]
+      }
+    ],
     "configurationDefaults": {
       "[scala]": {
         "editor.suggestSelection": "first"
