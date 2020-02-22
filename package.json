@@ -49,7 +49,10 @@
       {
         "filetype": "scala",
         "patterns": [
-          "build.sbt"
+          "build.sbt",
+          "build.sc",
+          "build.gradle",
+          "pom.xml"
         ]
       }
     ],
