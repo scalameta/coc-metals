@@ -11,12 +11,12 @@ import {
 } from "metals-languageclient";
 import {
   ExecuteClientCommand,
-  MetalsInputBox,
   MetalsDidFocus,
+  MetalsInputBox,
+  MetalsQuickPick,
   DecorationsRangesDidChange,
   PublishDecorationsParams,
-  MetalsNewScalaFileParams,
-  NewFileOptions
+  MetalsQuickPickParams
 } from "./metalsProtocol";
 import {
   checkServerVersion,
@@ -238,59 +238,10 @@ function launchMetals(
       const currentPath = currentDoc.uri;
       const parentDir = path.dirname(currentPath);
 
-      const fileOptions: NewFileOptions[] = [
-        {
-          kind: "class",
-          label: "Class"
-        },
-        {
-          kind: "object",
-          label: "Object"
-        },
-        {
-          kind: "trait",
-          label: "Trait"
-        },
-        {
-          kind: "package-object",
-          label: "Package Object"
-        },
-        {
-          kind: "worksheet",
-          label: "Worksheet"
-        }
-      ];
-
-      const fileSelection = await workspace.showQuickpick(
-        fileOptions.map(option => option.label),
-        "Select the kind of file to create"
-      );
-
-      const desiredFileType: NewFileOptions | undefined =
-        fileOptions[fileSelection];
-
-      if (desiredFileType !== undefined) {
-        const fileName = await workspace.callAsync<string>("input", [
-          "Name: ",
-          ""
-        ]);
-        if (fileName.trim() === "") {
-          workspace.showMessage("New file must have a name.", "error");
-        } else {
-          const arg: MetalsNewScalaFileParams = {
-            directory: parentDir,
-            name: fileName,
-            kind: desiredFileType.kind
-          };
-          const result = await client.sendRequest(ExecuteCommandRequest.type, {
-            command: "new-scala-file",
-            arguments: [arg]
-          });
-          workspace.openResource(result);
-        }
-      } else {
-        return;
-      }
+      client.sendRequest(ExecuteCommandRequest.type, {
+        command: "new-scala-file",
+        arguments: [parentDir]
+      });
     });
 
     client.onNotification(ExecuteClientCommand.type, async params => {
@@ -343,16 +294,30 @@ function launchMetals(
 
     client.onRequest(MetalsInputBox.type, async (options: InputBoxOptions) => {
       const response = await workspace.callAsync<string>("input", [
-        `${options.prompt} `,
-        options.value
+        `${options.prompt}: `,
+        options.value ? options.value : ""
       ]);
-      if (response === undefined) {
+      if (response.trim() === "") {
         return { cancelled: true };
       } else {
-        workspace.showMessage(response);
         return { value: response };
       }
     });
+
+    client.onRequest(MetalsQuickPick.type, (params: MetalsQuickPickParams, _) =>
+      workspace
+        .showQuickpick(
+          params.items.map(item => item.label),
+          params.placeHolder
+        )
+        .then(answer => {
+          if (answer === -1) {
+            return { cancelled: true };
+          } else {
+            return { itemId: params.items[answer].id };
+          }
+        })
+    );
 
     if (features.decorationProvider) {
       client.onNotification(

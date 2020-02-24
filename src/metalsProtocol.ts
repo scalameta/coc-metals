@@ -61,13 +61,32 @@ export namespace MetalsDidFocus {
   );
 }
 
-export interface MetalsNewScalaFileParams {
-  directory?: string;
-  name: string;
-  kind: "class" | "object" | "trait" | "package-object" | "worksheet";
+export namespace MetalsQuickPick {
+  export const type = new RequestType<
+    MetalsQuickPickParams,
+    MetalsQuickPickResult,
+    void,
+    void
+  >("metals/quickPick");
 }
 
-export interface NewFileOptions {
-  kind: "class" | "object" | "trait" | "package-object" | "worksheet";
-  label: "Class" | "Object" | "Trait" | "Package Object" | "Worksheet";
+export interface MetalsQuickPickParams {
+  items: MetalsQuickPickItem[];
+  matchOnDescription?: boolean;
+  matchOnDetail?: boolean;
+  placeHolder?: string;
+  ignoreFocusOut?: boolean;
+}
+
+export interface MetalsQuickPickResult {
+  itemId?: string;
+  cancelled?: boolean;
+}
+
+export interface MetalsQuickPickItem {
+  id: string;
+  label: string;
+  description?: string;
+  detail?: string;
+  alwaysShow?: boolean;
 }
