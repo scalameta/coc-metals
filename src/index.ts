@@ -294,14 +294,12 @@ function launchMetals(
 
     client.onRequest(MetalsInputBox.type, async (options: InputBoxOptions) => {
       const response = await workspace.callAsync<string>("input", [
-        `${options.prompt} `,
+        `${options.prompt}: `,
         options.value ? options.value : ""
       ]);
-      workspace.showMessage(response);
       if (response.trim() === "") {
         return { cancelled: true };
       } else {
-        workspace.showMessage(response);
         return { value: response };
       }
     });
