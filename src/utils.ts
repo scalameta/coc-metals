@@ -1,18 +1,21 @@
 import { Commands } from "./commands";
 
-import { workspace } from "coc.nvim";
+import { workspace, StatusBarItem } from "coc.nvim";
 import { ChildProcessPromise } from "promisify-child-process";
-import ProgressItem from "./ProgressItem";
 import { downloadProgress } from "metals-languageclient";
 import * as metalsLanguageClient from "metals-languageclient";
 
 export function trackDownloadProgress(
-  download: ChildProcessPromise
+  title: string,
+  download: ChildProcessPromise,
+  progress: StatusBarItem
 ): Promise<string> {
-  const progress = new ProgressItem().createStatusBarItem("Preparing Metals");
   return downloadProgress({
     download,
-    onProgress: progress.update,
+    onProgress: _ => {
+      progress.text = title;
+      progress.show();
+    },
     onError: progress.dispose,
     onComplete: progress.dispose
   });

@@ -15,6 +15,16 @@ export interface DoctorProvider {}
 export interface StatusBarProvider {}
 
 export class MetalsFeatures implements StaticFeature {
+  private statusBarEnabled: boolean;
+
+  constructor(statusBarEnabled: boolean | undefined) {
+    if (statusBarEnabled !== undefined) {
+      this.statusBarEnabled = statusBarEnabled;
+    } else {
+      this.statusBarEnabled = false;
+    }
+  }
+
   debuggingProvider?: DebuggingProvider;
   decorationProvider?: DecorationProvider;
   quickPickProvider?: QuickPickProvider;
