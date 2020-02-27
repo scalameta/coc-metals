@@ -79,6 +79,7 @@ export function detectLaunchConfigurationChanges(): void {
             workspace.nvim.command(Commands.RESTART_COC, true);
           }
         });
-    }
+    },
+    ["statusBarEnabled"]
   );
 }

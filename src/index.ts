@@ -219,6 +219,7 @@ function launchMetals(
     progress.isProgress = false;
     progress.text = "Metals is Ready!";
     progress.show();
+
     const commands = [
       "build-import",
       "build-connect",
