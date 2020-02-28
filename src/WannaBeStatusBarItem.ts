@@ -1,4 +1,4 @@
-import { workspace } from "coc.nvim";
+import { workspace, StatusBarItem } from "coc.nvim";
 
 /**
  * ProgressItem is meant to mimic the the progress you can display using
@@ -10,44 +10,44 @@ import { workspace } from "coc.nvim";
  * have a statusline and would like to have this displayed there along
  * with other long lived processes.
  */
-export default class ProgressItem {
+export default class WannaBeStatusBarItem implements StatusBarItem {
   private frames = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
-  private _text = "";
   private interval: NodeJS.Timer;
   private counter = 0;
-  constructor() {
+
+  public isProgress = false;
+  public text: string = "";
+  public priority = 0;
+
+  constructor(priority: number, isProgress: boolean, initialMessage: string) {
+    this.priority = priority;
+    this.isProgress = isProgress;
+    this.text = initialMessage;
     this.interval = setInterval(() => {
-      this.showProgress();
+      this.showText();
     }, 1000);
   }
-  public createStatusBarItem(initialMessage: string) {
-    this._text = initialMessage;
-    let item = {
-      update: (text: string) => {
-        this._text = text;
-      },
-      dispose: () => {
-        clearInterval(this.interval);
-      }
-    };
-    this.showProgress();
-    return item;
-  }
+
+  public hide = () => this.dispose();
+  public show = () => this.showText();
+  public dispose = () => clearInterval(this.interval);
+  public update = (newText: string) => (this.text = newText);
 
   private getText(): string {
+    let textToDisplay: string;
     if (this.frames[this.counter] === undefined) {
       this.counter = 0;
     }
-    const textToDisplay =
-      this._text.trim() !== ""
-        ? this._text + this.frames[this.counter]
-        : this._text;
-    this.counter++;
+    if (this.isProgress && this.text.trim() !== "") {
+      textToDisplay = this.text + this.frames[this.counter];
+      this.counter++;
+    } else {
+      textToDisplay = this.text;
+    }
     return textToDisplay;
   }
 
-  private async showProgress(): Promise<void> {
-    let text = this.getText();
-    workspace.showMessage(text);
+  private async showText(): Promise<void> {
+    workspace.showMessage(this.getText());
   }
 }

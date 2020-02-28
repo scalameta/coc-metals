@@ -90,3 +90,17 @@ export interface MetalsQuickPickItem {
   detail?: string;
   alwaysShow?: boolean;
 }
+
+export namespace MetalsStatus {
+  export const type = new NotificationType<MetalsStatusParams, void>(
+    "metals/status"
+  );
+}
+
+export interface MetalsStatusParams {
+  text: string;
+  show?: boolean;
+  hide?: boolean;
+  tooltip?: string;
+  command?: string;
+}

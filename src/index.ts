@@ -16,7 +16,8 @@ import {
   MetalsQuickPick,
   DecorationsRangesDidChange,
   PublishDecorationsParams,
-  MetalsQuickPickParams
+  MetalsQuickPickParams,
+  MetalsStatus
 } from "./metalsProtocol";
 import {
   checkServerVersion,
@@ -33,7 +34,8 @@ import {
   RevealOutputChannelOn,
   workspace,
   events,
-  FloatFactory
+  FloatFactory,
+  StatusBarItem
 } from "coc.nvim";
 import {
   ExecuteCommandRequest,
@@ -46,6 +48,7 @@ import { TreeViewController } from "./tvp/controller";
 import { TreeViewFeature } from "./tvp/feature";
 import { TreeViewsManager } from "./tvp/treeviews";
 import * as path from "path";
+import WannaBeStatusBarItem from "./WannaBeStatusBarItem";
 
 export async function activate(context: ExtensionContext) {
   detectLaunchConfigurationChanges();
@@ -103,9 +106,23 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
     javaConfig
   });
 
-  trackDownloadProgress(fetchProcess).then(
+  const statusBarEnabled = config.get<boolean>("statusBarEnabled");
+
+  const progress: StatusBarItem = statusBarEnabled
+    ? workspace.createStatusBarItem(0, { progress: true })
+    : new WannaBeStatusBarItem(0, true, "Preparing Metals");
+
+  const title = `Downloading Metals v${serverVersion}`;
+  trackDownloadProgress(title, fetchProcess, progress).then(
     classpath => {
-      launchMetals(context, classpath, serverProperties, javaConfig);
+      launchMetals(
+        context,
+        classpath,
+        serverProperties,
+        javaConfig,
+        progress,
+        statusBarEnabled
+      );
     },
     () => {
       const msg = (() => {
@@ -138,7 +155,9 @@ function launchMetals(
   context: ExtensionContext,
   metalsClasspath: string,
   serverProperties: string[],
-  javaConfig: JavaConfig
+  javaConfig: JavaConfig,
+  progress: StatusBarItem,
+  statusBarEnabled: boolean | undefined
 ) {
   const serverOptions = getServerOptions({
     metalsClasspath,
@@ -162,7 +181,7 @@ function launchMetals(
     clientOptions
   );
 
-  const features = new MetalsFeatures();
+  const features = new MetalsFeatures(statusBarEnabled);
   const treeViewFeature = new TreeViewFeature(client);
   client.registerFeature(features);
   client.registerFeature(treeViewFeature);
@@ -175,8 +194,8 @@ function launchMetals(
     100,
     true
   );
-  const decorationProvider = new DecorationProvider(floatFactory);
 
+  const decorationProvider = new DecorationProvider(floatFactory);
   const treeViewsManager = new TreeViewsManager(workspace.nvim, context.logger);
   const treeViewController = new TreeViewController(
     treeViewFeature,
@@ -197,7 +216,9 @@ function launchMetals(
   context.subscriptions.push(client.start());
 
   client.onReady().then(_ => {
-    workspace.showMessage("Metals is ready!");
+    progress.isProgress = false;
+    progress.text = "Metals is Ready!";
+    progress.show();
 
     const commands = [
       "build-import",
@@ -317,6 +338,18 @@ function launchMetals(
           }
         })
     );
+
+    if (statusBarEnabled) {
+      const statusItem = workspace.createStatusBarItem(0);
+      client.onNotification(MetalsStatus.type, params => {
+        statusItem.text = params.text;
+        if (params.show) {
+          statusItem.show();
+        } else if (params.hide) {
+          statusItem.hide();
+        }
+      });
+    }
 
     if (features.decorationProvider) {
       client.onNotification(

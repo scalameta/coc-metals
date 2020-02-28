@@ -15,6 +15,16 @@ export interface DoctorProvider {}
 export interface StatusBarProvider {}
 
 export class MetalsFeatures implements StaticFeature {
+  private statusBarEnabled: boolean;
+
+  constructor(statusBarEnabled: boolean | undefined) {
+    if (statusBarEnabled !== undefined) {
+      this.statusBarEnabled = statusBarEnabled;
+    } else {
+      this.statusBarEnabled = false;
+    }
+  }
+
   debuggingProvider?: DebuggingProvider;
   decorationProvider?: DecorationProvider;
   quickPickProvider?: QuickPickProvider;
@@ -39,8 +49,10 @@ export class MetalsFeatures implements StaticFeature {
     (params.capabilities
       .experimental as any).executeClientCommandProvider = true;
     (params.capabilities.experimental as any).doctorProvider = "json";
-    (params.capabilities.experimental as any).statusBarProvider =
-      "show-message";
+    (params.capabilities.experimental as any).statusBarProvider = this
+      .statusBarEnabled
+      ? "on"
+      : "show-message";
   }
   fillClientCapabilities(): void {}
   initialize(capabilities: ServerCapabilities): void {
