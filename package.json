@@ -282,7 +282,7 @@
     "prettier": "1.19.1",
     "rimraf": "^3.0.2",
     "ts-loader": "^6.0.3",
-    "typescript": "3.8.2"
+    "typescript": "3.8.3"
   },
   "dependencies": {
     "coc.nvim": "0.0.75",
