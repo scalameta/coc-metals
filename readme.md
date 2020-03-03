@@ -311,8 +311,8 @@ This step clean ups resources that are used by the server.
 ### Statusline integration
 
 It's recommended to use a statusline integration with `coc-metals` in order to
-allow messages to be displayed in your status line rather than as a message. This
-will allow for a better experience with as you can continue to get status
+allow messages to be displayed in your status line rather than as a message.
+This will allow for a better experience as you can continue to get status
 information while entering a command or responding to a prompt. However, we
 realize that not everyone by default will have this setup, and since the user
 needs to see messages about the status of their build, the following is
@@ -323,15 +323,17 @@ defaulted to false.
 ```
 
 Again, it's recommended to make this active, and use a statusline plugin, or
-manually add the coc status information into your statusline.
-`coc.nvim` has multiple ways to integrate with various statusline plugins. You can find instructions
-for each of them located [here](https://github.com/neoclide/coc.nvim/wiki/Statusline-integration).
-If you're unsure of what to use, [vim-airline](https://github.com/vim-airline/vim-airline) is a
-great minimal choice that will work out of the box.
+manually add the coc status information into your statusline.  `coc.nvim` has
+multiple ways to integrate with various statusline plugins. You can find
+instructions for each of them located
+[here](https://github.com/neoclide/coc.nvim/wiki/Statusline-integration).  If
+you're unsure of what to use,
+[vim-airline](https://github.com/vim-airline/vim-airline) is a great minimal
+choice that will work out of the box.
 
-With [vim-airline](https://github.com/vim-airline/vim-airline), you'll notice two noteworthy,
-things. The first will be that you'll have diagnostic information on the far
-right of your screen.
+With [vim-airline](https://github.com/vim-airline/vim-airline), you'll notice
+two noteworthy, things. The first will be that you'll have diagnostic
+information on the far right of your screen.
 
 ![Diagnostic statusline](https://i.imgur.com/7uNYTYl.png)
 
@@ -343,8 +345,9 @@ Without a statusline integration, you'll get messages like you see below.
 
 ![No status line](https://i.imgur.com/XF7A1BJ.png)
 
-If you don't use a statusline plugin, but would still like to see this information, the easiest
-way is to make sure you have the following in your `.vimrc`.
+If you don't use a statusline plugin, but would still like to see this
+information, the easiest way is to make sure you have the following in your
+`.vimrc`.
 
 ```vim
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
