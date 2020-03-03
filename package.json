@@ -124,7 +124,7 @@
         "metals.statusBarEnabled": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "Turn on usage of the statusBar integration.\n\nNote: You need to ensure you are adding something like `%{coc#status()}` in order to dispaly it."
+          "markdownDescription": "Turn on usage of the statusBar integration.\n\nNote: You need to ensure you are adding something like `%{coc#status()}` in order to display it, or use a plugin with status integration."
         },
         "metals.treeviews.initialWidth": {
           "type": "number",
