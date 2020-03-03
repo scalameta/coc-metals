@@ -231,6 +231,7 @@ members, and methods are all color coded.
   - `metals.restartServer`
   - `metals.build-import`
   - `metals.build-connect`
+  - `metails.build-restart`
   - `metals.sources-scan`
   - `metals.compile-cascade`
   - `metals.compile-cancel`
@@ -270,6 +271,8 @@ If you'd like to get autocompletion help for the configuration values you can in
 `metals.pantsTargets`                           | The pants targets to export.  Space separated list of Pants targets to export, for example `src/main/scala:: src/main/java::`. Syntax such as `src/{main,test}::` is not supported."
 `metals.scalafmtConfigPath`                     | Optional custom path to the .scalafmt.conf file. Should be relative to the workspace root directory and use forward slashes `/` for file separators (even on Windows).
 `metals.customRepositories`                     | Optional list of custom resolvers passed to Coursier when fetching metals dependencies. For documentation on accepted values see the [Coursier documentation](https://get-coursier.io/docs/other-repositories). The extension will pass these to Coursier using the COURSIER_REPOSITORIES environment variable after joining the custom repositories with a pipe character (|).
+`metals.bloopVersion`                           | This version will be used for the Bloop build tool plugin, for any supported build tool,while importing in Metals as well as for running the embedded server
+`metals.bloopSbtAlreadyInstalled`               | If true, Metals will not generate a `project/metals.sbt` file under the assumption that sbt-bloop is already manually installed in the sbt build. Build import will fail with a 'not valid command bloopInstall' error in case Bloop is not manually installed in the build when using this option.
 `metals.treeviews.toggleNode`                   | Expand / Collapse tree node (default `<CR>`)
 `metals.treeviews.initialWidth`                 | Initial Tree Views panels (default `40`)
 `metals.treeviews.initialViews`                 | Initial views that the Tree View Panel Dispalys. Done mess with this unless you know what you're doing.

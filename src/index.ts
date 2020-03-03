@@ -223,6 +223,7 @@ function launchMetals(
     const commands = [
       "build-import",
       "build-connect",
+      "build-restart",
       "sources-scan",
       "doctor-run",
       "compile-cascade",
