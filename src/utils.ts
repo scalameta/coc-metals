@@ -80,6 +80,6 @@ export function detectLaunchConfigurationChanges(): void {
           }
         });
     },
-    ["statusBarEnabled"]
+    ["statusBarEnabled", "bloopVersion"]
   );
 }
