@@ -231,7 +231,7 @@ members, and methods are all color coded.
   - `metals.restartServer`
   - `metals.build-import`
   - `metals.build-connect`
-  - `metails.build-restart`
+  - `metals.build-restart`
   - `metals.sources-scan`
   - `metals.compile-cascade`
   - `metals.compile-cancel`
