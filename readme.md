@@ -323,7 +323,7 @@ defaulted to false.
 ```
 
 Again, it's recommended to make this active, and use a statusline plugin, or
-manually add the coc status information into your statusline.  `coc.nvim` has
+manually add the coc status information into your statusline. `coc.nvim` has
 multiple ways to integrate with various statusline plugins. You can find
 instructions for each of them located
 [here](https://github.com/neoclide/coc.nvim/wiki/Statusline-integration).  If
@@ -332,7 +332,7 @@ you're unsure of what to use,
 choice that will work out of the box.
 
 With [vim-airline](https://github.com/vim-airline/vim-airline), you'll notice
-two noteworthy, things. The first will be that you'll have diagnostic
+two noteworthy things. The first will be that you'll have diagnostic
 information on the far right of your screen.
 
 ![Diagnostic statusline](https://i.imgur.com/7uNYTYl.png)
