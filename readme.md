@@ -189,11 +189,17 @@ having multiple windows, you can use `<C-w> + w` to jump into it.
 
 ### Worksheets
 
-Metals allows users to create a `*.worksheet.sc` file and see evaluations right in the file. In Vim,
-this is done using comments that are inserted which will allow you to hover on them to expand. In
-Neovim, this is done using Neovim's [virtual text](https://neovim.io/doc/user/api.html#nvim_buf_set_virtual_text())
-to implement Metal's [Decoration Protocol](https://scalameta.org/metals/docs/editors/decoration-protocol.html).
-If using Neovim, make sure to have the following line in included in your `.vimrc` along with your `coc.nvim` mappings.
+Metals allows users to create a `*.worksheet.sc` file and see evaluations right
+in their file. In Vim, this is done using comments that are inserted which will
+allow you to hover on them to expand. In Neovim, this is done using Neovim's
+[virtual text](https://neovim.io/doc/user/api.html#nvim_buf_set_virtual_text())
+to implement Metal's [Decoration
+Protocol](https://scalameta.org/metals/docs/editors/decoration-protocol.html).
+If using Neovim, make sure to have the following line included in your `.vimrc`
+along with your `coc.nvim` mappings.  Also keep in mind that the worksheet needs
+to be created inside of your project to have access to your dependencies etc. If
+you create them in the root of your project for example, your worksheet will
+only have access to the standard lib.
 
 ```vim
 nmap <Leader>ws <Plug>(coc-metals-expand-decoration)
