@@ -35,7 +35,10 @@
     "format": "prettier --write src/*.ts",
     "format-check": "prettier --check src/*.ts",
     "prepare": "npx npm-run-all clean build",
-    "watch": "parcel serve src/index.ts --out-dir lib/ --target node"
+    "watch": "parcel serve src/index.ts --out-dir lib/ --target node",
+    "po:docker": "docker build . -t po4a",
+    "po:update": "docker run --rm -v `pwd`:/work po4a po4a-updatepo -f text -m readme.md -p po/ja.po",
+    "po:translate": "docker run --rm -v `pwd`:/work po4a po4a-translate -f text -m readme.md -p po/ja.po -l readme_ja.md"
   },
   "activationEvents": [
     "onLanguage:scala",

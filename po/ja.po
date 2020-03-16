@@ -1,0 +1,900 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-03-16 07:48+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: Plain text
+#: readme.md:3
+msgid "# coc-metals"
+msgstr "# coc-metals"
+
+#. type: Plain text
+#: readme.md:8
+msgid ""
+"![coc-metals](https://i.imgur.com/zofu4VI.png)  ![npm](https://img.shields."
+"io/npm/v/coc-metals?style=flat-square)  [![code style: prettier](https://img."
+"shields.io/badge/code_style-prettier-ce92ac.svg?style=flat-square)](https://"
+"github.com/prettier/prettier)  [![Dependabot Status](https://api.dependabot."
+"com/badges/status?host=github&repo=scalameta/coc-metals)](https://dependabot."
+"com)"
+msgstr ""
+"![coc-metals](https://i.imgur.com/zofu4VI.png)  ![npm](https://img.shields."
+"io/npm/v/coc-metals?style=flat-square)  [![code style: prettier](https://img."
+"shields.io/badge/code_style-prettier-ce92ac.svg?style=flat-square)](https://"
+"github.com/prettier/prettier)  [![Dependabot Status](https://api.dependabot."
+"com/badges/status?host=github&repo=scalameta/coc-metals)](https://dependabot."
+"com)"
+
+#. type: Plain text
+#: readme.md:12
+msgid ""
+"`coc-metals` is the recommended `coc.nvim` extension for [Metals](https://"
+"scalameta.org/metals/), the Scala language server. `coc-metals` offers "
+"automated Metals installation, easy configuration, Metals-specific commands, "
+"an embedded doctor, implementation of the decoration protocol, and many "
+"other small features."
+msgstr ""
+"`coc-metals` は Scalaのlanguage serverである[Metals](https://scalameta.org/"
+"metals/)のためのcoc.nvimの推奨拡張機能です。`coc-metals` は 自動化された"
+"Metalsのインストール、簡単な設定、Metals固有のコマンド郡、組込みの検査機能、"
+"デコレーションプロトコルなど、多くの機能を提供しています。"
+
+#. type: Plain text
+#: readme.md:17
+#, fuzzy, no-wrap
+#| msgid ""
+#| "***NOTE: The readme is up-to-date with the master branch, so not all features\n"
+#| "will be available if you're using the latest stable release. The [vim\n"
+#| "page](https://scalameta.org/metals/docs/editors/vim.html) on the Metals site is synced with the\n"
+#| "latest stable release***"
+msgid ""
+"***NOTE: The readme is up-to-date with the master branch, so not all features\n"
+"will be available if you're using the latest stable release. The [vim\n"
+"page](https://scalameta.org/metals/docs/editors/vim.html) on the Metals site is synced with the\n"
+"latest stable release***\n"
+msgstr "***NOTE: このreadmeはmasterブランチで更新されています。もしあなたが、最新の安定版を使用しているのであれば必ずしも全ての機能が有効であるとは限りません。なおMetalsのサイトの[vimのページ](https://scalameta.org/metals/docs/editors/vim.html)は最新の安定版のもので同期されています。"
+
+#. type: Plain text
+#: readme.md:42
+#, no-wrap
+msgid ""
+"## Table of Contents\n"
+"  - [Requirements](#requirements)\n"
+"  - [Installing coc-metals](#installing-coc-metals)\n"
+"  - [Importing a build](#importing-a-build)\n"
+"    - [Custom sbt launcher](#custom-sbt-launcher)\n"
+"    - [Speeding up import](#speeding-up-import)\n"
+"    - [Importing changes](#importing-changes)\n"
+"  - [Configure Java version](#configure-java-version)\n"
+"  - [Using latest Metals SNAPSHOT](#using-latest-metals-snapshot)\n"
+"  - [List all workspace compile errors](#list-all-workspace-compile-errors)\n"
+"  - [Run doctor](#run-doctor)\n"
+"  - [Worksheets](#worksheets)\n"
+"  - [Tree View Protocol](#tree-view-protocol)\n"
+"  - [All Available Commands](#all-available-commands)\n"
+"  - [Show document symbols](#show-document-symbols)\n"
+"  - [Available Configuration Options](#available-configuration-options)\n"
+"  - [Enable on type formatting for multiline string formatting](#enable-on-type-formatting-for-multiline-string-formatting)\n"
+"  - [Shut down the language server](#shut-down-the-language-server)\n"
+"  - [Statusline integration](#statusline-integration)\n"
+"  - [Formatting on save](#formatting-on-save)\n"
+"  - [Gitignore](#gitignore)\n"
+"  - [Troubleshooting](#troubleshooting)\n"
+"  - [Contributing](#contributing)\n"
+"  - [Theme](#theme)\n"
+msgstr ""
+"## 目次\n"
+"  - [動作要件](#requirements)\n"
+"  - [coc-metalsのインストール方法](#installing-coc-metals)\n"
+"  - [ビルドのインポート](#importing-a-build)\n"
+"    - [独自のsbt launcher](#custom-sbt-launcher)\n"
+"    - [インポートの高速化](#speeding-up-import)\n"
+"    - [変更のインポート](#importing-changes)\n"
+"  - [Java バージョンの設定](#configure-java-version)\n"
+"  - [最新のMetalsのスナップショットを使う](#using-latest-metals-snapshot)\n"
+"  - [ワークスペース内のコンパイルエラーを全て列挙する](#list-all-workspace-compile-errors)\n"
+"  - [検査機能の実行](#run-doctor)\n"
+"  - [ワークシート](#worksheets)\n"
+"  - [ツリービュープロトコル](#tree-view-protocol)\n"
+"  - [全ての有効なコマンド郡](#all-available-commands)\n"
+"  - [ドキュメントのシンボルの表示](#show-document-symbols)\n"
+"  - [有効な設定項目](#available-configuration-options)\n"
+"  - [複数行にまたがる文字列の整形のための型整形機能](#enable-on-type-formatting-for-multiline-string-formatting)\n"
+"  - [language serverを停止する](#shut-down-the-language-server)\n"
+"  - [ステータスラインの統合](#statusline-integration)\n"
+"  - [保存時に整形する](#formatting-on-save)\n"
+"  - [Gitignore](#gitignore)\n"
+"  - [トラブルシューティング](#troubleshooting)\n"
+"  - [貢献について](#contributing)\n"
+"  - [テーマ](#theme)\n"
+
+#. type: Plain text
+#: readme.md:44
+msgid "### Requirements"
+msgstr "### 動作要件"
+
+#. type: Plain text
+#: readme.md:47
+#, fuzzy, no-wrap
+#| msgid ""
+#| "***`coc-metals` works with both [Vim](https://www.vim.org/) and [Neovim](https://neovim.io/), but\n"
+#| "we recommend neovim for a smoother experience and extra features such as the decoration protocol.***"
+msgid ""
+"***`coc-metals` works with both [Vim](https://www.vim.org/) and [Neovim](https://neovim.io/), but\n"
+"we recommend neovim for a smoother experience and extra features such as the decoration protocol.***\n"
+msgstr ""
+"***`coc-metals` は[Vim](https://www.vim.org/) と [Neovim](https://neovim.io/)の両方で動作しますが, \n"
+"私達は快適な体験とデコレーションプロトコルのような追加の機能のためにneovimを使用することをお勧めします。"
+
+#. type: Plain text
+#: readme.md:55
+msgid ""
+"- [coc.nvim](https://github.com/neoclide/coc.nvim) - There are detailed "
+"instructions in their repo on how to get set up and running quickly.  - Java "
+"8 or 11 provided by OpenJDK or Oracle. Eclipse OpenJ9 is not supported, "
+"please make sure the JAVA_HOME environment variable points to a valid Java 8 "
+"or 11 installation.  - ***`coc.nvim` doesn't come with a default mapping for "
+"LSP commands, so you need to configure this in order for any of the commands "
+"to work. You can find an example configuration and instructions [here](coc-"
+"mappings.vim)***"
+msgstr ""
+"- [coc.nvim](https://github.com/neoclide/coc.nvim) - ここにはすぐに設定し実行"
+"するため詳細な手順が記載されています。\n"
+"- OpenJDK もしくはOracleによって提供されているJava 8もしくはJava 11が必要で"
+"す。Eclipse OpenJ9 はサポートしていません。かならず JAVA_HOME 環境変数が妥当"
+"なJava 8もしくはJava 11のインストール先を指していることを確認してください。\n"
+"- ***`coc.nvim`はLSPコマンド郡に対応するキーマップを設定していません。した"
+"がっていかなるコマンドを実行するにしてもキーマップを設定する必要があります。"
+"これについて設定例と手順を[here](coc-mappings.vim)で読むことができます。"
+
+#. type: Plain text
+#: readme.md:57
+msgid "### Installing coc-metals"
+msgstr "### coc-metalsのインストール"
+
+#. type: Plain text
+#: readme.md:60
+msgid ""
+"Once you have `coc.nvim` installed, you can then install Metals a few "
+"different ways, but the easiest is by running."
+msgstr ""
+"一度`coc.nvim`をインストールしたならば、Metalsをいくつかの方法でインストールすることができます。"
+"しかしここでは最も簡単な方法を紹介します。"
+
+#. type: Plain text
+#: readme.md:64
+msgid "```vim :CocInstall coc-metals ```"
+msgstr "```vim :CocInstall coc-metals ```"
+
+#. type: Plain text
+#: readme.md:67
+msgid ""
+"If you'd like to use the latest changes on master, you can also just build "
+"from source by using `:CocInstall` with the repository url."
+msgstr ""
+"もしmasterにある最新の変更を使用したい場合は、"
+"`:CocInstall`をrepository urlに対して使い、ソースコードからビルドするだけです。"
+
+#. type: Plain text
+#: readme.md:71
+msgid "```vim :CocInstall https://github.com/scalameta/coc-metals ```"
+msgstr "```vim :CocInstall https://github.com/scalameta/coc-metals ```"
+
+#. type: Plain text
+#: readme.md:75
+msgid ""
+"If you'd like to use the latest changes on master, but manage it using a "
+"plugin manager to download the extension, then if you are using [`vim-plug`]"
+"(https://github.com/junegunn/vim-plug)  for example, enter the following "
+"into where you manage your plugins:"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:79
+msgid ""
+"```vim Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'} "
+"```"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:82
+msgid ""
+"Then, issue a `:PlugInstall` to install the extension, and regularly a `:"
+"PlugUpdate` to update it and pull in the latest changes."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:86
+#, no-wrap
+msgid ""
+"*** Keep in mind that if you are installing directly from the repo via `:CocInstall` with the\n"
+"repository url or through a plugin manager, remove `coc-metals` with `:CocUninstall coc-metals`\n"
+"before you add it in with one of the other methods to not conflict with one another.\n"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:88
+msgid "### Importing a build"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:91
+msgid ""
+"The first time you open Metals in a new workspace it prompts you to import "
+"the build. Click \"Import build\" to start the installation step."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:93
+msgid "![Build Import](https://i.imgur.com/1EyQPTC.png)"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:99
+msgid "\"Not now\" disables this prompt for 2 minutes."
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:99
+msgid ""
+"\"Don't show again\" disables this prompt forever, use rm -rf .metals/ to re-"
+"enable the prompt."
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:99
+msgid "Use tail -f .metals/metals.log to watch the build import progress."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:99
+#, no-wrap
+msgid ""
+"  - Behind the scenes, Metals uses Bloop to import sbt builds, but you don't need Bloop installed\n"
+"  on your machine to run this step.\n"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:101
+msgid ""
+"Once the import step completes, compilation starts for your open *.scala "
+"files."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:103
+msgid ""
+"Once the sources have compiled successfully, you can navigate the codebase "
+"with goto definition."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:105
+msgid "#### Custom sbt launcher"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:108
+msgid ""
+"By default, Metals runs an embedded sbt-launch.jar launcher that respects ."
+"sbtopts and .jvmopts.  However, the environment variables SBT_OPTS and "
+"JAVA_OPTS are not respected."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:111
+msgid ""
+"Update the metals.sbtScript setting to use a custom sbt script instead of "
+"the default Metals launcher if you need further customizations like reading "
+"environment variables."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:113
+msgid "![sbt-launcher](https://i.imgur.com/meciPTg.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:115
+msgid "#### Speeding up import"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:120
+msgid ""
+"The \"Import build\" step can take a long time, especially the first time "
+"you run it in a new build.  The exact time depends on the complexity of the "
+"build and if library dependencies need to be downloaded. For example, this "
+"step can take everything from 10 seconds in small cached builds up to 10-15 "
+"minutes in large uncached builds."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:122
+msgid "Consult the Bloop documentation to learn how to speed up build import."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:124
+msgid "#### Importing changes"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:126
+msgid ""
+"When you change build.sbt or sources under project/, you will be prompted to "
+"re-import the build."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:128
+msgid "![Build Re-Import](https://i.imgur.com/iocTVb6.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:132
+msgid ""
+"### Configure Java version The `coc-metals` extension uses by default the "
+"`JAVA_HOME` environment variable (via [`find-java-home`](https://www.npmjs."
+"com/package/find-java-home)) to locate the `java` executable."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:134
+msgid "![No Java Home](https://i.imgur.com/clDfPMk.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:138
+msgid ""
+"If no `JAVA_HOME` is detected you can then Open Settings by following the "
+"instructions or do it at a later time by using `:CocConfig` or `:"
+"CocConfigLocal` which will open up your configuration where you can manually "
+"enter your JAVA_HOME location."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:140
+msgid "![java-home](https://i.imgur.com/wK07Vju.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:143
+msgid ""
+"`coc.nvim` uses [jsonc](https://code.visualstudio.com/docs/languages/json) "
+"as a configuration file format. It's basically json with comment support."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:145
+msgid "In order to get comment highlighting, please add:"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:149
+msgid "```vim autocmd FileType json syntax match Comment +\\/\\/.\\+$+ ```"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:151
+msgid "### Using latest Metals SNAPSHOT"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:154
+msgid ""
+"Update the \"Server Version\" setting to try out the latest pending Metals "
+"features."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:157
+msgid ""
+"After updating the version, you'll be triggered to reload the window.  This "
+"will be necessary before the new version will be downloaded and used."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:159
+msgid "![Update Metals Version](https://i.imgur.com/VUCdQvi.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:162
+msgid "### List all workspace compile errors"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:165
+msgid ""
+"To list all compilation errors and warnings in the workspace, run the "
+"following command."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:169
+msgid "```vim :CocList diagnostics ```"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:171
+msgid "Or use the default recommended mapping `<space> a`."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:174
+msgid ""
+"This is helpful to see compilation errors in different files from your "
+"current open buffer."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:176
+msgid "![Diagnostics](https://i.imgur.com/cer22HW.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:178
+msgid "### Run doctor"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:182
+msgid ""
+"To troubleshoot problems with your build workspace, open your coc commands "
+"by either using `:CocCommand` or the recommend mapping `<space> c`. This "
+"will open your command window allowing you to search for `metals.doctor-run` "
+"command."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:184
+msgid "![Run Doctor Command](https://i.imgur.com/QaqhxF7.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:187
+msgid ""
+"This command opens an embedded doctor in your preview window. If you're not "
+"familiar with having multiple windows, you can use `<C-w> + w` to jump into "
+"it."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:189
+msgid "![Embedded Doctor](https://i.imgur.com/McaAFv5.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:191
+msgid "### Worksheets"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:203
+msgid ""
+"Metals allows users to create a `*.worksheet.sc` file and see evaluations "
+"right in their file. In Vim, this is done using comments that are inserted "
+"which will allow you to hover on them to expand. In Neovim, this is done "
+"using Neovim's [virtual text](https://neovim.io/doc/user/api."
+"html#nvim_buf_set_virtual_text())  to implement Metal's [Decoration Protocol]"
+"(https://scalameta.org/metals/docs/editors/decoration-protocol.html).  If "
+"using Neovim, make sure to have the following line included in your `.vimrc` "
+"along with your `coc.nvim` mappings.  Also keep in mind that the worksheet "
+"needs to be created inside of your project to have access to your "
+"dependencies etc. If you create them in the root of your project for "
+"example, your worksheet will only have access to the standard lib."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:209
+msgid ""
+"```vim nmap <Leader>ws <Plug>(coc-metals-expand-decoration)  ``` Then, when "
+"on the line that you'd like to expand the decoration to get the hover "
+"information, execute a `<leader>ws` in order to see the expanded text for "
+"that line."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:211
+msgid "![Decorations with worksheets](https://i.imgur.com/Bt6DMtH.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:213
+msgid "### Tree View Protocol"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:222
+msgid ""
+"![Tree View Protocol](https://i.imgur.com/ryUPx3l.png)  coc-metals has a "
+"built-in implementation of the [Tree View Protocol](https://scalameta.org/"
+"metals/docs/editors/tree-view-protocol.html).  If you have the [recommended "
+"mappings](coc-mappings.vim) copied, you'll notice that in the bottom you'll "
+"have some TVP related settings. You can start by opening the TVP panel by "
+"using the default `<space> t`. Once open, you'll see there are two parts to "
+"the panel. The first being the `MetalsCompile` where you can see the status "
+"of ongoing compilations for your modules and also options to compile."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:224
+msgid "![MetalsCompile](https://i.imgur.com/QBPHNQo.gif)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:228
+msgid ""
+"You are able to trigger the compiles while being on top of the option you "
+"are attempting to trigger and pressing `r`. You can change this default in "
+"the settings. You can find all the relevant TVP settings below in the "
+"[Available Configuration Options](#available-configuration-options)."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:234
+msgid ""
+"The second part of the TVP panel is a view of your project and external "
+"dependencies.  You can navigate through them by jumping to the next or "
+"previous nodes, the last or first nodes, or jumping to parent or first child "
+"nodes. There are shortcuts to all of these found below. You will see the "
+"traits, classes, objects, members, and methods are all color coded."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:236
+msgid "### All Available Commands"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:250
+msgid "`metals.restartServer`"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:250
+msgid "`metals.build-import`"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:250
+msgid "`metals.build-connect`"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:250
+msgid "`metals.build-restart`"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:250
+msgid "`metals.sources-scan`"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:250
+msgid "`metals.compile-cascade`"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:250
+msgid "`metals.compile-cancel`"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:250
+msgid "`metals.doctor-run`"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:250
+msgid "`metals.logs-toggle`"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:250
+msgid "`metals.tvp`"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:250
+msgid "`metals.tvp.view`"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:250
+msgid "`metals.revealInTreeView`"
+msgstr ""
+
+#. type: Bullet: '  - '
+#: readme.md:250
+msgid "`metals.new-scala-file`"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:252
+msgid "### Show document symbols"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:255
+msgid ""
+"Run `:CocList outline` to show a symbol outline for the current file or use "
+"the default mapping `<space> o`."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:257
+msgid "![Document Symbols](https://i.imgur.com/gEhAXV4.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:260
+msgid "### Available Configuration Options"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:264
+msgid ""
+"The following configuration options are currently available. The easiest way "
+"to set these configurations is to enter `:CocConfig` or `:CocLocalConfig` to "
+"set your global or local configuration settings respectively."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:266
+msgid ""
+"If you'd like to get autocompletion help for the configuration values you "
+"can install [coc-json](https://github.com/neoclide/coc-json)."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:296
+#, no-wrap
+msgid ""
+"   Configuration Option                         |      Description\n"
+"----------------------------                    |---------------------------\n"
+"`metals.serverVersion`                          | The version of the Metals server artifact. Requires reloading the window.\n"
+"`metals.serverProperties`                       | Optional list of properties to pass along to the Metals server. By default, the environment variable `JAVA_OPTS` and `.jvmopts` file are respected.\n"
+"`metals.javaHome`                               | Optional path to the Java home directory. Requires reloading the window. Defaults to the most recent Java 8 version computed by the `locate-java-home` npm package.\n"
+"`metals.sbtScript`                              | Optional absolute path to an `sbt` executable to use for running `sbt bloopInstall`. By default, Metals uses `java -jar sbt-launch.jar` with an embedded launcher while respecting `.jvmopts` and `.sbtopts`. Update this setting if your `sbt` script requires more customizations like using environment variables.\n"
+"`metals.millScript`                             | Optional absolute path to a `mill` executable to use for running `mill mill.contrib.Bloop/install`. By default, Metals uses an embedded `millw` script while respecting `.mill-version` file. Update this setting if your `mill` script requires more customizations.\n"
+"`metals.mavenScript`                            | Optional absolute path to a `mvn` executable to use for running `mvn ch.epfl.scala:maven-bloop_2.10:<bloop_version>:bloopInstall`. By default, Metals uses an embedded `mvnw` script. Update this setting if your `mvn` script requires more customizations.\n"
+"`metals.gradleScript`                           | Optional absolute path to a `gradle` executable to use for running `gradle bloopInstall`. By default, Metals uses an embedded `gradlew` script. Update this setting if your `gradle` script requires more customizations.\n"
+"`metals.pantsTargets`                           | The pants targets to export.  Space separated list of Pants targets to export, for example `src/main/scala:: src/main/java::`. Syntax such as `src/{main,test}::` is not supported.\"\n"
+"`metals.scalafmtConfigPath`                     | Optional custom path to the .scalafmt.conf file. Should be relative to the workspace root directory and use forward slashes `/` for file separators (even on Windows).\n"
+"`metals.customRepositories`                     | Optional list of custom resolvers passed to Coursier when fetching metals dependencies. For documentation on accepted values see the [Coursier documentation](https://get-coursier.io/docs/other-repositories). The extension will pass these to Coursier using the COURSIER_REPOSITORIES environment variable after joining the custom repositories with a pipe character (|).\n"
+"`metals.bloopVersion`                           | This version will be used for the Bloop build tool plugin, for any supported build tool,while importing in Metals as well as for running the embedded server\n"
+"`metals.bloopSbtAlreadyInstalled`               | If true, Metals will not generate a `project/metals.sbt` file under the assumption that sbt-bloop is already manually installed in the sbt build. Build import will fail with a 'not valid command bloopInstall' error in case Bloop is not manually installed in the build when using this option.\n"
+"`metals.statusBarEnabled`                       | Turn on usage of the statusBar integration. Note: You need to ensure you are adding something like `%{coc#status()}` in order to display it, or use a plugin that includes a status integration.\n"
+"`metals.treeviews.toggleNode`                   | Expand / Collapse tree node (default `<CR>`)\n"
+"`metals.treeviews.initialWidth`                 | Initial Tree Views panels (default `40`)\n"
+"`metals.treeviews.initialViews`                 | Initial views that the Tree View Panel Dispalys. Done mess with this unless you know what you're doing.\n"
+"`metals.treeviews.gotoLastChild`                | Go to the last child Node (defalt `J`)\n"
+"`metals.treeviews.gotoParentNode`               | Go to parent Node (default `p`)\n"
+"`metals.treeviews.gotoFirstChild`               | Go to first child Node (default `K`)\n"
+"`metals.treeviews.executeCommand`               | Execute command for node (default `r`)\n"
+"`metals.treeviews.gotoPrevSibling`              | Go to prev sibling (default `<C-k>`)\n"
+"`metals.treeviews.gotoNextSibling`              | Go to next sibling (default `<C-j>`)\n"
+"`metals.treeviews.forceChildrenReload`          | Force the reloading of the children of this node. May be useful when the wrong result is cached and tree contains invalid data. (default `f`)\n"
+"`metals.treeviews.executeCommandAndOpenTab`     | Execute command and open node under cursor in tab (if node is class, trait and so on) (default `t`)\n"
+"`metals.treeviews.executeCommandAndOpenSplit`   | Execute command and open node under cursor in horizontal split (if node is class, trait and so on) (default `s`)\n"
+"`metals.treeviews.executeCommandAndOpenVSplit`  | Execute command and open node under cursor in horizontal split (if node is class, trait and so on) (default `v`)\n"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:298
+msgid "### Enable on type formatting for multiline string formatting"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:300
+msgid "![on-type](https://i.imgur.com/astTOKu.gif)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:304
+msgid ""
+"To properly support adding `|` in multiline strings we are using the "
+"`onTypeFormatting` method. To enable the functionality you need to enable "
+"`coc.preferences.formatOnType` setting."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:306
+msgid "![coc-preferences-formatOnType](https://i.imgur.com/RWPHt2q.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:308
+msgid "### Shut down the language server"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:310
+msgid "The Metals server is shutdown when you exit vim as you normally would."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:314
+msgid "```vim :wq ```"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:316
+msgid "This step clean ups resources that are used by the server."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:318
+msgid "### Statusline integration"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:326
+msgid ""
+"It's recommended to use a statusline integration with `coc-metals` in order "
+"to allow messages to be displayed in your status line rather than as a "
+"message.  This will allow for a better experience as you can continue to get "
+"status information while entering a command or responding to a prompt. "
+"However, we realize that not everyone by default will have this setup, and "
+"since the user needs to see messages about the status of their build, the "
+"following is defaulted to false."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:330
+msgid "```json \"metals.statusBarEnabled\": true ```"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:339
+msgid ""
+"Again, it's recommended to make this active, and use a statusline plugin, or "
+"manually add the coc status information into your statusline. `coc.nvim` has "
+"multiple ways to integrate with various statusline plugins. You can find "
+"instructions for each of them located [here](https://github.com/neoclide/coc."
+"nvim/wiki/Statusline-integration).  If you're unsure of what to use, [vim-"
+"airline](https://github.com/vim-airline/vim-airline) is a great minimal "
+"choice that will work out of the box."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:343
+msgid ""
+"With [vim-airline](https://github.com/vim-airline/vim-airline), you'll "
+"notice two noteworthy things. The first will be that you'll have diagnostic "
+"information on the far right of your screen."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:345
+msgid "![Diagnostic statusline](https://i.imgur.com/7uNYTYl.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:347
+msgid "You'll also have metals status information in your status bar."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:349
+msgid "![Status bar info](https://i.imgur.com/eCAgrCn.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:351
+msgid ""
+"Without a statusline integration, you'll get messages like you see below."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:353
+msgid "![No status line](https://i.imgur.com/XF7A1BJ.png)"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:357
+msgid ""
+"If you don't use a statusline plugin, but would still like to see this "
+"information, the easiest way is to make sure you have the following in your "
+"`.vimrc`."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:361
+msgid ""
+"```vim set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')} "
+"```"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:363
+msgid "### Formatting on save"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:366
+msgid ""
+"If you'd like to have `:w` format using Metals + Scalafmt, then make sure "
+"you have the following in your `:CocConfig`."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:371
+msgid ""
+"```json \"coc.preferences.formatOnSaveFiletypes\": [\"scala\"] ``` ### "
+"Gitignore"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:376
+msgid ""
+"The Metals server places logs and other files in the .metals/ directory. The "
+"Bloop compile server places logs and compilation artifacts in the .bloop "
+"directory. A Bloop plugin that generates Bloop configuration is added in the "
+"project/metals.sbt file. It's recommended to ignore these directories and "
+"file from version control systems like git."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:383
+msgid "```git # ~/.gitignore .metals/ .bloop/ project/metals.sbt ```"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:385
+msgid "### Troubleshooting"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:390
+msgid ""
+"If you have any questions or issues with coc-metals, please submit an [issue]"
+"(https://github.com/scalameta/coc-metals/issues)  in this repo if it "
+"pertains to the extension. If the issues is general to Metals, please submit "
+"it in the [Metals issue repo](https://github.com/scalameta/metals/issues). "
+"If you have any feature requests, we also have a feature request [issue repo]"
+"(https://github.com/scalameta/metals-feature-requests)."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:392
+msgid "### Contributing"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:395
+msgid ""
+"If you're interested in contributing, please visit the [CONTRIBUTING]"
+"(CONTRIBUTING.md) guide for help on getting started."
+msgstr ""
+
+#. type: Plain text
+#: readme.md:397
+msgid "### Theme"
+msgstr ""
+
+#. type: Plain text
+#: readme.md:402
+msgid ""
+"The screen shots are in [Neovim](https://neovim.io/). The theme is [onedark]"
+"(https://github.com/joshdick/onedark.vim) with syntax highlighting added by "
+"[vim-scala](https://github.com/derekwyatt/vim-scala). The status bar is [vim-"
+"airline](https://github.com/vim-airline/vim-airline), and all being ran in "
+"[iTerm2](https://iterm2.com/)."
+msgstr ""
