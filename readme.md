@@ -49,6 +49,7 @@ we recommend neovim for a smoother experience and extra features such as the dec
 how to get set up and running quickly.
 - Java 8 or 11 provided by OpenJDK or Oracle. Eclipse OpenJ9 is not supported, please make sure the
 JAVA_HOME environment variable points to a valid Java 8 or 11 installation.
+- Node >= 10 in order for coc.nvim to work correctly.
 - ***`coc.nvim` doesn't come with a default mapping for LSP commands, so you need to configure this in
 order for any of the commands to work. You can find an example configuration and instructions
 [here](coc-mappings.vim)***
