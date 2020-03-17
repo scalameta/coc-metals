@@ -201,6 +201,9 @@ msgid ""
 "(https://github.com/junegunn/vim-plug)  for example, enter the following "
 "into where you manage your plugins:"
 msgstr ""
+"もしmasterにある最新の変更を使用したいが、拡張機能をダウンロードするためにプラグイン管理システムを使っているならば、"
+"たとえば [`vim-plug`](https://github.com/junegunn/vim-plug) を使っているのであれば、プラグインをインストールしているところに"
+"次のコマンドを加えてください。"
 
 #. type: Plain text
 #: readme.md:79
@@ -208,6 +211,8 @@ msgid ""
 "```vim Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'} "
 "```"
 msgstr ""
+"```vim Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'} "
+"```"
 
 #. type: Plain text
 #: readme.md:82
