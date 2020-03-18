@@ -100,7 +100,7 @@ msgstr ""
 "  - [動作要件](#requirements)\n"
 "  - [coc-metalsのインストール方法](#installing-coc-metals)\n"
 "  - [ビルドのインポート](#importing-a-build)\n"
-"    - [独自のsbt launcher](#custom-sbt-launcher)\n"
+"    - [独自のsbt ランチャー](#custom-sbt-launcher)\n"
 "    - [インポートの高速化](#speeding-up-import)\n"
 "    - [変更のインポート](#importing-changes)\n"
 "  - [Java バージョンの設定](#configure-java-version)\n"
@@ -220,6 +220,7 @@ msgid ""
 "Then, issue a `:PlugInstall` to install the extension, and regularly a `:"
 "PlugUpdate` to update it and pull in the latest changes."
 msgstr ""
+"そして、 `:PlugInstall`は拡張機能をインストールするために、`:PlugUpdate`は拡張機能を最新のものをダウンロードし更新するために使用されます。"
 
 #. type: Plain text
 #: readme.md:86
@@ -229,11 +230,12 @@ msgid ""
 "repository url or through a plugin manager, remove `coc-metals` with `:CocUninstall coc-metals`\n"
 "before you add it in with one of the other methods to not conflict with one another.\n"
 msgstr ""
+"*** もし`:CocInstall`をリポジトリのURLや拡張機能管理システムと一緒に使ってリポジトリから直接インストールするならば、`coc-metals`を`CocUninstall coc-metals`を実行して削除し他の方法でのインストールと干渉しないようにするよう注意してください。"
 
 #. type: Plain text
 #: readme.md:88
 msgid "### Importing a build"
-msgstr ""
+msgstr "### ビルドのインポート"
 
 #. type: Plain text
 #: readme.md:91
@@ -241,28 +243,29 @@ msgid ""
 "The first time you open Metals in a new workspace it prompts you to import "
 "the build. Click \"Import build\" to start the installation step."
 msgstr ""
+"新しいワークスペースの中でMetalsを最初に開くとき、ビルドをインポートすることを尋ねます。"
 
 #. type: Plain text
 #: readme.md:93
 msgid "![Build Import](https://i.imgur.com/1EyQPTC.png)"
-msgstr ""
+msgstr "![Build Import](https://i.imgur.com/1EyQPTC.png)" 
 
 #. type: Bullet: '  - '
 #: readme.md:99
 msgid "\"Not now\" disables this prompt for 2 minutes."
-msgstr ""
+msgstr "\"Not now\" は2分間このプロンプトを無効化します。"
 
 #. type: Bullet: '  - '
 #: readme.md:99
 msgid ""
 "\"Don't show again\" disables this prompt forever, use rm -rf .metals/ to re-"
 "enable the prompt."
-msgstr ""
+msgstr "\"Don't show again\" は、このプロンプトを永久に無効化します。もしプロンプトを再度有効化したい場合は、 `rm -rf .metals`を使用してください。"
 
 #. type: Bullet: '  - '
 #: readme.md:99
 msgid "Use tail -f .metals/metals.log to watch the build import progress."
-msgstr ""
+msgstr "ビルドのインポートの進捗状況を見るには `tail -f .metals/metals.log`を使用してください。"
 
 #. type: Plain text
 #: readme.md:99
@@ -271,6 +274,7 @@ msgid ""
 "  - Behind the scenes, Metals uses Bloop to import sbt builds, but you don't need Bloop installed\n"
 "  on your machine to run this step.\n"
 msgstr ""
+"  - この状況の裏では、 MetalsはBloopをsbtのビルドをインポートするのに使っていますが、このステップのためにBloopをあなたのコンピュータにインストールする必要はありません。"
 
 #. type: Plain text
 #: readme.md:101
@@ -278,6 +282,7 @@ msgid ""
 "Once the import step completes, compilation starts for your open *.scala "
 "files."
 msgstr ""
+"インポートするステップを完了すると、開いている`*.scala` の補完機能が開始されます。"
 
 #. type: Plain text
 #: readme.md:103
@@ -285,11 +290,12 @@ msgid ""
 "Once the sources have compiled successfully, you can navigate the codebase "
 "with goto definition."
 msgstr ""
+"ソースコードのコンパイルが成功すると、定義ジャンプによるソースコード間の移動ができるようになります。"
 
 #. type: Plain text
 #: readme.md:105
 msgid "#### Custom sbt launcher"
-msgstr ""
+msgstr "#### 独自のsbt ランチャー"
 
 #. type: Plain text
 #: readme.md:108
@@ -298,6 +304,8 @@ msgid ""
 "sbtopts and .jvmopts.  However, the environment variables SBT_OPTS and "
 "JAVA_OPTS are not respected."
 msgstr ""
+"基本的に、Metalsは組込みの`sbt-launch.jar` ランチャーを`sbtopts`と`jvmopts` を用いて実行します。"
+"しかし環境変数 `SBT_OPTS`と `JAVA_OPTS`は用いていません。"
 
 #. type: Plain text
 #: readme.md:111
@@ -306,16 +314,18 @@ msgid ""
 "the default Metals launcher if you need further customizations like reading "
 "environment variables."
 msgstr ""
+"もしよりな複雑な環境変数の読み込みなど独自の独自の設定が必要ならば、"
+"既定のMetalsランチャーの代わりに独自のsbtスクリプトを使うために`metals.sbtScript`設定を更新してください。"
 
 #. type: Plain text
 #: readme.md:113
 msgid "![sbt-launcher](https://i.imgur.com/meciPTg.png)"
-msgstr ""
+msgstr "![sbt-launcher](https://i.imgur.com/meciPTg.png)"
 
 #. type: Plain text
 #: readme.md:115
 msgid "#### Speeding up import"
-msgstr ""
+msgstr "#### インポートの高速化"
 
 #. type: Plain text
 #: readme.md:120
@@ -325,29 +335,33 @@ msgid ""
 "build and if library dependencies need to be downloaded. For example, this "
 "step can take everything from 10 seconds in small cached builds up to 10-15 "
 "minutes in large uncached builds."
-msgstr ""
+msgstr "\"ビルドのインポート\" ステップは長く時間がかかる場合があります。"
+"とくに、新しいビルドで最初に実行するとき長く時間がかかります。"
+"実際の実行時間はビルドの複雑さや、依存ライブラリをダウンロードする必要があるかどうかに依存します。"
+"例えばこのステップは最大で未キャッシュの大きなビルドでは10-15分であり、"
+"キャッシュ済の小さなビルドでは10秒まであらゆる場合が考えられます。"
 
 #. type: Plain text
 #: readme.md:122
 msgid "Consult the Bloop documentation to learn how to speed up build import."
-msgstr ""
+msgstr "ビルドのインポートを高速にする方法を学ぶにはBloopの文章を参照してください。"
 
 #. type: Plain text
 #: readme.md:124
 msgid "#### Importing changes"
-msgstr ""
+msgstr "#### 変更のインポート"
 
 #. type: Plain text
 #: readme.md:126
 msgid ""
 "When you change build.sbt or sources under project/, you will be prompted to "
 "re-import the build."
-msgstr ""
+msgstr "`build.sbt`や`project/`以下のソースコードを変更したとき、再度インポートするか聞かれます。"
 
 #. type: Plain text
 #: readme.md:128
 msgid "![Build Re-Import](https://i.imgur.com/iocTVb6.png)"
-msgstr ""
+msgstr "![Build Re-Import](https://i.imgur.com/iocTVb6.png)"
 
 #. type: Plain text
 #: readme.md:132
@@ -360,7 +374,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:134
 msgid "![No Java Home](https://i.imgur.com/clDfPMk.png)"
-msgstr ""
+msgstr "![No Java Home](https://i.imgur.com/clDfPMk.png)"
 
 #. type: Plain text
 #: readme.md:138
@@ -374,7 +388,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:140
 msgid "![java-home](https://i.imgur.com/wK07Vju.png)"
-msgstr ""
+msgstr "![java-home](https://i.imgur.com/wK07Vju.png)"
 
 #. type: Plain text
 #: readme.md:143
