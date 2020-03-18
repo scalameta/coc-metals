@@ -126,6 +126,11 @@
           "default": false,
           "markdownDescription": "Turn on usage of the statusBar integration.\n\nNote: You need to ensure you are adding something like `%{coc#status()}` in order to display it, or use a plugin with status integration."
         },
+        "metals.superMethodLensesEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable goto super method code lens"
+        },
         "metals.treeviews.initialWidth": {
           "type": "number",
           "default": 40,
