@@ -300,7 +300,7 @@
   "dependencies": {
     "coc.nvim": "0.0.77",
     "metals-languageclient": "0.1.20",
-    "promisify-child-process": "^3.1.3",
+    "promisify-child-process": "^3.1.4",
     "vscode-languageserver-protocol": "3.15.3"
   },
   "resolutions": {
