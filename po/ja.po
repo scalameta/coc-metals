@@ -370,6 +370,7 @@ msgid ""
 "`JAVA_HOME` environment variable (via [`find-java-home`](https://www.npmjs."
 "com/package/find-java-home)) to locate the `java` executable."
 msgstr ""
+"### Javaのバージョンの設定 `coc-metals` 拡張機能は環境変数`JAVA_HOME`が実行可能ファイル`java`を探すために既定で使用されます。"
 
 #. type: Plain text
 #: readme.md:134
@@ -384,6 +385,9 @@ msgid ""
 "CocConfigLocal` which will open up your configuration where you can manually "
 "enter your JAVA_HOME location."
 msgstr ""
+"もし`JAVA_HOME`が検出されなかった場合は、次の手順で設定を開くか、"
+"`:CocConfig`をつかうか、`:CocConfigLocal`で設定を開き"
+"JAVA_HOMEの場所を入力することができます。"
 
 #. type: Plain text
 #: readme.md:140
@@ -396,21 +400,23 @@ msgid ""
 "`coc.nvim` uses [jsonc](https://code.visualstudio.com/docs/languages/json) "
 "as a configuration file format. It's basically json with comment support."
 msgstr ""
+"`coc.nvim` は [jsonc](https://code.visualstudio.com/docs/languages/json) を"
+"設定用のファイルフォーマットに使用しています。これは基本的にJSONにコメントを追加したものです。"
 
 #. type: Plain text
 #: readme.md:145
 msgid "In order to get comment highlighting, please add:"
-msgstr ""
+msgstr "コメント用のハイライトを有効にするために、次のコマンドを追加してください。"
 
 #. type: Plain text
 #: readme.md:149
 msgid "```vim autocmd FileType json syntax match Comment +\\/\\/.\\+$+ ```"
-msgstr ""
+msgstr "```vim autocmd FileType json syntax match Comment +\\/\\/.\\+$+ ```"
 
 #. type: Plain text
 #: readme.md:151
 msgid "### Using latest Metals SNAPSHOT"
-msgstr ""
+msgstr "### 最新のMetalsのスナップショットを使う"
 
 #. type: Plain text
 #: readme.md:154
@@ -429,7 +435,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:159
 msgid "![Update Metals Version](https://i.imgur.com/VUCdQvi.png)"
-msgstr ""
+msgstr "![Update Metals Version](https://i.imgur.com/VUCdQvi.png)"
 
 #. type: Plain text
 #: readme.md:162
@@ -446,7 +452,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:169
 msgid "```vim :CocList diagnostics ```"
-msgstr ""
+msgstr "```vim :CocList diagnostics ```"
 
 #. type: Plain text
 #: readme.md:171
@@ -463,7 +469,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:176
 msgid "![Diagnostics](https://i.imgur.com/cer22HW.png)"
-msgstr ""
+msgstr "```vim :CocList diagnostics ```"
 
 #. type: Plain text
 #: readme.md:178
@@ -482,7 +488,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:184
 msgid "![Run Doctor Command](https://i.imgur.com/QaqhxF7.png)"
-msgstr ""
+msgstr "![Run Doctor Command](https://i.imgur.com/QaqhxF7.png)"
 
 #. type: Plain text
 #: readme.md:187
@@ -495,7 +501,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:189
 msgid "![Embedded Doctor](https://i.imgur.com/McaAFv5.png)"
-msgstr ""
+msgstr "![Embedded Doctor](https://i.imgur.com/McaAFv5.png)"
 
 #. type: Plain text
 #: readme.md:191
@@ -530,7 +536,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:211
 msgid "![Decorations with worksheets](https://i.imgur.com/Bt6DMtH.png)"
-msgstr ""
+msgstr "![Decorations with worksheets](https://i.imgur.com/Bt6DMtH.png)"
 
 #. type: Plain text
 #: readme.md:213
@@ -553,7 +559,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:224
 msgid "![MetalsCompile](https://i.imgur.com/QBPHNQo.gif)"
-msgstr ""
+msgstr "![MetalsCompile](https://i.imgur.com/QBPHNQo.gif)"
 
 #. type: Plain text
 #: readme.md:228
@@ -582,67 +588,67 @@ msgstr ""
 #. type: Bullet: '  - '
 #: readme.md:250
 msgid "`metals.restartServer`"
-msgstr ""
+msgstr "`metals.restartServer`"
 
 #. type: Bullet: '  - '
 #: readme.md:250
 msgid "`metals.build-import`"
-msgstr ""
+msgstr "`metals.build-import`"
 
 #. type: Bullet: '  - '
 #: readme.md:250
 msgid "`metals.build-connect`"
-msgstr ""
+msgstr "`metals.build-connect`"
 
 #. type: Bullet: '  - '
 #: readme.md:250
 msgid "`metals.build-restart`"
-msgstr ""
+msgstr "`metals.build-restart`"
 
 #. type: Bullet: '  - '
 #: readme.md:250
 msgid "`metals.sources-scan`"
-msgstr ""
+msgstr "`metals.sources-scan`"
 
 #. type: Bullet: '  - '
 #: readme.md:250
 msgid "`metals.compile-cascade`"
-msgstr ""
+msgstr "`metals.compile-cascade`"
 
 #. type: Bullet: '  - '
 #: readme.md:250
 msgid "`metals.compile-cancel`"
-msgstr ""
+msgstr "`metals.compile-cancel`"
 
 #. type: Bullet: '  - '
 #: readme.md:250
 msgid "`metals.doctor-run`"
-msgstr ""
+msgstr "`metals.doctor-run`"
 
 #. type: Bullet: '  - '
 #: readme.md:250
 msgid "`metals.logs-toggle`"
-msgstr ""
+msgstr "`metals.logs-toggle`"
 
 #. type: Bullet: '  - '
 #: readme.md:250
 msgid "`metals.tvp`"
-msgstr ""
+msgstr "`metals.tvp`"
 
 #. type: Bullet: '  - '
 #: readme.md:250
 msgid "`metals.tvp.view`"
-msgstr ""
+msgstr "`metals.tvp.view`"
 
 #. type: Bullet: '  - '
 #: readme.md:250
 msgid "`metals.revealInTreeView`"
-msgstr ""
+msgstr "`metals.revealInTreeView`"
 
 #. type: Bullet: '  - '
 #: readme.md:250
 msgid "`metals.new-scala-file`"
-msgstr ""
+msgstr "`metals.new-scala-file`"
 
 #. type: Plain text
 #: readme.md:252
@@ -659,7 +665,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:257
 msgid "![Document Symbols](https://i.imgur.com/gEhAXV4.png)"
-msgstr ""
+msgstr "![Document Symbols](https://i.imgur.com/gEhAXV4.png)"
 
 #. type: Plain text
 #: readme.md:260
@@ -723,7 +729,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:300
 msgid "![on-type](https://i.imgur.com/astTOKu.gif)"
-msgstr ""
+msgstr "![on-type](https://i.imgur.com/astTOKu.gif)"
 
 #. type: Plain text
 #: readme.md:304
@@ -736,7 +742,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:306
 msgid "![coc-preferences-formatOnType](https://i.imgur.com/RWPHt2q.png)"
-msgstr ""
+msgstr "![coc-preferences-formatOnType](https://i.imgur.com/RWPHt2q.png)"
 
 #. type: Plain text
 #: readme.md:308
@@ -751,7 +757,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:314
 msgid "```vim :wq ```"
-msgstr ""
+msgstr "```vim :wq ```"
 
 #. type: Plain text
 #: readme.md:316
@@ -778,7 +784,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:330
 msgid "```json \"metals.statusBarEnabled\": true ```"
-msgstr ""
+msgstr "```json \"metals.statusBarEnabled\": true ```"
 
 #. type: Plain text
 #: readme.md:339
@@ -803,7 +809,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:345
 msgid "![Diagnostic statusline](https://i.imgur.com/7uNYTYl.png)"
-msgstr ""
+msgstr "![Diagnostic statusline](https://i.imgur.com/7uNYTYl.png)"
 
 #. type: Plain text
 #: readme.md:347
@@ -813,7 +819,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:349
 msgid "![Status bar info](https://i.imgur.com/eCAgrCn.png)"
-msgstr ""
+msgstr "![Status bar info](https://i.imgur.com/eCAgrCn.png)"
 
 #. type: Plain text
 #: readme.md:351
@@ -824,7 +830,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:353
 msgid "![No status line](https://i.imgur.com/XF7A1BJ.png)"
-msgstr ""
+msgstr "![No status line](https://i.imgur.com/XF7A1BJ.png)"
 
 #. type: Plain text
 #: readme.md:357
@@ -839,7 +845,7 @@ msgstr ""
 msgid ""
 "```vim set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')} "
 "```"
-msgstr ""
+msgstr "```vim set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')} ```"
 
 #. type: Plain text
 #: readme.md:363
@@ -858,7 +864,7 @@ msgstr ""
 msgid ""
 "```json \"coc.preferences.formatOnSaveFiletypes\": [\"scala\"] ``` ### "
 "Gitignore"
-msgstr ""
+msgstr "```json \"coc.preferences.formatOnSaveFiletypes\": [\"scala\"] ``` ### Gitignore"
 
 #. type: Plain text
 #: readme.md:376
@@ -873,7 +879,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:383
 msgid "```git # ~/.gitignore .metals/ .bloop/ project/metals.sbt ```"
-msgstr ""
+msgstr "```git # ~/.gitignore .metals/ .bloop/ project/metals.sbt ```"
 
 #. type: Plain text
 #: readme.md:385
