@@ -1,7 +1,7 @@
 import {
   ExecuteCommandParams,
   NotificationType,
-  RequestType
+  RequestType,
 } from "vscode-languageserver-protocol";
 
 import { InputBoxOptions, DecorationOptions } from "./portedProtocol";

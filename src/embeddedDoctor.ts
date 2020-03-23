@@ -40,7 +40,7 @@ export function makeVimDoctor(doctorResult: DoctorResult): void {
           .map((value, index) => padText(value.trim(), index))
           .join(" | ")
       ),
-      ""
+      "",
     ];
 
     workspace.nvim.call(
@@ -57,9 +57,9 @@ export function makeVimDoctor(doctorResult: DoctorResult): void {
       doctorResult.messages[0].title,
       "",
       ...doctorResult.messages[0].recommendations.map(
-        recommendation => ` - ${recommendation}`
+        (recommendation) => ` - ${recommendation}`
       ),
-      ""
+      "",
     ];
     workspace.nvim.call(
       Commands.OPEN_PREVIEW,
