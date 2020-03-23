@@ -1,6 +1,6 @@
 import {
   InitializeParams,
-  ServerCapabilities
+  ServerCapabilities,
 } from "vscode-languageserver-protocol";
 import { StaticFeature, workspace } from "coc.nvim";
 
