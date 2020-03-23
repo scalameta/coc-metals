@@ -294,7 +294,7 @@
     "parcel-bundler": "^1.12.4",
     "prettier": "1.19.1",
     "rimraf": "^3.0.2",
-    "ts-loader": "^6.0.3",
+    "ts-loader": "^6.2.2",
     "typescript": "3.8.3"
   },
   "dependencies": {
