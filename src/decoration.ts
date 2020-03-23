@@ -28,8 +28,8 @@ export default class DecorationProvider {
       buffer.setVirtualText(this.decorationNameSpace, option.range.end.line, [
         [
           option.renderOptions?.after?.contentText?.replace("//", "‣") ?? "",
-          "test"
-        ]
+          "test",
+        ],
       ]);
     });
   }
@@ -37,7 +37,7 @@ export default class DecorationProvider {
   public async showHover() {
     const { position } = await workspace.getCurrentState();
     const hoverText = this.currentDecorations.find(
-      decoration => decoration.range.end.line === position.line
+      (decoration) => decoration.range.end.line === position.line
     );
 
     if (
@@ -49,8 +49,8 @@ export default class DecorationProvider {
         [
           {
             content: hoverText.hoverMessage.value,
-            filetype: hoverText.hoverMessage.language
-          }
+            filetype: hoverText.hoverMessage.language,
+          },
         ],
         true,
         0

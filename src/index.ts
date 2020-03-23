@@ -7,7 +7,7 @@ import {
   fetchMetals,
   getServerOptions,
   getJavaConfig,
-  JavaConfig
+  JavaConfig,
 } from "metals-languageclient";
 import {
   ExecuteClientCommand,
@@ -17,14 +17,14 @@ import {
   DecorationsRangesDidChange,
   PublishDecorationsParams,
   MetalsQuickPickParams,
-  MetalsStatus
+  MetalsStatus,
 } from "./metalsProtocol";
 import {
   checkServerVersion,
   trackDownloadProgress,
   toggleLogs,
   wait,
-  detectLaunchConfigurationChanges
+  detectLaunchConfigurationChanges,
 } from "./utils";
 import {
   commands,
@@ -35,11 +35,11 @@ import {
   workspace,
   events,
   FloatFactory,
-  StatusBarItem
+  StatusBarItem,
 } from "coc.nvim";
 import {
   ExecuteCommandRequest,
-  Location
+  Location,
 } from "vscode-languageserver-protocol";
 import { MetalsFeatures } from "./MetalsFeatures";
 import DecorationProvider from "./decoration";
@@ -55,18 +55,20 @@ export async function activate(context: ExtensionContext) {
   await checkServerVersion();
 
   getJavaHome(workspace.getConfiguration("metals").get("javaHome")).then(
-    javaHome => fetchAndLaunchMetals(context, javaHome),
+    (javaHome) => fetchAndLaunchMetals(context, javaHome),
     () => {
       const message =
         "Unable to find a Java 8 or Java 11 installation on this computer. " +
         "To fix this problem, update the 'Java Home' setting to point to a Java 8 or Java 11 home directory";
       const openSettings = "Open Settings";
       const ignore = "Ignore for now";
-      workspace.showQuickpick([openSettings, ignore], message).then(choice => {
-        if (choice === 0) {
-          workspace.nvim.command(Commands.OPEN_COC_CONFIG, true);
-        }
-      });
+      workspace
+        .showQuickpick([openSettings, ignore], message)
+        .then((choice) => {
+          if (choice === 0) {
+            workspace.nvim.command(Commands.OPEN_COC_CONFIG, true);
+          }
+        });
     }
   );
 }
@@ -97,13 +99,13 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
     workspaceRoot: workspace.workspaceFolder?.uri,
     javaHome,
     customRepositories,
-    extensionPath: context.extensionPath
+    extensionPath: context.extensionPath,
   });
 
   const fetchProcess = fetchMetals({
     serverVersion,
     serverProperties,
-    javaConfig
+    javaConfig,
   });
 
   const statusBarEnabled = config.get<boolean>("statusBarEnabled");
@@ -114,7 +116,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
 
   const title = `Downloading Metals v${serverVersion}`;
   trackDownloadProgress(title, fetchProcess, progress).then(
-    classpath => {
+    (classpath) => {
       launchMetals(
         context,
         classpath,
@@ -144,7 +146,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
           );
         }
       })();
-      workspace.showPrompt(`${msg}\n Open Settings?`).then(choice => {
+      workspace.showPrompt(`${msg}\n Open Settings?`).then((choice) => {
         if (choice) workspace.nvim.command(Commands.OPEN_COC_CONFIG, true);
       });
     }
@@ -163,15 +165,15 @@ function launchMetals(
     metalsClasspath,
     serverProperties,
     javaConfig,
-    clientName: "coc-metals"
+    clientName: "coc-metals",
   });
 
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: "file", language: "scala" }],
     synchronize: {
-      configurationSection: "metals"
+      configurationSection: "metals",
     },
-    revealOutputChannelOn: RevealOutputChannelOn.Never
+    revealOutputChannelOn: RevealOutputChannelOn.Never,
   };
 
   const client = new LanguageClient(
@@ -215,7 +217,7 @@ function launchMetals(
 
   context.subscriptions.push(client.start());
 
-  client.onReady().then(_ => {
+  client.onReady().then((_) => {
     progress.isProgress = false;
     progress.text = "Metals is Ready!";
     progress.show();
@@ -227,10 +229,10 @@ function launchMetals(
       "sources-scan",
       "doctor-run",
       "compile-cascade",
-      "compile-cancel"
+      "compile-cancel",
     ];
 
-    commands.forEach(command => {
+    commands.forEach((command) => {
       registerCommand("metals." + command, async () => {
         workspace.showMessage("metals" + command);
         client.sendRequest(ExecuteCommandRequest.type, { command });
@@ -261,11 +263,11 @@ function launchMetals(
 
       client.sendRequest(ExecuteCommandRequest.type, {
         command: "new-scala-file",
-        arguments: [parentDir]
+        arguments: [parentDir],
       });
     });
 
-    client.onNotification(ExecuteClientCommand.type, async params => {
+    client.onNotification(ExecuteClientCommand.type, async (params) => {
       switch (params.command) {
         case "metals-goto-location":
           const location =
@@ -283,7 +285,7 @@ function launchMetals(
           makeVimDoctor(JSON.parse(doctorJson));
           break;
         case "metals-doctor-reload":
-          workspace.nvim.call("coc#util#has_preview").then(preview => {
+          workspace.nvim.call("coc#util#has_preview").then((preview) => {
             if (preview > 0) {
               const doctorJson: string =
                 params.arguments && params.arguments[0];
@@ -304,7 +306,7 @@ function launchMetals(
 
     events.on("BufWinEnter", (bufnr: number) => {
       const currentDocument = workspace.documents.find(
-        document => document.bufnr === bufnr
+        (document) => document.bufnr === bufnr
       );
       // For now I'm just checking for scala since both scala and sc files will be marked
       // as scala, and this is only relevant for decorations anyways.
@@ -316,7 +318,7 @@ function launchMetals(
     client.onRequest(MetalsInputBox.type, async (options: InputBoxOptions) => {
       const response = await workspace.callAsync<string>("input", [
         `${options.prompt}: `,
-        options.value ? options.value : ""
+        options.value ? options.value : "",
       ]);
       if (response.trim() === "") {
         return { cancelled: true };
@@ -328,10 +330,10 @@ function launchMetals(
     client.onRequest(MetalsQuickPick.type, (params: MetalsQuickPickParams, _) =>
       workspace
         .showQuickpick(
-          params.items.map(item => item.label),
+          params.items.map((item) => item.label),
           params.placeHolder
         )
-        .then(answer => {
+        .then((answer) => {
           if (answer === -1) {
             return { cancelled: true };
           } else {
@@ -342,7 +344,7 @@ function launchMetals(
 
     if (statusBarEnabled) {
       const statusItem = workspace.createStatusBarItem(0);
-      client.onNotification(MetalsStatus.type, params => {
+      client.onNotification(MetalsStatus.type, (params) => {
         statusItem.text = params.text;
         if (params.show) {
           statusItem.show();
@@ -364,7 +366,7 @@ function launchMetals(
 
       events.on("BufWinLeave", (bufnr: number) => {
         const previousDocument = workspace.documents.find(
-          document => document.bufnr === bufnr
+          (document) => document.bufnr === bufnr
         );
         if (
           previousDocument &&

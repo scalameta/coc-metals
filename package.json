@@ -32,8 +32,8 @@
   "scripts": {
     "clean": "rimraf lib",
     "build": "tsc --noEmit && parcel build src/index.ts --out-dir lib/ --target node --no-source-maps",
-    "format": "prettier --write src/*.ts",
-    "format-check": "prettier --check src/*.ts",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
     "prepare": "npx npm-run-all clean build",
     "watch": "parcel serve src/index.ts --out-dir lib/ --target node"
   },
@@ -292,7 +292,7 @@
     "@types/node": "^13.9.3",
     "npm-run-all": "^4.1.5",
     "parcel-bundler": "^1.12.4",
-    "prettier": "1.19.1",
+    "prettier": "2.0.1",
     "rimraf": "^3.0.2",
     "ts-loader": "^6.2.2",
     "typescript": "3.8.3"

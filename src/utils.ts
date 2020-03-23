@@ -12,12 +12,12 @@ export function trackDownloadProgress(
 ): Promise<string> {
   return downloadProgress({
     download,
-    onProgress: _ => {
+    onProgress: (_) => {
       progress.text = title;
       progress.show();
     },
     onError: progress.dispose,
-    onComplete: progress.dispose
+    onComplete: progress.dispose,
   });
 }
 
@@ -33,26 +33,28 @@ export async function checkServerVersion() {
       upgradeChoice,
       openSettingsChoice,
       dismissChoice,
-      upgrade
+      upgrade,
     }) => {
       workspace
         .showQuickpick(
           [upgradeChoice, openSettingsChoice, dismissChoice],
           message
         )
-        .then(choice => {
+        .then((choice) => {
           if (choice === 0) {
             upgrade();
           } else if (choice === 1) {
             workspace.nvim.command(Commands.OPEN_COC_CONFIG, true);
           }
         });
-    }
+    },
   });
 }
 
 export function toggleLogs() {
-  const infoBuffer = workspace.documents.find(doc => doc.uri.endsWith("info"));
+  const infoBuffer = workspace.documents.find((doc) =>
+    doc.uri.endsWith("info")
+  );
   if (infoBuffer) {
     workspace.nvim.command(`bd ${infoBuffer.bufnr}`);
   } else {
@@ -61,7 +63,7 @@ export function toggleLogs() {
 }
 
 export function wait(ms: number): Promise<any> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 }
@@ -74,7 +76,7 @@ export function detectLaunchConfigurationChanges(): void {
       // with it working correctly with vim even using async await.
       return workspace
         .showQuickpick([reloadWindowChoice, dismissChoice], message)
-        .then(choice => {
+        .then((choice) => {
           if (choice === 0) {
             workspace.nvim.command(Commands.RESTART_COC, true);
           }
