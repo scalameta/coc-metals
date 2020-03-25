@@ -1,7 +1,6 @@
-" These default mappings should either go in your .vimrc or in a file
-" that you're going to source from your .vimrc. For example, you can
-" copy this file into your ~ directory and then put the following
-" in your .vimrc to source it
+" These default mappings should either go in your .vimrc or in a file that
+" you're going to source from your .vimrc. For example, you can copy this file
+" into your ~ directory and then put the following in your .vimrc to source it
 "
 " coc.nvim lsp mappings
 "if filereadable(expand("~/coc-mappings.vim"))
@@ -10,10 +9,11 @@
 "
 "
 " If you're curious how to share this or your .vimrc with both vim and nvim,
-" you can find a great instructions about this here https://neovim.io/doc/user/nvim.html#nvim-from-vim
+" you can find a great instructions about this here
+" https://neovim.io/doc/user/nvim.html#nvim-from-vim
 "
-" Finally, keep in mind that these are "suggested" settings. Play around with them
-" and change them to your liking.
+" Finally, keep in mind that these are "suggested" settings. Play around with
+" them and change them to your liking.
 
 " If hidden is not set, TextEdit might fail.
 set hidden
@@ -35,7 +35,7 @@ set shortmess+=c
 set signcolumn=yes
 
 " Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by another plugin.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -51,7 +51,8 @@ endfunction
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position.
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -112,8 +113,9 @@ command! -nargs=0 Format :call CocAction('format')
 " Use `:Fold` to fold current buffer
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
-" Add status line support, for integration with other plugins, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+" Trigger for code actions
+" Make sure `"codeLens.enable": true` is set in your coc config
+nnoremap <leader>cl :<C-u>call CocActionAsync('codeLensAction')<CR>
 
 " Show all diagnostics
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>

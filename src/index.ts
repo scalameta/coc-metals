@@ -267,6 +267,36 @@ function launchMetals(
       });
     });
 
+    registerCommand("metals.go-to-super-method", async () => {
+      const currentDoc = await workspace.document;
+      const position = await workspace.getCursorPosition();
+
+      client.sendRequest(ExecuteCommandRequest.type, {
+        command: "goto-super-method",
+        arguments: [
+          {
+            document: currentDoc.uri,
+            position,
+          },
+        ],
+      });
+    });
+
+    registerCommand("metals.super-method-hierarchy", async () => {
+      const currentDoc = await workspace.document;
+      const position = await workspace.getCursorPosition();
+
+      client.sendRequest(ExecuteCommandRequest.type, {
+        command: "super-method-hierarchy",
+        arguments: [
+          {
+            document: currentDoc.uri,
+            position,
+          },
+        ],
+      });
+    });
+
     client.onNotification(ExecuteClientCommand.type, async (params) => {
       switch (params.command) {
         case "metals-goto-location":
