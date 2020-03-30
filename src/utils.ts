@@ -21,7 +21,7 @@ export function trackDownloadProgress(
   });
 }
 
-export async function checkServerVersion() {
+export function checkServerVersion() {
   const config = workspace.getConfiguration("metals");
   metalsLanguageClient.checkServerVersion({
     config,
