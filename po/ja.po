@@ -1,6 +1,5 @@
 # SOME DESCRIPTIVE TITLE
-# Copyright (C) YEAR Free Software Foundation, Inc.
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR Free Software Foundation, Inc.  This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -65,9 +64,7 @@ msgid ""
 "will be available if you're using the latest stable release. The [vim\n"
 "page](https://scalameta.org/metals/docs/editors/vim.html) on the Metals site is synced with the\n"
 "latest stable release***\n"
-msgstr "***NOTE: このreadmeはmasterブランチで更新されています。もしあなたが、最新の安定版を使用しているのであれば必ずしも全ての機能が有効であるとは限りません。なおMetalsのサイトの[vimのページ](https://scalameta.org/metals/docs/editors/vim.html)は最新の安定版のもので同期されています。"
-
-#. type: Plain text
+msgstr "***NOTE: このreadmeはmasterブランチで更新されています。もしあなたが、最新の安定版を使用しているのであれば必ずしも全ての機能が有効であるとは限りません。なおMetalsのサイトの[vimのページ](https://scalameta.org/metals/docs/editors/vim.html)は最新の安定版のもので同期されています。" #. type: Plain text
 #: readme.md:42
 #, no-wrap
 msgid ""
@@ -669,6 +666,7 @@ msgid ""
 "Run `:CocList outline` to show a symbol outline for the current file or use "
 "the default mapping `<space> o`."
 msgstr ""
+"`:CocList outline`を実行して現在のファイルのシンボルについてアウトラインを表示します。あるいは、既定のマッピングでは`<space> o`を使ってください。"
 
 #. type: Plain text
 #: readme.md:257
@@ -687,13 +685,15 @@ msgid ""
 "to set these configurations is to enter `:CocConfig` or `:CocLocalConfig` to "
 "set your global or local configuration settings respectively."
 msgstr ""
+"以下の設定値は現在有効になっています。設定を変更する最もかんたんな方法は、`:CocConfig`と"
+"と入力するか`:CocLocalConfig`と入力することで全体あるいは局所的に設定を変更することです。"
 
 #. type: Plain text
 #: readme.md:266
 msgid ""
 "If you'd like to get autocompletion help for the configuration values you "
 "can install [coc-json](https://github.com/neoclide/coc-json)."
-msgstr ""
+msgstr "もし設定値の自動補完機能が使いたい場合は、[coc-json](https://github.com/neoclide/coc-json)をインストールすることができます。."
 
 #. type: Plain text
 #: readme.md:296
@@ -760,7 +760,7 @@ msgstr "### Language Serverの停止"
 #. type: Plain text
 #: readme.md:310
 msgid "The Metals server is shutdown when you exit vim as you normally would."
-msgstr ""
+msgstr "そのMetalsサーバーはVimを通常どおり終了するときに自動で停止します。"
 
 #. type: Plain text
 #: readme.md:314
@@ -770,7 +770,7 @@ msgstr "```vim :wq ```"
 #. type: Plain text
 #: readme.md:316
 msgid "This step clean ups resources that are used by the server."
-msgstr ""
+msgstr "この段階ではサーバーによって使用されているリソースをクリーアップします。"
 
 #. type: Plain text
 #: readme.md:318
@@ -812,7 +812,8 @@ msgid ""
 "With [vim-airline](https://github.com/vim-airline/vim-airline), you'll "
 "notice two noteworthy things. The first will be that you'll have diagnostic "
 "information on the far right of your screen."
-msgstr ""
+msgstr "[vim-airline](https://github.com/vim-airline/vim-airline)を使うと、特筆すべき機能に気付くでしょう。"
+"まず診断情報がスクリーンの右にあります。"
 
 #. type: Plain text
 #: readme.md:345
@@ -822,7 +823,7 @@ msgstr "![Diagnostic statusline](https://i.imgur.com/7uNYTYl.png)"
 #. type: Plain text
 #: readme.md:347
 msgid "You'll also have metals status information in your status bar."
-msgstr ""
+msgstr "Metalsの状態をステータスバーで見ることができます。"
 
 #. type: Plain text
 #: readme.md:349
@@ -834,6 +835,7 @@ msgstr "![Status bar info](https://i.imgur.com/eCAgrCn.png)"
 msgid ""
 "Without a statusline integration, you'll get messages like you see below."
 msgstr ""
+"ステータスラインの統合をしない場合、次のようなメッセージを得るでしょう。"
 
 #. type: Plain text
 #: readme.md:353
@@ -847,6 +849,8 @@ msgid ""
 "information, the easiest way is to make sure you have the following in your "
 "`.vimrc`."
 msgstr ""
+"もしステータスラインの拡張機能を使用しない場合でもこれらの情報を見たいのであれば、"
+"もっとも簡単な方法は、`.vimrc`で次の設定をつかうことです。"
 
 #. type: Plain text
 #: readme.md:361
@@ -866,6 +870,7 @@ msgid ""
 "If you'd like to have `:w` format using Metals + Scalafmt, then make sure "
 "you have the following in your `:CocConfig`."
 msgstr ""
+"もし`:w`でMetalsとScalafmtで整形を実行したいのであれば、`:CocConfig`で下記の設定を確認してください。"
 
 #. type: Plain text
 #: readme.md:371
@@ -916,6 +921,7 @@ msgid ""
 "If you're interested in contributing, please visit the [CONTRIBUTING]"
 "(CONTRIBUTING.md) guide for help on getting started."
 msgstr ""
+"もし貢献することに興味があるのであれば、とりかかるための一助として[コントリビューティング](CONTRIBUTING.md)ガイドを読んでください。"
 
 #. type: Plain text
 #: readme.md:397
@@ -931,3 +937,8 @@ msgid ""
 "airline](https://github.com/vim-airline/vim-airline), and all being ran in "
 "[iTerm2](https://iterm2.com/)."
 msgstr ""
+"スクリーンショットは[Neovim](https://neovim.io/)によるものです."
+"テーマは [onedark](https://github.com/joshdick/onedark.vim)を"
+"[vim-scala](https://github.com/derekwyatt/vim-scala)によってシンタックスハイライトを追加したものを"
+"使用しています。ステータスバーは[vim-airline](https://github.com/vim-airline/vim-airline)を使用しています。"
+"そしてこれらを[iTerm2](https://iterm2.com)のなかで実行しています。"
