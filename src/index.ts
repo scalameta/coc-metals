@@ -52,7 +52,7 @@ import WannaBeStatusBarItem from "./WannaBeStatusBarItem";
 
 export async function activate(context: ExtensionContext) {
   detectLaunchConfigurationChanges();
-  await checkServerVersion();
+  checkServerVersion();
 
   getJavaHome(workspace.getConfiguration("metals").get("javaHome")).then(
     (javaHome) => fetchAndLaunchMetals(context, javaHome),
