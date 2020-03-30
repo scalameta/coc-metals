@@ -41,6 +41,8 @@
     "onLanguage:scala",
     "workspaceContains:build.sbt",
     "workspaceContains:build.sc",
+    "workspaceContains:build.gradle",
+    "workspaceContains:pom.xml",
     "workspaceContains:project/build.properties",
     "workspaceContains:**/scala/**"
   ],
