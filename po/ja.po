@@ -424,6 +424,7 @@ msgid ""
 "Update the \"Server Version\" setting to try out the latest pending Metals "
 "features."
 msgstr ""
+"最新の作業中のMetalsの機能を使用するには\"Server Version\"設定を更新してください。"
 
 #. type: Plain text
 #: readme.md:157
@@ -431,6 +432,8 @@ msgid ""
 "After updating the version, you'll be triggered to reload the window.  This "
 "will be necessary before the new version will be downloaded and used."
 msgstr ""
+"バージョンを更新した後、ウィンドウの再読み込みが実行されます。"
+"これは新しいバージョンがダウンロードされ使用される前に必要になります。"
 
 #. type: Plain text
 #: readme.md:159
@@ -440,7 +443,7 @@ msgstr "![Update Metals Version](https://i.imgur.com/VUCdQvi.png)"
 #. type: Plain text
 #: readme.md:162
 msgid "### List all workspace compile errors"
-msgstr ""
+msgstr "### ワークスペース内のコンパイルエラーを全て列挙する"
 
 #. type: Plain text
 #: readme.md:165
@@ -448,6 +451,7 @@ msgid ""
 "To list all compilation errors and warnings in the workspace, run the "
 "following command."
 msgstr ""
+"ワークスペース内のコンパイルエラーを全て列挙するためには、以下のコマンドを実行してください。"
 
 #. type: Plain text
 #: readme.md:169
@@ -457,7 +461,7 @@ msgstr "```vim :CocList diagnostics ```"
 #. type: Plain text
 #: readme.md:171
 msgid "Or use the default recommended mapping `<space> a`."
-msgstr ""
+msgstr "もしくは、既定の推奨マッピングである `<space> a`を使用してください。"
 
 #. type: Plain text
 #: readme.md:174
@@ -465,16 +469,17 @@ msgid ""
 "This is helpful to see compilation errors in different files from your "
 "current open buffer."
 msgstr ""
+"これは現在開いているバッファから異なるファイルのコンパイルエラーを見ることに有用です。"
 
 #. type: Plain text
 #: readme.md:176
 msgid "![Diagnostics](https://i.imgur.com/cer22HW.png)"
-msgstr "```vim :CocList diagnostics ```"
+msgstr "![Diagnostics](https://i.imgur.com/cer22HW.png)"
 
 #. type: Plain text
 #: readme.md:178
 msgid "### Run doctor"
-msgstr ""
+msgstr "### 検査機能の実行"
 
 #. type: Plain text
 #: readme.md:182
@@ -484,6 +489,9 @@ msgid ""
 "will open your command window allowing you to search for `metals.doctor-run` "
 "command."
 msgstr ""
+"ビルドするワークスペースで問題解決するために、"
+"`:CocCommand`か推奨されているマッピングである`<space> c`を用いてcocコマンド郡を開いて下さい。"
+"これは`metals.doctor-run`コマンドを検索をするために現在使用できるコマンドウィンドウを開きます。"
 
 #. type: Plain text
 #: readme.md:184
@@ -506,7 +514,7 @@ msgstr "![Embedded Doctor](https://i.imgur.com/McaAFv5.png)"
 #. type: Plain text
 #: readme.md:191
 msgid "### Worksheets"
-msgstr ""
+msgstr "### ワークシート"
 
 #. type: Plain text
 #: readme.md:203
@@ -541,7 +549,7 @@ msgstr "![Decorations with worksheets](https://i.imgur.com/Bt6DMtH.png)"
 #. type: Plain text
 #: readme.md:213
 msgid "### Tree View Protocol"
-msgstr ""
+msgstr "### ツリービュープロトコル"
 
 #. type: Plain text
 #: readme.md:222
@@ -583,7 +591,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:236
 msgid "### All Available Commands"
-msgstr ""
+msgstr "### 全ての有効なコマンド郡"
 
 #. type: Bullet: '  - '
 #: readme.md:250
@@ -653,7 +661,7 @@ msgstr "`metals.new-scala-file`"
 #. type: Plain text
 #: readme.md:252
 msgid "### Show document symbols"
-msgstr ""
+msgstr "### ドキュメントのシンボルの表示"
 
 #. type: Plain text
 #: readme.md:255
@@ -670,7 +678,7 @@ msgstr "![Document Symbols](https://i.imgur.com/gEhAXV4.png)"
 #. type: Plain text
 #: readme.md:260
 msgid "### Available Configuration Options"
-msgstr ""
+msgstr "### 有効な設定項目"
 
 #. type: Plain text
 #: readme.md:264
@@ -724,7 +732,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:298
 msgid "### Enable on type formatting for multiline string formatting"
-msgstr ""
+msgstr "### 複数行にまたがる文字列の整形のための型整形機能"
 
 #. type: Plain text
 #: readme.md:300
@@ -747,7 +755,7 @@ msgstr "![coc-preferences-formatOnType](https://i.imgur.com/RWPHt2q.png)"
 #. type: Plain text
 #: readme.md:308
 msgid "### Shut down the language server"
-msgstr ""
+msgstr "### Language Serverの停止"
 
 #. type: Plain text
 #: readme.md:310
@@ -767,7 +775,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:318
 msgid "### Statusline integration"
-msgstr ""
+msgstr "### ステータスラインの統合"
 
 #. type: Plain text
 #: readme.md:326
@@ -850,7 +858,7 @@ msgstr "```vim set statusline^=%{coc#status()}%{get(b:,'coc_current_function',''
 #. type: Plain text
 #: readme.md:363
 msgid "### Formatting on save"
-msgstr ""
+msgstr "### 保存時に整形する"
 
 #. type: Plain text
 #: readme.md:366
@@ -884,7 +892,7 @@ msgstr "```git # ~/.gitignore .metals/ .bloop/ project/metals.sbt ```"
 #. type: Plain text
 #: readme.md:385
 msgid "### Troubleshooting"
-msgstr ""
+msgstr "### トラブルシューティング"
 
 #. type: Plain text
 #: readme.md:390
@@ -900,7 +908,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:392
 msgid "### Contributing"
-msgstr ""
+msgstr "### 貢献について"
 
 #. type: Plain text
 #: readme.md:395
@@ -912,7 +920,7 @@ msgstr ""
 #. type: Plain text
 #: readme.md:397
 msgid "### Theme"
-msgstr ""
+msgstr "### テーマ"
 
 #. type: Plain text
 #: readme.md:402
