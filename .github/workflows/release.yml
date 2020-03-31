@@ -10,6 +10,11 @@ jobs:
     runs-on: "ubuntu-18.04"
 
     steps:
+      - name: Setup git env
+        run: |
+          git config --global user.email "bot@scalameta.org"
+          git config --global user.name "Scalameta bot"
+
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
@@ -30,6 +35,9 @@ jobs:
 
       - name: Set new version
         run: yarn version --no-git-tag-version --new-version ${{ steps.get_version.outputs.NEW_VERSION }}
+
+      - name: Push changes
+        run: git push origin HEAD:master
 
       - name: Set npm auth
         run: echo "//registry.yarnpkg.com/:_authToken=${{ secrets.NPM_COC_METALS_PUBLISH }}" >>~/.npmrc
