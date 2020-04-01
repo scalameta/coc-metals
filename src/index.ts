@@ -36,6 +36,7 @@ import {
   events,
   FloatFactory,
   StatusBarItem,
+  WorkspaceConfiguration,
 } from "coc.nvim";
 import {
   ExecuteCommandRequest,
@@ -84,7 +85,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
     return;
   }
 
-  const config = workspace.getConfiguration("metals");
+  const config: WorkspaceConfiguration = workspace.getConfiguration("metals");
   const serverVersionConfig = config.get<string>("serverVersion");
   const defaultServerVersion = config.inspect<string>("serverVersion")!
     .defaultValue!;
@@ -92,8 +93,8 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
     ? serverVersionConfig
     : defaultServerVersion;
 
-  const serverProperties = config.get<string[]>("serverProperties") ?? [];
-  const customRepositories = config.get<string[]>("customRepositories ");
+  const serverProperties = config.get<string[]>("serverProperties")!;
+  const customRepositories = config.get<string[]>("customRepositories")!;
 
   const javaConfig = getJavaConfig({
     workspaceRoot: workspace.workspaceFolder?.uri,
