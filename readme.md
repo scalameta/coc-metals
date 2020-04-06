@@ -411,7 +411,10 @@ If you have any questions or issues with coc-metals, please submit an
 pertains to the extension. If the issues is general to Metals, please submit it
 in the [Metals issue repo](https://github.com/scalameta/metals/issues). If you
 have any feature requests, we also have a feature request [issue
-repo](https://github.com/scalameta/metals-feature-requests).
+repo](https://github.com/scalameta/metals-feature-requests). There is also a
+section in the wiki for [Commonly Asked
+Questions](https://github.com/scalameta/coc-metals/wiki/Commonly-Asked-Questions).
+Fee free to peruse that to potentially find an answer you may be looking for.
 
 ### Contributing
 
