@@ -46,9 +46,8 @@ export class MetalsFeatures implements StaticFeature {
     (params.capabilities.experimental as any).inputBoxProvider = true;
     (params.capabilities.experimental as any).didFocusProvider = true;
     (params.capabilities.experimental as any).slowTaskProvider = false;
-    (
-      params.capabilities.experimental as any
-    ).executeClientCommandProvider = true;
+    (params.capabilities
+      .experimental as any).executeClientCommandProvider = true;
     (params.capabilities.experimental as any).doctorProvider = "json";
     (params.capabilities.experimental as any).statusBarProvider = this
       .statusBarEnabled
