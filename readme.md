@@ -30,6 +30,7 @@ synced with the latest stable release***
   - [Run doctor](#run-doctor)
   - [Worksheets](#worksheets)
   - [Tree View Protocol](#tree-view-protocol)
+  - [Goto Super Method](#goto-super-method)
   - [All Available Commands](#all-available-commands)
   - [Show document symbols](#show-document-symbols)
   - [Available Configuration Options](#available-configuration-options)
@@ -99,7 +100,7 @@ build. Click "Import build" to start the installation step.
 ![Build Import](https://i.imgur.com/1EyQPTC.png)
 
 - "Not now" disables this prompt for 2 minutes.
-- "Don't show again" disables this prompt forever, use rm -rf .metals/ to 
+- "Don't show again" disables this prompt forever, use rm -rf .metals/ to
     re-enable the prompt.
 - Use tail -f .metals/metals.log to watch the build import progress.
 - Behind the scenes, Metals uses Bloop to import sbt builds, but you don't need
@@ -253,6 +254,27 @@ or first nodes, or jumping to parent or first child nodes. There are shortcuts
 to all of these found below. You will see the traits, classes, objects,
 members, and methods are all color coded.
 
+### Goto Super Method
+
+Depending on whether you're using Vim or Neovim, you'll have a slightly
+different behavior with this feature. If you're using Neovim, you'll want to
+ensure that you have `codeLens.enable` set to `true` in your Coc Config since
+you'll be able to quickly see via code lenses which members are overridden.
+Then, you'll be able to simply trigger a code lens action on the line of the
+member that is overridden. The default mapping for this is `<leader> cl`.
+
+If you're using Vim, you'll still have access to this functionality, but you'll
+have to infer which members are overridden and utilize the
+`metals.go-to-super-method` command.
+
+There is also a `metals.super-method-hierarchy` command which will show you the
+entire hierarchy of the overridden method.
+
+![Goto super method](https://i.imgur.com/TkjolXq.png)
+
+If you don't utilize this feature you can disable it by setting
+`metals.superMethodLensesEnabled` to `false`.
+
 ### All Available Commands
 
   - `metals.restartServer`
@@ -268,6 +290,8 @@ members, and methods are all color coded.
   - `metals.tvp.view`
   - `metals.revealInTreeView`
   - `metals.new-scala-file`
+  - `metals.go-to-super-method`
+  - `metals.super-method-hierarchy`
 
 ### Show document symbols
 
@@ -302,6 +326,8 @@ install [coc-json](https://github.com/neoclide/coc-json).
 `metals.bloopVersion`                           | This version will be used for the Bloop build tool plugin, for any supported build tool,while importing in Metals as well as for running the embedded server
 `metals.bloopSbtAlreadyInstalled`               | If true, Metals will not generate a `project/metals.sbt` file under the assumption that sbt-bloop is already manually installed in the sbt build. Build import will fail with a 'not valid command bloopInstall' error in case Bloop is not manually installed in the build when using this option.
 `metals.statusBarEnabled`                       | Turn on usage of the statusBar integration. Note: You need to ensure you are adding something like `%{coc#status()}` in order to display it, or use a plugin that includes a status integration.
+`metals.superMethodLensesEnabled`               | Enable/disable goto super
+method code lens (default is true)
 `metals.treeviews.toggleNode`                   | Expand / Collapse tree node (default `<CR>`)
 `metals.treeviews.initialWidth`                 | Initial Tree Views panels (default `40`)
 `metals.treeviews.initialViews`                 | Initial views that the Tree View Panel Dispalys. Done mess with this unless you know what you're doing.

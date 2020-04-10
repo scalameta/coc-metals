@@ -68,7 +68,7 @@
       "properties": {
         "metals.serverVersion": {
           "type": "string",
-          "default": "0.8.3",
+          "default": "0.8.4",
           "markdownDescription": "The version of the Metals server artifact. Requires reloading the window.\n\n**Change only if you know what you're doing**"
         },
         "metals.serverProperties": {
@@ -292,6 +292,16 @@
         "command": "metals.new-scala-file",
         "category": "Metals",
         "title": "Create a new Scala file"
+      },
+      {
+        "command": "metals.go-to-super-method",
+        "category": "Metals",
+        "title": "Go to super method"
+      },
+      {
+        "command": "metals.super-method-hierarchy",
+        "category": "Metals",
+        "title": "View super method hierarchy"
       }
     ]
   },
