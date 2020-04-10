@@ -22,9 +22,6 @@ set hidden
 set nobackup
 set nowritebackup
 
-" Better display for messages
-set cmdheight=2
-
 " You will have a bad experience with diagnostic messages with the default of 4000.
 set updatetime=300
 
