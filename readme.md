@@ -313,6 +313,7 @@ install [coc-json](https://github.com/neoclide/coc-json).
 
    Configuration Option                         |      Description
 ----------------------------                    |---------------------------
+`metals.enable`                                 | Enable the coc-metals extension (default true)
 `metals.serverVersion`                          | The version of the Metals server artifact. Requires reloading the window.
 `metals.serverProperties`                       | Optional list of properties to pass along to the Metals server. By default, the environment variable `JAVA_OPTS` and `.jvmopts` file are respected.
 `metals.javaHome`                               | Optional path to the Java home directory. Requires reloading the window. Defaults to the most recent Java 8 version computed by the `locate-java-home` npm package.
@@ -326,8 +327,7 @@ install [coc-json](https://github.com/neoclide/coc-json).
 `metals.bloopVersion`                           | This version will be used for the Bloop build tool plugin, for any supported build tool,while importing in Metals as well as for running the embedded server
 `metals.bloopSbtAlreadyInstalled`               | If true, Metals will not generate a `project/metals.sbt` file under the assumption that sbt-bloop is already manually installed in the sbt build. Build import will fail with a 'not valid command bloopInstall' error in case Bloop is not manually installed in the build when using this option.
 `metals.statusBarEnabled`                       | Turn on usage of the statusBar integration. Note: You need to ensure you are adding something like `%{coc#status()}` in order to display it, or use a plugin that includes a status integration.
-`metals.superMethodLensesEnabled`               | Enable/disable goto super
-method code lens (default is true)
+`metals.superMethodLensesEnabled`               | Enable/disable goto super method code lens (default is true)
 `metals.treeviews.toggleNode`                   | Expand / Collapse tree node (default `<CR>`)
 `metals.treeviews.initialWidth`                 | Initial Tree Views panels (default `40`)
 `metals.treeviews.initialViews`                 | Initial views that the Tree View Panel Dispalys. Done mess with this unless you know what you're doing.

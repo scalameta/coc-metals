@@ -66,6 +66,11 @@
     "configuration": {
       "title": "Metals",
       "properties": {
+        "metals.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable the coc-metals extension"
+        },
         "metals.serverVersion": {
           "type": "string",
           "default": "0.8.4",

@@ -52,29 +52,36 @@ import * as path from "path";
 import WannaBeStatusBarItem from "./WannaBeStatusBarItem";
 
 export async function activate(context: ExtensionContext) {
-  detectLaunchConfigurationChanges();
-  checkServerVersion();
+  const config: WorkspaceConfiguration = workspace.getConfiguration("metals");
+  if (config.get<boolean>("enable")) {
+    detectLaunchConfigurationChanges();
+    checkServerVersion(config);
 
-  getJavaHome(workspace.getConfiguration("metals").get("javaHome")).then(
-    (javaHome) => fetchAndLaunchMetals(context, javaHome),
-    () => {
-      const message =
-        "Unable to find a Java 8 or Java 11 installation on this computer. " +
-        "To fix this problem, update the 'Java Home' setting to point to a Java 8 or Java 11 home directory";
-      const openSettings = "Open Settings";
-      const ignore = "Ignore for now";
-      workspace
-        .showQuickpick([openSettings, ignore], message)
-        .then((choice) => {
-          if (choice === 0) {
-            workspace.nvim.command(Commands.OPEN_COC_CONFIG, true);
-          }
-        });
-    }
-  );
+    getJavaHome(config.get<string>("javaHome")).then(
+      (javaHome) => fetchAndLaunchMetals(config, context, javaHome),
+      () => {
+        const message =
+          "Unable to find a Java 8 or Java 11 installation on this computer. " +
+          "To fix this problem, update the 'Java Home' setting to point to a Java 8 or Java 11 home directory";
+        const openSettings = "Open Settings";
+        const ignore = "Ignore for now";
+        workspace
+          .showQuickpick([openSettings, ignore], message)
+          .then((choice) => {
+            if (choice === 0) {
+              workspace.nvim.command(Commands.OPEN_COC_CONFIG, true);
+            }
+          });
+      }
+    );
+  }
 }
 
-function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
+function fetchAndLaunchMetals(
+  config: WorkspaceConfiguration,
+  context: ExtensionContext,
+  javaHome: string
+) {
   const dottyIde = checkDottyIde(workspace.workspaceFolder?.uri);
   if (dottyIde.enabled) {
     workspace.showMessage(
@@ -85,7 +92,6 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
     return;
   }
 
-  const config: WorkspaceConfiguration = workspace.getConfiguration("metals");
   const serverVersionConfig = config.get<string>("serverVersion");
   const defaultServerVersion = config.inspect<string>("serverVersion")!
     .defaultValue!;
