@@ -1,6 +1,6 @@
 import { Commands } from "./commands";
 
-import { workspace, StatusBarItem } from "coc.nvim";
+import { workspace, StatusBarItem, WorkspaceConfiguration } from "coc.nvim";
 import { ChildProcessPromise } from "promisify-child-process";
 import { downloadProgress } from "metals-languageclient";
 import * as metalsLanguageClient from "metals-languageclient";
@@ -21,8 +21,7 @@ export function trackDownloadProgress(
   });
 }
 
-export function checkServerVersion() {
-  const config = workspace.getConfiguration("metals");
+export function checkServerVersion(config: WorkspaceConfiguration) {
   metalsLanguageClient.checkServerVersion({
     config,
     updateConfig: ({ configSection, latestServerVersion }) => {
@@ -82,6 +81,6 @@ export function detectLaunchConfigurationChanges(): void {
           }
         });
     },
-    ["statusBarEnabled", "bloopVersion"]
+    ["statusBarEnabled", "bloopVersion", "enable"]
   );
 }
