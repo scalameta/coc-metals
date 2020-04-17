@@ -36,6 +36,11 @@ jobs:
       - name: Set new version
         run: yarn version --no-git-tag-version --new-version ${{ steps.get_version.outputs.NEW_VERSION }}
 
+      - name: Commit changes
+        run: |
+          git add .
+          git commit -m "v${{ steps.get_version.outputs.NEW_VERSION }}"
+
       - name: Push changes
         run: git push origin HEAD:master
 
