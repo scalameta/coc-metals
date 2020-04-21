@@ -55,17 +55,15 @@ export class TreeViewFeature implements DynamicFeature<void> {
     if (!capabilities.experimental!.treeViewProvider) return;
     const client = this._client;
 
-    client.onNotification(MetalsTreeViewDidChange.type, (message) => {
-      message.nodes.forEach((node) => {
+    client.onNotification(MetalsTreeViewDidChange.type, (params) => {
+      params.nodes.forEach((node) => {
         const viewId = node.viewId;
         const mbViewUpdater = this.viewUpdaters.get(viewId);
         if (mbViewUpdater === undefined) {
           const updatesEmitter = new Emitter<MetalsTreeViewNode>();
           const provider: TreeViewProvider = {
             viewId,
-
             updatedNodes: updatesEmitter.event,
-
             loadNodeChildren: (
               parentNode?: string
             ): Promise<MetalsTreeViewNode[]> => {
@@ -148,13 +146,11 @@ export class TreeViewFeature implements DynamicFeature<void> {
     return this.providerEmitter.event;
   }
 
-  /* tslint:disable:no-empty */
   public register(
     _message: RPCMessageType,
     _data: RegistrationData<void>
   ): void {}
 
-  /* tslint:disable:no-empty */
   public unregister(_: string): void {}
 
   public dispose(): void {

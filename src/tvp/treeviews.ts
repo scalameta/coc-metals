@@ -32,11 +32,15 @@ export class TreeViewsManager implements Disposable {
     this.nvim.command("highlight default link TvpTrait Statement", true);
     this.nvim.command("highlight default link TvpMethod Identifier", true);
     this.nvim.command("highlight default link TvpVal Type", true);
+    this.nvim.command("highlight default link TvpTopLevel MsgArea", true);
+    this.nvim.command("highlight default link TvpCommand Directory", true);
     this.nvim.command("sign define TvpClass linehl=TvpClass", true);
     this.nvim.command("sign define TvpObject linehl=TvpObject", true);
     this.nvim.command("sign define TvpTrait linehl=TvpTrait", true);
     this.nvim.command("sign define TvpMethod linehl=TvpMethod", true);
     this.nvim.command("sign define TvpVal linehl=TvpVal", true);
+    this.nvim.command("sign define TvpVal linehl=TvpTopLevel", true);
+    this.nvim.command("sign define TvpVal linehl=TvpCommand", true);
   }
 
   public addTreeModel(model: TreeModel): void {
@@ -204,7 +208,7 @@ export class TreeViewsManager implements Disposable {
     if (treeViews === undefined || treeViews.length == 0) {
       workspace.showMessage(
         "Information about Tree Views is not yet loaded. Please try a bit later.",
-        "error"
+        "warning"
       );
       return false;
     } else {
