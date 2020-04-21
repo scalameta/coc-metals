@@ -337,8 +337,12 @@ export class TreeViewsManager implements Disposable {
         allViewNames.split(",").map((viewName) => tabpage.getVar(viewName))
       );
       const windows = await tabpage.windows;
-      const mbWindow = windows.find(
-        (window) => allTreeViews.find((wId) => window.id === wId) === undefined
+      // Sort this to ensure we find the first opened to avoid opening in NERDTree
+      const windowIds = windows.map((window) => window.id).sort();
+      const mbWindow = windowIds.find(
+        (windowId) =>
+          allTreeViews.find((treeViewId) => windowId === treeViewId) ===
+          undefined
       );
       if (mbWindow === undefined) {
         const initWidth = this.config.get<number>("initialWidth")!;
@@ -356,7 +360,7 @@ export class TreeViewsManager implements Disposable {
           await this.nvim.command(`silent ${position} vertical new`);
         }
       } else {
-        await this.nvim.call("win_gotoid", mbWindow.id);
+        await this.nvim.call("win_gotoid", mbWindow);
         if (windowProp === WindowProp.HSplit) {
           await this.nvim.command("split");
         } else if (windowProp === WindowProp.VSplit) {
