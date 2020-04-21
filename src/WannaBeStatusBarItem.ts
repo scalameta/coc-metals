@@ -1,4 +1,4 @@
-import { workspace, StatusBarItem } from "coc.nvim";
+import { StatusBarItem, workspace } from "coc.nvim";
 
 /**
  * ProgressItem is meant to mimic the the progress you can display using

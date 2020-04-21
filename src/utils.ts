@@ -1,9 +1,8 @@
-import { Commands } from "./commands";
-
-import { workspace, StatusBarItem, WorkspaceConfiguration } from "coc.nvim";
-import { ChildProcessPromise } from "promisify-child-process";
-import { downloadProgress } from "metals-languageclient";
+import { StatusBarItem, workspace, WorkspaceConfiguration } from "coc.nvim";
 import * as metalsLanguageClient from "metals-languageclient";
+import { downloadProgress } from "metals-languageclient";
+import { ChildProcessPromise } from "promisify-child-process";
+import { Commands } from "./commands";
 
 export function trackDownloadProgress(
   title: string,

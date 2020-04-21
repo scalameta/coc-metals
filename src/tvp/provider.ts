@@ -1,9 +1,9 @@
+import {
+  MetalsTreeRevealResult,
+  MetalsTreeViewNode,
+} from "metals-languageclient";
 import { Event } from "vscode-jsonrpc";
 import { Position, TextDocument } from "vscode-languageserver-protocol";
-import {
-  MetalsTreeViewNode,
-  MetalsTreeRevealResult,
-} from "metals-languageclient";
 
 export interface TreeViewProvider {
   viewId: string;

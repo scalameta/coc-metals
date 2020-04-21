@@ -1,4 +1,4 @@
-import { Range, MarkedString } from "vscode-languageserver-protocol";
+import { MarkedString, Range } from "vscode-languageserver-protocol";
 
 /**
  * Things in here are things I've found to be pretty VS Code specific, and therefore

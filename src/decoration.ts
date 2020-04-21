@@ -1,4 +1,4 @@
-import { workspace, FloatFactory } from "coc.nvim";
+import { FloatFactory, workspace } from "coc.nvim";
 import { PublishDecorationsParams } from "./metalsProtocol";
 import { DecorationOptions } from "./portedProtocol";
 

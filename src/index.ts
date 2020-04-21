@@ -1,54 +1,54 @@
-import { Commands } from "./commands";
-import { makeVimDoctor } from "./embeddedDoctor";
-import {
-  getJavaHome,
-  checkDottyIde,
-  restartServer,
-  fetchMetals,
-  getServerOptions,
-  getJavaConfig,
-  JavaConfig,
-} from "metals-languageclient";
-import {
-  ExecuteClientCommand,
-  MetalsDidFocus,
-  MetalsInputBox,
-  MetalsQuickPick,
-  DecorationsRangesDidChange,
-  PublishDecorationsParams,
-  MetalsQuickPickParams,
-  MetalsStatus,
-} from "./metalsProtocol";
-import {
-  checkServerVersion,
-  trackDownloadProgress,
-  toggleLogs,
-  wait,
-  detectLaunchConfigurationChanges,
-} from "./utils";
 import {
   commands,
+  events,
   ExtensionContext,
+  FloatFactory,
   LanguageClient,
   LanguageClientOptions,
   RevealOutputChannelOn,
-  workspace,
-  events,
-  FloatFactory,
   StatusBarItem,
+  workspace,
   WorkspaceConfiguration,
 } from "coc.nvim";
+import {
+  checkDottyIde,
+  fetchMetals,
+  getJavaConfig,
+  getJavaHome,
+  getServerOptions,
+  JavaConfig,
+  restartServer,
+} from "metals-languageclient";
+import * as path from "path";
 import {
   ExecuteCommandRequest,
   Location,
 } from "vscode-languageserver-protocol";
-import { MetalsFeatures } from "./MetalsFeatures";
+import { Commands } from "./commands";
 import DecorationProvider from "./decoration";
+import { makeVimDoctor } from "./embeddedDoctor";
+import { MetalsFeatures } from "./MetalsFeatures";
+import {
+  DecorationsRangesDidChange,
+  ExecuteClientCommand,
+  MetalsDidFocus,
+  MetalsInputBox,
+  MetalsQuickPick,
+  MetalsQuickPickParams,
+  MetalsStatus,
+  PublishDecorationsParams,
+} from "./metalsProtocol";
 import { InputBoxOptions } from "./portedProtocol";
 import { TreeViewController } from "./tvp/controller";
 import { TreeViewFeature } from "./tvp/feature";
 import { TreeViewsManager } from "./tvp/treeviews";
-import * as path from "path";
+import {
+  checkServerVersion,
+  detectLaunchConfigurationChanges,
+  toggleLogs,
+  trackDownloadProgress,
+  wait,
+} from "./utils";
 import WannaBeStatusBarItem from "./WannaBeStatusBarItem";
 
 export async function activate(context: ExtensionContext) {
