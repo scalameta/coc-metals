@@ -1,33 +1,33 @@
 import {
   BaseLanguageClient,
+  commands,
   DynamicFeature,
-  RegistrationData,
   Event,
+  RegistrationData,
 } from "coc.nvim";
 import {
+  MetalsTreeRevealResult,
+  MetalsTreeViewChildren,
+  MetalsTreeViewDidChange,
+  MetalsTreeViewNode,
+  MetalsTreeViewNodeCollapseDidChange,
+  MetalsTreeViewReveal,
+  MetalsTreeViewVisibilityDidChange,
+} from "metals-languageclient";
+import {
   ClientCapabilities,
-  RPCMessageType,
-  ServerCapabilities,
+  Disposable,
   Emitter,
   ExecuteCommandParams,
   ExecuteCommandRequest,
-  TextDocumentPositionParams,
-  TextDocument,
   Position,
   RequestType,
-  Disposable,
+  RPCMessageType,
+  ServerCapabilities,
+  TextDocument,
+  TextDocumentPositionParams,
 } from "vscode-languageserver-protocol";
-import { commands } from "coc.nvim";
 import { TreeViewProvider } from "./provider";
-import {
-  MetalsTreeRevealResult,
-  MetalsTreeViewNode,
-  MetalsTreeViewDidChange,
-  MetalsTreeViewChildren,
-  MetalsTreeViewReveal,
-  MetalsTreeViewVisibilityDidChange,
-  MetalsTreeViewNodeCollapseDidChange,
-} from "metals-languageclient";
 
 export class TreeViewFeature implements DynamicFeature<void> {
   private requestType = new RequestType<void, any, void, void>(

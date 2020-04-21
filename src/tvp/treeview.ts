@@ -1,16 +1,14 @@
-import { Neovim, Buffer, Window } from "@chemzqm/neovim";
-import { TextDocument, Position } from "vscode-languageserver-types";
-
+import { Buffer, Neovim, Window } from "@chemzqm/neovim";
 import {
   commands,
-  workspace,
   Disposable,
+  workspace,
   WorkspaceConfiguration,
 } from "coc.nvim";
+import * as log4js from "log4js";
+import { Position, TextDocument } from "vscode-languageserver-types";
 import { Node, NodeView, TreeModel, TreeModelUpdate } from "./model";
 import { sequence } from "./utils";
-
-import * as log4js from "log4js";
 
 export interface TreeViewDescription {
   name: string;

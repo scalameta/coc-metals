@@ -1,7 +1,6 @@
-import { commands, workspace, Disposable } from "coc.nvim";
-
-import { TreeModel } from "./model";
+import { commands, Disposable, workspace } from "coc.nvim";
 import { TreeViewFeature } from "./feature";
+import { TreeModel } from "./model";
 import { TreeViewsManager, WindowProp } from "./treeviews";
 
 interface QuickpickAction {

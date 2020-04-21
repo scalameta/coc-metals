@@ -1,8 +1,8 @@
+import { StaticFeature, workspace } from "coc.nvim";
 import {
   InitializeParams,
   ServerCapabilities,
 } from "vscode-languageserver-protocol";
-import { StaticFeature, workspace } from "coc.nvim";
 
 export interface DebuggingProvider {}
 export interface DecorationProvider {}

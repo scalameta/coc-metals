@@ -1,11 +1,10 @@
 import { NeovimClient as Neovim, Tabpage, Window } from "@chemzqm/neovim";
-import { TextDocument, Position } from "vscode-languageserver-types";
-import { workspace, Disposable, WorkspaceConfiguration } from "coc.nvim";
+import { Disposable, workspace, WorkspaceConfiguration } from "coc.nvim";
+import * as log4js from "log4js";
+import { Position, TextDocument } from "vscode-languageserver-types";
 import { TreeModel } from "./model";
 import { TreeView, TreeViewDescription } from "./treeview";
 import { sequence } from "./utils";
-
-import * as log4js from "log4js";
 
 interface WindowWithTree {
   window: Window;
