@@ -32,8 +32,8 @@
   "scripts": {
     "clean": "rimraf lib",
     "build": "tsc --noEmit && parcel build src/index.ts --out-dir lib/ --target node --no-source-maps",
-    "format": "prettier --write **/*.ts",
-    "format-check": "prettier --check **/*.ts",
+    "format": "prettier --write '**/*{ts,json}'",
+    "format-check": "prettier --check '**/*{ts,json}'",
     "prepare": "npx npm-run-all clean build",
     "watch": "parcel serve src/index.ts --out-dir lib/ --target node"
   },
@@ -321,7 +321,7 @@
   },
   "dependencies": {
     "coc.nvim": "0.0.77",
-    "metals-languageclient": "0.1.23",
+    "metals-languageclient": "0.2.1",
     "promisify-child-process": "3.1.4",
     "vscode-languageserver-protocol": "3.15.3"
   }
