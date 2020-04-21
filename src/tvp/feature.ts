@@ -14,55 +14,25 @@ import {
   TextDocumentPositionParams,
   TextDocument,
   Position,
-  NotificationType,
   RequestType,
   Disposable,
 } from "vscode-languageserver-protocol";
 import { commands } from "coc.nvim";
 import { TreeViewProvider } from "./provider";
 import {
-  MetalsTreeViewChildrenParams,
-  MetalsTreeViewChildrenResult,
   MetalsTreeRevealResult,
-  MetalsTreeViewDidChangeParams,
-  MetalsTreeViewVisibilityDidChangeParams,
-  MetalsTreeViewNodeCollapseDidChangeParams,
   MetalsTreeViewNode,
+  MetalsTreeViewDidChange,
+  MetalsTreeViewChildren,
+  MetalsTreeViewReveal,
+  MetalsTreeViewVisibilityDidChange,
+  MetalsTreeViewNodeCollapseDidChange,
 } from "metals-languageclient";
 
 export class TreeViewFeature implements DynamicFeature<void> {
   private requestType = new RequestType<void, any, void, void>(
     "metals/treeView"
   );
-
-  private treeViewChildrenParamsType = new RequestType<
-    MetalsTreeViewChildrenParams,
-    MetalsTreeViewChildrenResult,
-    void,
-    void
-  >("metals/treeViewChildren");
-
-  private treeViewRevealType = new RequestType<
-    TextDocumentPositionParams,
-    MetalsTreeRevealResult,
-    void,
-    void
-  >("metals/treeViewReveal");
-
-  private treeViewDidChangeType = new NotificationType<
-    MetalsTreeViewDidChangeParams,
-    void
-  >("metals/treeViewDidChange");
-
-  private treeViewVisibilityChangedType = new NotificationType<
-    MetalsTreeViewVisibilityDidChangeParams,
-    void
-  >("metals/treeViewVisibilityDidChange");
-
-  private treeViewNodeCollapseChangedType = new NotificationType<
-    MetalsTreeViewNodeCollapseDidChangeParams,
-    void
-  >("metals/treeViewNodeCollapseDidChange");
 
   private providerEmitter: Emitter<TreeViewProvider> = new Emitter();
   private viewUpdaters: Map<string, Emitter<MetalsTreeViewNode>> = new Map();
@@ -85,7 +55,7 @@ export class TreeViewFeature implements DynamicFeature<void> {
     if (!capabilities.experimental!.treeViewProvider) return;
     const client = this._client;
 
-    client.onNotification(this.treeViewDidChangeType, (message) => {
+    client.onNotification(MetalsTreeViewDidChange.type, (message) => {
       message.nodes.forEach((node) => {
         const viewId = node.viewId;
         const mbViewUpdater = this.viewUpdaters.get(viewId);
@@ -100,7 +70,7 @@ export class TreeViewFeature implements DynamicFeature<void> {
               parentNode?: string
             ): Promise<MetalsTreeViewNode[]> => {
               const result = client
-                .sendRequest(this.treeViewChildrenParamsType, {
+                .sendRequest(MetalsTreeViewChildren.type, {
                   viewId,
                   nodeUri: parentNode,
                 })
@@ -123,12 +93,12 @@ export class TreeViewFeature implements DynamicFeature<void> {
                 position: tweakedPosition,
               };
               return Promise.resolve(
-                client.sendRequest(this.treeViewRevealType, arg)
+                client.sendRequest(MetalsTreeViewReveal.type, arg)
               );
             },
 
             sendTreeViewVisibilityNotification: (visible: boolean): void => {
-              client.sendNotification(this.treeViewVisibilityChangedType, {
+              client.sendNotification(MetalsTreeViewVisibilityDidChange.type, {
                 viewId,
                 visible,
               });
@@ -138,11 +108,14 @@ export class TreeViewFeature implements DynamicFeature<void> {
               childNode: string,
               collapsed: boolean
             ): void => {
-              client.sendNotification(this.treeViewNodeCollapseChangedType, {
-                viewId,
-                nodeUri: childNode,
-                collapsed,
-              });
+              client.sendNotification(
+                MetalsTreeViewNodeCollapseDidChange.type,
+                {
+                  viewId,
+                  nodeUri: childNode,
+                  collapsed,
+                }
+              );
             },
           };
           this.providerEmitter.fire(provider);
