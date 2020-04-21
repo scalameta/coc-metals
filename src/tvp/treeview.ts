@@ -258,19 +258,18 @@ export class TreeView implements Disposable {
           case "val":
             highlightSchema = "TvpVal";
             break;
+          case "command":
+            highlightSchema = "TvpCommand";
+            break;
           default:
-            highlightSchema = undefined;
+            highlightSchema = "TvpTopLevel";
         }
-        if (highlightSchema !== undefined) {
-          const placeId = this.highlightPlaceId++;
-          const line = offset + idx;
-          this.logger.debug(
-            `signplace id=${placeId} schema=${highlightSchema} num=${line} uri=${node.underlying.nodeUri}`
-          );
-          return this.buffer.addHighlight({ hlGroup: highlightSchema, line });
-        } else {
-          return undefined;
-        }
+        const placeId = this.highlightPlaceId++;
+        const line = offset + idx;
+        this.logger.debug(
+          `signplace id=${placeId} schema=${highlightSchema} num=${line} uri=${node.underlying.nodeUri}`
+        );
+        return this.buffer.addHighlight({ hlGroup: highlightSchema, line });
       })
     );
   }
