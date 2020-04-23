@@ -16,6 +16,7 @@ labels: "question"
 
 - Operating system: macOS/Windows/Linux
 - Vim or nvim version:
+- coc.nvim version:
 - coc-metals extension version:
 - Metals version: (`:CocConfig` to open settings)
 
