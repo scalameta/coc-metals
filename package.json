@@ -158,14 +158,19 @@
             {
               "name": "metalsCompile",
               "size": 10,
+              "expanded": []
+            },
+            {
+              "name": "metalsBuild",
+              "size": 40,
               "expanded": [
                 [
-                  "metals://ongoing-compilations"
+                  "projects:"
                 ]
               ]
             },
             {
-              "name": "metalsBuild",
+              "name": "metalsProject",
               "size": 40,
               "expanded": [
                 [
