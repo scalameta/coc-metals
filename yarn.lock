@@ -3280,10 +3280,10 @@ merge2@^1.2.3:
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.3.0.tgz#5b366ee83b2f1582c48f87e47cf1a9352103ca81"
   integrity sha512-2j4DAdlBOkiSZIsaXk4mTE3sRS02yBHAtfy127xRV3bQUFqXkjHCHLW6Scv7DwNRbIWNHH8zpnz9zMaKXIdvYw==
 
-metals-languageclient@0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/metals-languageclient/-/metals-languageclient-0.2.1.tgz#c8ee61822bd6a3d3b217d3f8a415fa8b4735024e"
-  integrity sha512-8iVF+wKKZVN7r1/9JSv4QCJO2lRyqQvxs6+kmTviKVj/pYsH0qBR8vo7ne+7MkKrvyz8lnZCX29siv6sOWf3Qw==
+metals-languageclient@0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/metals-languageclient/-/metals-languageclient-0.2.2.tgz#81c7eeb00c8945759987a289aa6e32f8008e0cce"
+  integrity sha512-ib0Wjxa6EOqHuamtrN8GwobTc08Q4MLuT57hDsGyfQBClJOxyvgg4Q1ZwMDNB9DDyZzewQu4OTUpPbG57DXHZw==
   dependencies:
     fp-ts "^2.4.1"
     locate-java-home "^1.1.2"
