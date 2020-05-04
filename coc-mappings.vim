@@ -142,5 +142,5 @@ nnoremap <silent> <space>t :<C-u>CocCommand metals.tvp<CR>
 nnoremap <silent> <space>tb :<C-u>CocCommand metals.tvp metalsBuild<CR>
 " Toggle Tree View 'metalsCompile'
 nnoremap <silent> <space>tc :<C-u>CocCommand metals.tvp metalsCompile<CR>
-" Reveal current current class (trait or object) in Tree View 'metalsBuild'
-nnoremap <silent> <space>tf :<C-u>CocCommand metals.revealInTreeView metalsBuild<CR>
+" Reveal current current class (trait or object) in Tree View 'metalsProject'
+nnoremap <silent> <space>tf :<C-u>CocCommand metals.revealInTreeView metalsProject<CR>
