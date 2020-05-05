@@ -156,8 +156,13 @@
           "type": "object",
           "default": [
             {
-              "name": "metalsBuild",
+              "name": "metalsCompile",
               "size": 10,
+              "expanded": []
+            },
+            {
+              "name": "metalsPackages",
+              "size": 40,
               "expanded": [
                 [
                   "projects:"
@@ -165,13 +170,9 @@
               ]
             },
             {
-              "name": "metalsProject",
-              "size": 40,
-              "expanded": [
-                [
-                  "projects:"
-                ]
-              ]
+              "name": "metalsBuild",
+              "size": 15,
+              "expanded": []
             }
           ]
         },

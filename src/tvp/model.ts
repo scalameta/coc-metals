@@ -207,13 +207,16 @@ export class Node {
         end !== 0 ? ev.newNodes.slice(start, -end) : ev.newNodes.slice(start);
       if (oldNodes.length === 0 && newNodes.length === 0) {
         return undefined;
-      } else {
+      } else if (newNodes.length > 0) {
         return {
-          root: newNodes.length > 0 ? newNodes[0] : ev.newNodes[start],
+          root: newNodes[0],
           oldNodes,
           newNodes,
           focusEvent: false,
         };
+      } else {
+        // Optimization failed. Let's just handle whole `ev`.
+        return ev;
       }
     }
 
