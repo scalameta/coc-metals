@@ -259,6 +259,12 @@ export class TreeView implements Disposable {
             highlightSchema = "TvpVal";
             break;
           case "command":
+          case "sync":
+          case "connect":
+          case "cascade":
+          case "cancel":
+          case "clean":
+          case "debug-stop":
             highlightSchema = "TvpCommand";
             break;
           default:

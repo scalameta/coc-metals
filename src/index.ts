@@ -244,6 +244,7 @@ function launchMetals(
       "doctor-run",
       "compile-cascade",
       "compile-cancel",
+      "compile-clean",
     ];
 
     commands.forEach((command) => {

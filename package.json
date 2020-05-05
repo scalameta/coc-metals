@@ -156,16 +156,16 @@
           "type": "object",
           "default": [
             {
-              "name": "metalsCompile",
+              "name": "metalsBuild",
               "size": 10,
               "expanded": [
                 [
-                  "metals://ongoing-compilations"
+                  "projects:"
                 ]
               ]
             },
             {
-              "name": "metalsBuild",
+              "name": "metalsProject",
               "size": 40,
               "expanded": [
                 [
