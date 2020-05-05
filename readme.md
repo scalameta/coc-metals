@@ -233,7 +233,7 @@ line.
 
 ### Tree View Protocol
 
-![Tree View Protocol](https://i.imgur.com/NrPuIXt.gifv)
+![Tree View Protocol](https://i.imgur.com/NrPuIXt.gif)
 
 coc-metals has a built-in implementation of the [Tree View
 Protocol](https://scalameta.org/metals/docs/editors/tree-view-protocol.html).
