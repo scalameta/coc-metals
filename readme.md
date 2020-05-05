@@ -233,26 +233,22 @@ line.
 
 ### Tree View Protocol
 
-![Tree View Protocol](https://i.imgur.com/ryUPx3l.png)
-coc-metals has a built-in implementation of the [Tree View Protocol](https://scalameta.org/metals/docs/editors/tree-view-protocol.html).
+![Tree View Protocol](https://i.imgur.com/NrPuIXt.gifv)
+
+coc-metals has a built-in implementation of the [Tree View
+Protocol](https://scalameta.org/metals/docs/editors/tree-view-protocol.html).
 If you have the [recommended mappings](coc-mappings.vim) copied, you'll notice
 that in the bottom you'll have some TVP related settings. You can start by
 opening the TVP panel by using the default `<space> t`. Once open, you'll see
-there are two parts to the panel. The first being the `MetalsBuild` where you
-can find multiple build-related commands.
+there are three parts to the panel. The first being the `MetalsCompile` window
+where you can see ongoing compilations, the second is the `MetalsPackages`
+window where you are able to see a tree view of all your packages, and finally
+the `metalsBuild` window where you have build related commands.
 
-![metalsBuild](https://i.imgur.com/cwm2asx.png)
-
-You are able to trigger the compiles while being on top of the option you are
+You are able to trigger the commands while being on top of the option you are
 attempting to trigger and pressing `r`. You can change this default in the
 settings. You can find all the relevant TVP settings below in the [Available
 Configuration Options](#available-configuration-options).
-
-The second part of the TVP panel is a view of your project and external dependencies.
-You can navigate through them by jumping to the next or previous nodes, the last
-or first nodes, or jumping to parent or first child nodes. There are shortcuts
-to all of these found below. You will see the traits, classes, objects,
-members, and methods are all color coded.
 
 ### Goto Super Method
 
