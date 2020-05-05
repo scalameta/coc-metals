@@ -153,7 +153,8 @@ export class TreeView implements Disposable {
     }
 
     this.eventQueue = this.eventQueue.then(async (_) => {
-      const nodeOffset = await this.model.findNodeOffset(ev.root);
+      const nodeOffset =
+        ev.root !== undefined ? await this.model.findNodeOffset(ev.root) : 1;
       if (nodeOffset === undefined) return;
       const offset = nodeOffset - 1;
 
@@ -168,9 +169,10 @@ export class TreeView implements Disposable {
         (window) => windowIds.indexOf(window.id) != -1
       );
       if (ev.focusEvent) {
-        this.logger.debug(
-          `Focus event. Root: ${ev.root.underlying.nodeUri}, offset: ${offset}.`
-        );
+        ev.root !== undefined &&
+          this.logger.debug(
+            `Focus event. Root: ${ev.root.underlying.nodeUri}, offset: ${offset}.`
+          );
         await sequence(bufferWindows, async (w) => {
           const needRedraw =
             tabpageWindows.find((tabwindow) => tabwindow.id === w.id) !==
@@ -183,9 +185,10 @@ export class TreeView implements Disposable {
         });
       } else {
         const payload = ev.newNodes.map((n) => n.underlying.nodeUri).join(",");
-        this.logger.debug(
-          `Update event. Root: ${ev.root.underlying.nodeUri}, length: ${ev.oldNodes.length}, payload: ${payload}.`
-        );
+        ev.root !== undefined &&
+          this.logger.debug(
+            `Update event. Root: ${ev.root.underlying.nodeUri}, length: ${ev.oldNodes.length}, payload: ${payload}.`
+          );
         await this.modifyBuffer(async () => {
           const offsets = await sequence(bufferWindows, async (window) => {
             const cursor = await window.cursor;
