@@ -27,7 +27,6 @@ import {
 import { Commands } from "./commands";
 import DecorationProvider from "./decoration";
 import { makeVimDoctor } from "./embeddedDoctor";
-import { MetalsFeatures } from "./MetalsFeatures";
 import {
   DecorationsRangesDidChange,
   ExecuteClientCommand,
@@ -181,6 +180,16 @@ function launchMetals(
       configurationSection: "metals",
     },
     revealOutputChannelOn: RevealOutputChannelOn.Never,
+    initializationOptions: {
+      decorationProvider: workspace.isNvim,
+      didFocusProvider: true,
+      doctorProvider: "json",
+      executeClientCommandProvider: true,
+      quickPickProvider: true,
+      inputBoxProvider: true,
+      slowTaskProvider: true,
+      statusBarProvider: statusBarEnabled ? "on" : "show-message",
+    },
   };
 
   const client = new LanguageClient(
@@ -190,9 +199,7 @@ function launchMetals(
     clientOptions
   );
 
-  const features = new MetalsFeatures(statusBarEnabled);
   const treeViewFeature = new TreeViewFeature(client);
-  client.registerFeature(features);
   client.registerFeature(treeViewFeature);
 
   const floatFactory = new FloatFactory(
@@ -250,7 +257,7 @@ function launchMetals(
       toggleLogs();
     });
 
-    if (features.decorationProvider) {
+    if (workspace.isNvim) {
       context.subscriptions.push(
         workspace.registerKeymap(
           ["n"],
@@ -391,7 +398,7 @@ function launchMetals(
       });
     }
 
-    if (features.decorationProvider) {
+    if (workspace.isNvim) {
       client.onNotification(
         DecorationsRangesDidChange.type,
         (params: PublishDecorationsParams) => {
