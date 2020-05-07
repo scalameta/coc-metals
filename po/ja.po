@@ -19,7 +19,6 @@ msgstr ""
 #: readme.md:3
 msgid "# coc-metals"
 msgstr "# coc-metals"
-
 #. type: Plain text
 #: readme.md:8
 msgid ""
@@ -788,6 +787,12 @@ msgid ""
 "since the user needs to see messages about the status of their build, the "
 "following is defaulted to false."
 msgstr ""
+"なぜならメッセージエリアよりステータスラインでメッセージを表示することのほうが良いでしょうから"
+"`coc-metals`をステータスライン統合と一緒に使うことを推奨します。"
+"これはコマンドを入力しているしていたりプロンプトに入力している間ステータス情報を継続して得ることができ、"
+"より良い体験を得ることができます。"
+"しかし、私たちは必ずしも全員がこのステップをすることはないということに気づいています。"
+"したがって、ユーザーがビルドのステータスに関するメッセージを見る必要があるまでは"
 
 #. type: Plain text
 #: readme.md:330
@@ -888,6 +893,7 @@ msgid ""
 "project/metals.sbt file. It's recommended to ignore these directories and "
 "file from version control systems like git."
 msgstr ""
+""
 
 #. type: Plain text
 #: readme.md:383
@@ -909,6 +915,11 @@ msgid ""
 "If you have any feature requests, we also have a feature request [issue repo]"
 "(https://github.com/scalameta/metals-feature-requests)."
 msgstr ""
+"もしcoc-metalsに疑問や問題がございましたら、それが拡張機能に関連する場合は"
+"このリポジトリの[issue](https://github.com/scalameta/coc-metals/issues)で報告してください"
+"もし問題がMetalsに関する一般的なものである場合は、[Metalsのリポジトリのissue](https://github.com/scalameta/metals/issues)"
+"にて報告してください。もし機能リクエストがある場合は、そのための機能リクエスト用の"
+"[リポジトリのissue](https://gihtub.com/scalameta/metals-feature-requests)にて報告してください。"
 
 #. type: Plain text
 #: readme.md:392
