@@ -190,6 +190,10 @@ async function launchMetals(
       inputBoxProvider: true,
       slowTaskProvider: true,
       statusBarProvider: statusBarEnabled ? "on" : "show-message",
+      treeViewProvider: true,
+      debuggingProvider:
+        workspace.isNvim &&
+        (await workspace.nvim.getVar("loaded_vimpector")) === 1,
     },
   };
 
@@ -201,10 +205,11 @@ async function launchMetals(
   );
 
   const treeViewFeature = new TreeViewFeature(client);
-  const debuggingFeature = new DebuggingFeature(workspace.nvim, client);
-  await debuggingFeature.preInit();
   client.registerFeature(treeViewFeature);
-  client.registerFeature(debuggingFeature);
+  if (clientOptions.initializationOptions.debuggingProvider) {
+    const debuggingFeature = new DebuggingFeature(workspace.nvim, client);
+    client.registerFeature(debuggingFeature);
+  }
 
   const floatFactory = new FloatFactory(
     workspace.nvim,
