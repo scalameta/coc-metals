@@ -48,29 +48,7 @@ import {
   trackDownloadProgress,
   wait,
 } from "./utils";
-import {
-  commands,
-  ExtensionContext,
-  LanguageClient,
-  LanguageClientOptions,
-  RevealOutputChannelOn,
-  workspace,
-  events,
-  FloatFactory,
-  StatusBarItem
-} from "coc.nvim";
-import {
-  ExecuteCommandRequest,
-  Location
-} from "vscode-languageserver-protocol";
 import { DebuggingFeature } from "./DebuggingFeature";
-import { MetalsFeatures } from "./MetalsFeatures";
-import DecorationProvider from "./decoration";
-import { InputBoxOptions } from "./portedProtocol";
-import { TreeViewController } from "./tvp/controller";
-import { TreeViewFeature } from "./tvp/feature";
-import { TreeViewsManager } from "./tvp/treeviews";
-import * as path from "path";
 import WannaBeStatusBarItem from "./WannaBeStatusBarItem";
 
 export async function activate(context: ExtensionContext) {
@@ -369,6 +347,10 @@ async function launchMetals(
           break;
         case "metals-logs-toggle":
           toggleLogs();
+          break;
+        case "metals-model-refresh":
+          // CodeLensManager from coc.nvim reloads codeLens on this event
+          events.fire("BufEnter", [workspace.bufnr]);
           break;
         default:
           workspace.showMessage(`Recieved unknown command: ${params.command}`);
