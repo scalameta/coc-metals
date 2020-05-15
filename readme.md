@@ -415,34 +415,46 @@ have the following in your `:CocConfig`.
 
 ### Debugging
 
-Coc-metals provides smooth integration with [vimspector](https://github.com/puremourning/vimspector)
-and allows to run Debug Adapter Server and debug your application with minimum
-manual steps.
+coc-metals provides easy integration with the great
+[vimspector](https://github.com/puremourning/vimspector) plugin that allows  you
+to run a Debug Adapter Server and debug your application with minimum manual
+steps.
 
-Requirements:
-* Neovim 0.4.3 with Python 3.6 or later (Vim is not supported because codeLens in Coc
-are implemented using 'virtual text' feature of Neovim and are not available in Vim.
-CodeLens are used to run Debug Adapter Server).
-* Plugin [vimspector](https://github.com/puremourning/vimspector). Basically you just
-need to add vimspector into vim's runtimepath, for example, if you are using vim-plug then
-add this line in .vimrc
+#### Requirements:
+- *This is only currently available for Neovim +0.4.3 for now until the
+  the `launch.json` Metals expects can be mapped to match the `.vimspector.json`
+  file that vimspector uses. For now, you'll need to trigger the `run` or `debug`
+  with code lenses provided by Neovim.
+
+- [vimspector](https://github.com/puremourning/vimspector) plugin - Basically you just
+  need to add vimspector into vim's runtimepath, for example, if you are using vim-plug then
+  add this line in .vimrc
+
 ```vim
 Plug 'puremourning/vimspector'
 ```
+#### Configuration:
 
-Configuration:
-* Set `codeLens.enable` to `true` in your Coc Config.
-* Configure vimspector in .vimrc
-```vim
-let g:vimspector_enable_mappings = 'HUMAN'
-```
-Please refer vimspector documentation for more configuration options.
-* Put file `cocmetals.json` in directory `/path/to/vimspector/configurations/{os}/scala`
-(where `os` is `linux`, `macos` or `windows`) with following content:
+- Set `codeLens.enable` to `true` in your `:CocConfig`
+- Setup your [Vimspector Mappings](https://github.com/puremourning/vimspector#mappings)
+
+The [vimspector documentation](https://github.com/puremourning/vimspector) is
+quite robust, so please make sure to read through it.
+
+There are multiple ways to have you base configuration for vimspector to work
+with Metals. You can either set this up globally to work with all of your Scala
+projects or for an individual  project.
+
+_Global Example:_
+
+Put your `coc-metals.json` file in the following directory:
+`/path/to/vimspector/configurations/{os}/scala` (where `os` is `linux`, `macos`
+or `windows`) with following content:
+
 ```json
 {
   "configurations": {
-    "cocmetals": {
+    "coc-metals": {
       "adapter": {
         "port": "${port}",
         "variables": {
@@ -462,15 +474,17 @@ Please refer vimspector documentation for more configuration options.
 }
 ```
 
+You can also just place the same contents above in the root of your local
+project in a `.vimspector.json` file, and it will work the same way.
 
-With these configuration parameters the codeLens 'run' and 'debug' appears against runnable
-classes (applications or tests) of your project. Then, you will be able to trigger these
-codeLens actions (default mapping is `<leader> cl`) and start Debug Adapter Server. Once
-Debug Adapter Server is started coc-metals will transfer necessary information to vimspector
-to activate debugging.
+With these configuration parameters the codeLens 'run' and 'debug' appear
+against runnable classes (applications or tests) of your project. Then, you will
+be able to trigger these codeLens actions (default mapping is `<leader> cl`) and
+start Debug Adapter Server. Once Debug Adapter Server is started coc-metals will
+transfer necessary information to vimspector to activate debugging.
 
-For now both actions 'run' and 'debug' start vimspector in debug mode. This may be improved
-in next versions.
+For now both actions 'run' and 'debug' start vimspector in debug mode. This may
+be improved in next versions.
 
 ### Gitignore
 

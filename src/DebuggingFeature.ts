@@ -29,7 +29,7 @@ export class DebuggingFeature implements StaticFeature {
           if (colonIdx !== -1) {
             const port = parseInt(resp.uri.substr(colonIdx + 1));
             await this._nvim.call("vimspector#LaunchWithSettings", [
-              { configuration: "cocmetals", port },
+              { configuration: "coc-metals", port },
             ]);
           }
         },
