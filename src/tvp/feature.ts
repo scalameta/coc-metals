@@ -22,7 +22,6 @@ import {
   Position,
   RequestType,
   RPCMessageType,
-  ServerCapabilities,
   TextDocument,
   TextDocumentPositionParams,
 } from "vscode-languageserver-protocol";
@@ -45,8 +44,7 @@ export class TreeViewFeature implements DynamicFeature<void> {
 
   public fillClientCapabilities(): void {}
 
-  public initialize(capabilities: ServerCapabilities): void {
-    if (!capabilities.experimental!.treeViewProvider) return;
+  public initialize(): void {
     const client = this._client;
 
     client.onNotification(MetalsTreeViewDidChange.type, (params) => {
