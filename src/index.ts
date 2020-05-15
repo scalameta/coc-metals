@@ -48,6 +48,7 @@ import {
   trackDownloadProgress,
   wait,
 } from "./utils";
+import { DebuggingFeature } from "./DebuggingFeature";
 import WannaBeStatusBarItem from "./WannaBeStatusBarItem";
 
 export async function activate(context: ExtensionContext) {
@@ -159,7 +160,7 @@ function fetchAndLaunchMetals(
   );
 }
 
-function launchMetals(
+async function launchMetals(
   context: ExtensionContext,
   metalsClasspath: string,
   serverProperties: string[],
@@ -189,6 +190,10 @@ function launchMetals(
       inputBoxProvider: true,
       slowTaskProvider: true,
       statusBarProvider: statusBarEnabled ? "on" : "show-message",
+      treeViewProvider: true,
+      debuggingProvider:
+        workspace.isNvim &&
+        (await workspace.nvim.getVar("loaded_vimpector")) === 1,
     },
   };
 
@@ -201,6 +206,10 @@ function launchMetals(
 
   const treeViewFeature = new TreeViewFeature(client);
   client.registerFeature(treeViewFeature);
+  if (clientOptions.initializationOptions.debuggingProvider) {
+    const debuggingFeature = new DebuggingFeature(workspace.nvim, client);
+    client.registerFeature(debuggingFeature);
+  }
 
   const floatFactory = new FloatFactory(
     workspace.nvim,
@@ -343,6 +352,10 @@ function launchMetals(
           break;
         case "metals-logs-toggle":
           toggleLogs();
+          break;
+        case "metals-model-refresh":
+          // CodeLensManager from coc.nvim reloads codeLens on this event
+          events.fire("BufEnter", [workspace.bufnr]);
           break;
         default:
           workspace.showMessage(`Recieved unknown command: ${params.command}`);

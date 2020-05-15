@@ -15,7 +15,6 @@ import {
   MetalsTreeViewVisibilityDidChange,
 } from "metals-languageclient";
 import {
-  ClientCapabilities,
   Disposable,
   Emitter,
   ExecuteCommandParams,
@@ -44,12 +43,7 @@ export class TreeViewFeature implements DynamicFeature<void> {
     return this.requestType;
   }
 
-  public fillClientCapabilities(capabilities: ClientCapabilities): void {
-    if (capabilities.experimental == null) {
-      capabilities.experimental = {};
-    }
-    (capabilities.experimental as any).treeViewProvider = true;
-  }
+  public fillClientCapabilities(): void {}
 
   public initialize(capabilities: ServerCapabilities): void {
     if (!capabilities.experimental!.treeViewProvider) return;
