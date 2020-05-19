@@ -25,5 +25,5 @@ export namespace Commands {
   /**
    * Shows Coc Info and logs
    */
-  export const OPEN_LOGS = "CocInfo";
+  export const OPEN_LOGS = "CocCommand workspace.showOutput";
 }
