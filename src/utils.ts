@@ -50,11 +50,11 @@ export function checkServerVersion(config: WorkspaceConfiguration) {
 }
 
 export function toggleLogs() {
-  const infoBuffer = workspace.documents.find((doc) =>
-    doc.uri.endsWith("info")
+  const logsBuffer = workspace.documents.find(
+    (doc) => doc.uri == "output:/metals"
   );
-  if (infoBuffer) {
-    workspace.nvim.command(`bd ${infoBuffer.bufnr}`);
+  if (logsBuffer) {
+    workspace.nvim.command(`bd ${logsBuffer.bufnr}`);
   } else {
     workspace.nvim.command(Commands.OPEN_LOGS);
   }
