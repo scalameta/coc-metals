@@ -305,6 +305,11 @@
         "title": "Create a new Scala file"
       },
       {
+        "command": "metals.new-scala-project",
+        "category": "Metals",
+        "title": "Create a new Scala project"
+      },
+      {
         "command": "metals.go-to-super-method",
         "category": "Metals",
         "title": "Go to super method"

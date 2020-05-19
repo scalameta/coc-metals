@@ -256,6 +256,7 @@ async function launchMetals(
       "compile-clean",
       "ammonite-start",
       "ammonite-stop",
+      "new-scala-project",
     ];
 
     commands.forEach((command) => {
