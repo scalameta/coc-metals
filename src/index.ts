@@ -254,6 +254,8 @@ async function launchMetals(
       "compile-cascade",
       "compile-cancel",
       "compile-clean",
+      "ammonite-start",
+      "ammonite-stop",
     ];
 
     commands.forEach((command) => {

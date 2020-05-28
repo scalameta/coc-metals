@@ -308,6 +308,16 @@
         "command": "metals.super-method-hierarchy",
         "category": "Metals",
         "title": "View super method hierarchy"
+      },
+      {
+        "command": "metals.ammonite-start",
+        "category": "Metals",
+        "title": "Start Ammonite build server"
+      },
+      {
+        "command": "metals.ammonite-stop",
+        "category": "Metals",
+        "title": "Stop Ammonite build server"
       }
     ]
   },
