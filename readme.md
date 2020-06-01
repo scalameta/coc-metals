@@ -325,6 +325,7 @@ install [coc-json](https://github.com/neoclide/coc-json).
 `metals.bloopSbtAlreadyInstalled`               | If true, Metals will not generate a `project/metals.sbt` file under the assumption that sbt-bloop is already manually installed in the sbt build. Build import will fail with a 'not valid command bloopInstall' error in case Bloop is not manually installed in the build when using this option.
 `metals.statusBarEnabled`                       | Turn on usage of the statusBar integration. Note: You need to ensure you are adding something like `%{coc#status()}` in order to display it, or use a plugin that includes a status integration.
 `metals.superMethodLensesEnabled`               | Enable/disable goto super method code lens (default is true)
+`metals.enableStripMarginOnTypeFormatting`      | When enabled, if you press the return key from the first line of a multiline string containing a pipe, it will automatically add `.stripMargin.` (default is true)
 `metals.treeviews.toggleNode`                   | Expand / Collapse tree node (default `<CR>`)
 `metals.treeviews.initialWidth`                 | Initial Tree Views panels (default `40`)
 `metals.treeviews.initialViews`                 | Initial views that the Tree View Panel Displays. Don't mess with this unless you know what you're doing.
