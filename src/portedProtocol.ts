@@ -1,4 +1,4 @@
-import { MarkedString, Range } from "vscode-languageserver-protocol";
+import { Range, MarkupContent } from "vscode-languageserver-protocol";
 
 /**
  * Things in here are things I've found to be pretty VS Code specific, and therefore
@@ -63,7 +63,7 @@ export interface DecorationOptions {
    *
    * Note that this is changed a bit to more accomodate what we are getting from Metals
    */
-  hoverMessage?: MarkedString;
+  hoverMessage?: MarkupContent;
 
   /**
    * Render options applied to the current decoration. For performance reasons, keep the
