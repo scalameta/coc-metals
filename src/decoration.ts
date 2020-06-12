@@ -49,7 +49,7 @@ export default class DecorationProvider {
         [
           {
             content: hoverText.hoverMessage.value,
-            filetype: hoverText.hoverMessage.language,
+            filetype: hoverText.hoverMessage.kind,
           },
         ],
         true,
