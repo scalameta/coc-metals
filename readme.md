@@ -287,8 +287,11 @@ If you don't utilize this feature you can disable it by setting
   - `metals.tvp.view`
   - `metals.revealInTreeView`
   - `metals.new-scala-file`
+  - `metals.new-scala-project`
   - `metals.go-to-super-method`
   - `metals.super-method-hierarchy`
+  - `metals.ammonite-start`
+  - `metals.ammonite-stop`
 
 ### Show document symbols
 
