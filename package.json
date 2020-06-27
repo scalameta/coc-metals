@@ -84,6 +84,14 @@
           },
           "markdownDescription": "Optional list of properties to pass along to the Metals server. By default, the environment variable `JAVA_OPTS` and `.jvmopts` file are respected. \n\nExample: `-Dhttps.proxyHost=… -Dhttps.proxyPort=…` or `-Dmetals.statistics=all`"
         },
+        "metals.ammoniteJvmProperties": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "markdownDescription": "Optional list of JVM properties to pass along to the Ammonite server. Each property needs to be a separate item.\n\nExample: `-Xmx1G` or `-Xms100M`"
+        },
         "metals.javaHome": {
           "type": "string",
           "markdownDescription": "Optional path to the Java home directory. Requires reloading the window.\n\nDefaults to the most recent Java 8 version computed by the `locate-java-home` npm package."

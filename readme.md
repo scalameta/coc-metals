@@ -316,6 +316,7 @@ install [coc-json](https://github.com/neoclide/coc-json).
 `metals.enable`                                 | Enable the coc-metals extension (default true)
 `metals.serverVersion`                          | The version of the Metals server artifact. Requires reloading the window.
 `metals.serverProperties`                       | Optional list of properties to pass along to the Metals server. By default, the environment variable `JAVA_OPTS` and `.jvmopts` file are respected.
+`metals.ammoniteJvmProperties`                  | Optional list of JVM properties to pass along to the Ammonite server. Each property needs to be a separate item. Example: `-Xmx1G` or `-Xms100M`
 `metals.javaHome`                               | Optional path to the Java home directory. Requires reloading the window. Defaults to the most recent Java 8 version computed by the `locate-java-home` npm package.
 `metals.sbtScript`                              | Optional absolute path to an `sbt` executable to use for running `sbt bloopInstall`. By default, Metals uses `java -jar sbt-launch.jar` with an embedded launcher while respecting `.jvmopts` and `.sbtopts`. Update this setting if your `sbt` script requires more customizations like using environment variables.
 `metals.millScript`                             | Optional absolute path to a `mill` executable to use for running `mill mill.contrib.Bloop/install`. By default, Metals uses an embedded `millw` script while respecting `.mill-version` file. Update this setting if your `mill` script requires more customizations.
