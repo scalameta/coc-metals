@@ -1,4 +1,3 @@
-
 # coc-metals
 
 ![coc-metals](https://i.imgur.com/zofu4VI.png)
@@ -69,12 +68,12 @@ ways, but the easiest is by running.
 :CocInstall coc-metals
 ```
 
-If you'd like to use the latest changes on master, you can also just build from
-source by using `:CocInstall` with the repository url.
-
-```vim
-:CocInstall https://github.com/scalameta/coc-metals
-```
+If you install this way and are using the latest stable of coc.nvim, then daily
+your extensions will get checked to see if they are up to date. However, this is
+changing and has already changed in Master. So in that case, you'll need to
+issue the `:CocUpdate` to update your extensions. If you install with this
+method youc an also see the version of your extensions by doing a `:CocList
+extensions`.
 
 If you'd like to use the latest changes on master, but manage it using a plugin
 manager to download the extension, then if you are using
@@ -232,6 +231,10 @@ line.
 
 ![Decorations with worksheets](https://i.imgur.com/Bt6DMtH.png)
 
+**NOTE** Keep in mind that you can also directly import dependencies is your
+worksheet just like you would in an Ammonite script. This is a great way to try
+something out without changing your build definition.
+
 ### Tree View Protocol
 
 ![Tree View Protocol](https://i.imgur.com/GvcU9Mu.gif)
@@ -274,24 +277,8 @@ If you don't utilize this feature you can disable it by setting
 
 ### All Available Commands
 
-  - `metals.restartServer`
-  - `metals.build-import`
-  - `metals.build-connect`
-  - `metals.build-restart`
-  - `metals.sources-scan`
-  - `metals.compile-cascade`
-  - `metals.compile-cancel`
-  - `metals.doctor-run`
-  - `metals.logs-toggle`
-  - `metals.tvp`
-  - `metals.tvp.view`
-  - `metals.revealInTreeView`
-  - `metals.new-scala-file`
-  - `metals.new-scala-project`
-  - `metals.go-to-super-method`
-  - `metals.super-method-hierarchy`
-  - `metals.ammonite-start`
-  - `metals.ammonite-stop`
+You can see a list of all the available Metals server commands on the [Metals
+Website](https://scalameta.org/metals/docs/editors/new-editor.html#metals-server-commands).
 
 ### Show document symbols
 
@@ -348,9 +335,10 @@ install [coc-json](https://github.com/neoclide/coc-json).
 
 ![on-type](https://i.imgur.com/astTOKu.gif)
 
-To properly support adding `|` in multiline strings we are using the
-`onTypeFormatting` method. To enable the functionality you need to enable
-`coc.preferences.formatOnType` setting.
+To properly support different multiline string formatting options like adding
+`|` in your multiline string we use the `onTypeFormatting` LSP functionality. To
+enable the functionality you need to enable `coc.preferences.formatOnType`
+setting.
 
 ![coc-preferences-formatOnType](https://i.imgur.com/RWPHt2q.png)
 
@@ -496,14 +484,16 @@ be improved in next versions.
 The Metals server places logs and other files in the .metals/ directory. The
 Bloop compile server places logs and compilation artifacts in the .bloop
 directory. A Bloop plugin that generates Bloop configuration is added in the
-project/metals.sbt file. It's recommended to ignore these directories and file
-from version control systems like git.
+project/metals.sbt file. If you are editing Ammonite scripts, you'll also see an
+.ammonite directory created for Ammonite. It's recommended to ignore these
+directories and file from version control systems like git.
 
 ```git
 # ~/.gitignore
 .metals/
 .bloop/
 project/metals.sbt
+.ammonite/
 ```
 
 ### Troubleshooting
@@ -526,7 +516,6 @@ If you're interested in contributing, please visit the
 ### Theme
 
 The screen shots are in [Neovim](https://neovim.io/). The theme is
-[onedark](https://github.com/joshdick/onedark.vim) with syntax highlighting added by
-[vim-scala](https://github.com/derekwyatt/vim-scala). The status bar is
+[onedark](https://github.com/joshdick/onedark.vim).  The status bar is
 [vim-airline](https://github.com/vim-airline/vim-airline), and all being ran in
 [iTerm2](https://iterm2.com/).
