@@ -336,6 +336,11 @@
         "command": "metals.ammonite-stop",
         "category": "Metals",
         "title": "Stop Ammonite build server"
+      },
+      {
+        "command": "metals.reset-choice",
+        "category": "Metals",
+        "title": "Start interactive reset choice to clear old decisions."
       }
     ]
   },

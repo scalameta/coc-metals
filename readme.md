@@ -100,8 +100,10 @@ build. Click "Import build" to start the installation step.
 ![Build Import](https://i.imgur.com/1EyQPTC.png)
 
 - "Not now" disables this prompt for 2 minutes.
-- "Don't show again" disables this prompt forever, use rm -rf .metals/ to
-    re-enable the prompt.
+- "Don't show again" disables this prompt indefinitely. If you'd like to get
+    this choice again, execute the `metals.reset-choice` command which will
+    interactively allow you to reset choices that you've made for various
+    things.
 - Use tail -f .metals/metals.log to watch the build import progress.
 - Behind the scenes, Metals uses Bloop to import sbt builds, but you don't need
     Bloop installed on your machine to run this step.
