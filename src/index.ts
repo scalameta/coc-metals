@@ -182,18 +182,18 @@ async function launchMetals(
     },
     revealOutputChannelOn: RevealOutputChannelOn.Never,
     initializationOptions: {
+      debuggingProvider:
+        workspace.isNvim &&
+        (await workspace.nvim.getVar("loaded_vimpector")) === 1,
       decorationProvider: workspace.isNvim,
       didFocusProvider: true,
       doctorProvider: "json",
       executeClientCommandProvider: true,
-      quickPickProvider: true,
       inputBoxProvider: true,
+      quickPickProvider: true,
       slowTaskProvider: true,
       statusBarProvider: statusBarEnabled ? "on" : "show-message",
       treeViewProvider: true,
-      debuggingProvider:
-        workspace.isNvim &&
-        (await workspace.nvim.getVar("loaded_vimpector")) === 1,
     },
   };
 
@@ -257,6 +257,7 @@ async function launchMetals(
       "ammonite-start",
       "ammonite-stop",
       "new-scala-project",
+      "reset-choice",
     ];
 
     commands.forEach((command) => {
