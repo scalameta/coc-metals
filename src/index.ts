@@ -18,6 +18,7 @@ import {
   getServerOptions,
   JavaConfig,
   restartServer,
+  MetalsInitializationOptions,
 } from "metals-languageclient";
 import * as path from "path";
 import {
@@ -175,26 +176,34 @@ async function launchMetals(
     clientName: "coc-metals",
   });
 
+  const initializationOptions: MetalsInitializationOptions = {
+    compilerOptions: {
+      completionCommand: "editor.action.triggerSuggest",
+      isCompletionItemResolve: false,
+      overrideDefFormat: "unicode",
+      parameterHintsCommand: "editor.action.triggerParameterHints",
+    },
+    debuggingProvider:
+      workspace.isNvim &&
+      (await workspace.nvim.getVar("loaded_vimpector")) === 1,
+    decorationProvider: workspace.isNvim,
+    didFocusProvider: true,
+    doctorProvider: "json",
+    executeClientCommandProvider: true,
+    inputBoxProvider: true,
+    quickPickProvider: true,
+    slowTaskProvider: true,
+    statusBarProvider: statusBarEnabled ? "on" : "show-message",
+    treeViewProvider: true,
+  };
+
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: "file", language: "scala" }],
     synchronize: {
       configurationSection: "metals",
     },
     revealOutputChannelOn: RevealOutputChannelOn.Never,
-    initializationOptions: {
-      debuggingProvider:
-        workspace.isNvim &&
-        (await workspace.nvim.getVar("loaded_vimpector")) === 1,
-      decorationProvider: workspace.isNvim,
-      didFocusProvider: true,
-      doctorProvider: "json",
-      executeClientCommandProvider: true,
-      inputBoxProvider: true,
-      quickPickProvider: true,
-      slowTaskProvider: true,
-      statusBarProvider: statusBarEnabled ? "on" : "show-message",
-      treeViewProvider: true,
-    },
+    initializationOptions,
   };
 
   const client = new LanguageClient(
