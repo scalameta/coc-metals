@@ -19,6 +19,15 @@ import {
   JavaConfig,
   restartServer,
   MetalsInitializationOptions,
+  ClientCommands,
+  ServerCommands,
+  MetalsStatus,
+  ExecuteClientCommand,
+  MetalsDidFocus,
+  MetalsInputBox,
+  InputBoxOptions,
+  MetalsQuickPick,
+  MetalsQuickPickParams,
 } from "metals-languageclient";
 import * as path from "path";
 import {
@@ -30,15 +39,8 @@ import DecorationProvider from "./decoration";
 import { makeVimDoctor } from "./embeddedDoctor";
 import {
   DecorationsRangesDidChange,
-  ExecuteClientCommand,
-  MetalsDidFocus,
-  MetalsInputBox,
-  MetalsQuickPick,
-  MetalsQuickPickParams,
-  MetalsStatus,
   PublishDecorationsParams,
 } from "./metalsProtocol";
-import { InputBoxOptions } from "./portedProtocol";
 import { TreeViewController } from "./tvp/controller";
 import { TreeViewFeature } from "./tvp/feature";
 import { TreeViewsManager } from "./tvp/treeviews";
@@ -255,18 +257,18 @@ async function launchMetals(
     progress.show();
 
     const commands = [
-      "build-import",
-      "build-connect",
-      "build-restart",
-      "sources-scan",
-      "doctor-run",
-      "compile-cascade",
-      "compile-cancel",
-      "compile-clean",
-      "ammonite-start",
-      "ammonite-stop",
-      "new-scala-project",
-      "reset-choice",
+      ServerCommands.BuildImport,
+      ServerCommands.BuildConnect,
+      ServerCommands.BuildRestart,
+      ServerCommands.SourcesScan,
+      ServerCommands.DoctorRun,
+      ServerCommands.CascadeCompile,
+      ServerCommands.CancelCompilation,
+      ServerCommands.CleanCompile,
+      ServerCommands.AmmoniteStart,
+      ServerCommands.AmmoniteStop,
+      ServerCommands.NewScalaProject,
+      ServerCommands.ResetChoice,
     ];
 
     commands.forEach((command) => {
@@ -293,23 +295,23 @@ async function launchMetals(
       );
     }
 
-    registerCommand("metals.new-scala-file", async () => {
+    registerCommand(`metals.${ServerCommands.NewScalaFile}`, async () => {
       const currentDoc = await workspace.document;
       const currentPath = currentDoc.uri;
       const parentDir = path.dirname(currentPath);
 
       client.sendRequest(ExecuteCommandRequest.type, {
-        command: "new-scala-file",
+        command: ServerCommands.NewScalaFile,
         arguments: [parentDir],
       });
     });
 
-    registerCommand("metals.go-to-super-method", async () => {
+    registerCommand(`metals.${ServerCommands.GotoSuperMethod}`, async () => {
       const currentDoc = await workspace.document;
       const position = await workspace.getCursorPosition();
 
       client.sendRequest(ExecuteCommandRequest.type, {
-        command: "goto-super-method",
+        command: ServerCommands.GotoSuperMethod,
         arguments: [
           {
             document: currentDoc.uri,
@@ -319,24 +321,27 @@ async function launchMetals(
       });
     });
 
-    registerCommand("metals.super-method-hierarchy", async () => {
-      const currentDoc = await workspace.document;
-      const position = await workspace.getCursorPosition();
+    registerCommand(
+      `metals.${ServerCommands.SuperMethodHierarchy}`,
+      async () => {
+        const currentDoc = await workspace.document;
+        const position = await workspace.getCursorPosition();
 
-      client.sendRequest(ExecuteCommandRequest.type, {
-        command: "super-method-hierarchy",
-        arguments: [
-          {
-            document: currentDoc.uri,
-            position,
-          },
-        ],
-      });
-    });
+        client.sendRequest(ExecuteCommandRequest.type, {
+          command: ServerCommands.SuperMethodHierarchy,
+          arguments: [
+            {
+              document: currentDoc.uri,
+              position,
+            },
+          ],
+        });
+      }
+    );
 
     client.onNotification(ExecuteClientCommand.type, async (params) => {
       switch (params.command) {
-        case "metals-goto-location":
+        case ClientCommands.GotoLocation:
           const location =
             params.arguments && (params.arguments[0] as Location);
           if (location) {
@@ -347,11 +352,11 @@ async function launchMetals(
             await workspace.jumpTo(location.uri, location.range.start);
           }
           break;
-        case "metals-doctor-run":
+        case ClientCommands.RunDoctor:
           const doctorJson: string = params.arguments && params.arguments[0];
           makeVimDoctor(JSON.parse(doctorJson));
           break;
-        case "metals-doctor-reload":
+        case ClientCommands.ReloadDoctor:
           workspace.nvim.call("coc#util#has_preview").then((preview) => {
             if (preview > 0) {
               const doctorJson: string =
@@ -360,13 +365,13 @@ async function launchMetals(
             }
           });
           break;
-        case "metals-diagnostics-focus":
+        case ClientCommands.FocusDiagnostics:
           workspace.nvim.command("CocList diagnostics");
           break;
-        case "metals-logs-toggle":
+        case ClientCommands.ToggleLogs:
           toggleLogs();
           break;
-        case "metals-model-refresh":
+        case ClientCommands.RefreshModel:
           // CodeLensManager from coc.nvim reloads codeLens on this event
           events.fire("BufEnter", [workspace.bufnr]);
           break;
@@ -386,16 +391,13 @@ async function launchMetals(
       }
     });
 
-    client.onRequest(MetalsInputBox.type, async (options: InputBoxOptions) => {
-      const response = await workspace.callAsync<string>("input", [
-        `${options.prompt}: `,
-        options.value ? options.value : "",
-      ]);
-      if (response.trim() === "") {
-        return { cancelled: true };
-      } else {
-        return { value: response };
-      }
+    client.onRequest(MetalsInputBox.type, (options: InputBoxOptions) => {
+      return workspace
+        .callAsync<string>("input", [
+          `${options.prompt}: `,
+          options.value ? options.value : "",
+        ])
+        .then(MetalsInputBox.handleInput);
     });
 
     client.onRequest(MetalsQuickPick.type, (params: MetalsQuickPickParams, _) =>

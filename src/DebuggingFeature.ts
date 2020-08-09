@@ -4,6 +4,7 @@ import {
   ExecuteCommandRequest,
 } from "vscode-languageserver-protocol";
 import { commands } from "coc.nvim";
+import { ClientCommands, ServerCommands } from "metals-languageclient";
 
 interface DebugAdapterStartResponse {
   name: string;
@@ -20,7 +21,7 @@ export class DebuggingFeature implements StaticFeature {
   public initialize(): void {
     const debugHandler = async (_: boolean, ...args: any[]) => {
       let params: ExecuteCommandParams = {
-        command: "debug-adapter-start",
+        command: ServerCommands.DebugAdapterStart,
         arguments: args,
       };
       return this._client.sendRequest(ExecuteCommandRequest.type, params).then(
@@ -40,13 +41,13 @@ export class DebuggingFeature implements StaticFeature {
     };
 
     commands.registerCommand(
-      "metals-run-session-start",
+      ClientCommands.StartRunSession,
       debugHandler.bind(this, false),
       null,
       true
     );
     commands.registerCommand(
-      "metals-debug-session-start",
+      ClientCommands.StartDebugSession,
       debugHandler.bind(this, true),
       null,
       true
