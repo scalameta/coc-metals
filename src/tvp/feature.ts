@@ -13,6 +13,7 @@ import {
   MetalsTreeViewNodeCollapseDidChange,
   MetalsTreeViewReveal,
   MetalsTreeViewVisibilityDidChange,
+  ServerCommands,
 } from "metals-languageclient";
 import {
   Disposable,
@@ -117,10 +118,10 @@ export class TreeViewFeature implements DynamicFeature<void> {
     });
 
     this.mbGotoCommandDisposable = commands.registerCommand(
-      "metals.goto",
+      `metals.${ServerCommands.Goto}`,
       async (...args: any[]) => {
         let params: ExecuteCommandParams = {
-          command: "metals.goto",
+          command: ServerCommands.Goto,
           arguments: args,
         };
         return client
