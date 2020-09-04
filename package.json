@@ -136,6 +136,11 @@
           },
           "markdownDescription": "Optional list of custom resolvers passed to Coursier when fetching metals dependencies.\n\nFor documentation on accepted values see the [Coursier documentation](https://get-coursier.io/docs/other-repositories).\n\nThe extension will pass these to Coursier using the COURSIER_REPOSITORIES environment variable after joining the custom repositories with a pipe character (|)."
         },
+        "metals.excludedPackages": {
+          "type": "array",
+          "default": [],
+          "markdownDescription": "List of packages you'd like to be left out of completions, symbol searches, and code actions.\n\nEx. `akka.actor.typed.javadsl` will ensure nothing in the `javadsl` package gets recommended to you.\n\nYou can find the list of default exclusions [here on the Metals website](https://scalameta.org/metals/docs/editors/new-editor.html#excluded-packages).\n\nIf you need to remove one of the defaults, you can simply include it and preface it with `--`."
+        },
         "metals.statusBarEnabled": {
           "type": "boolean",
           "default": false,

@@ -319,6 +319,7 @@ install [coc-json](https://github.com/neoclide/coc-json).
 `metals.statusBarEnabled`                       | Turn on usage of the statusBar integration. Note: You need to ensure you are adding something like `%{coc#status()}` in order to display it, or use a plugin that includes a status integration.
 `metals.superMethodLensesEnabled`               | Enable/disable goto super method code lens (default is true)
 `metals.enableStripMarginOnTypeFormatting`      | When enabled, if you press the return key from the first line of a multiline string containing a pipe, it will automatically add `.stripMargin.` (default is true)
+`metals.excludedPackages`                       | List of packages you'd like to be left out of completions, symbol searches, and code actions. Ex. `akka.actor.typed.javadsl` will ensure nothing in the `javadsl` package gets recommended to you. You can find the list of default exclusions [here on the Metals website](https://scalameta.org/metals/docs/editors/new-editor.html#excluded-packages). If you need to remove one of the defaults, you can simply include it and preface it with `--`.
 `metals.treeviews.toggleNode`                   | Expand / Collapse tree node (default `<CR>`)
 `metals.treeviews.initialWidth`                 | Initial Tree Views panels (default `40`)
 `metals.treeviews.initialViews`                 | Initial views that the Tree View Panel Displays. Don't mess with this unless you know what you're doing.
