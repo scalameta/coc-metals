@@ -175,7 +175,6 @@ async function launchMetals(
     metalsClasspath,
     serverProperties,
     javaConfig,
-    clientName: "coc-metals",
   });
 
   const initializationOptions: MetalsInitializationOptions = {
