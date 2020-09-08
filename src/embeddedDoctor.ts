@@ -29,7 +29,7 @@ export function makeVimDoctor(doctorResult: DoctorResult): void {
     const doctor: string[] = [
       doctorResult.title,
       "-------------",
-      doctorResult.headerText,
+      ...doctorResult.headerText.split("\n"),
       "",
       Object.keys(doctorResult.targets[0])
         .map((heading: string, index: number) => padText(heading, index))
