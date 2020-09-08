@@ -181,7 +181,6 @@ async function launchMetals(
   const initializationOptions: MetalsInitializationOptions = {
     compilerOptions: {
       completionCommand: "editor.action.triggerSuggest",
-      isCompletionItemResolve: false,
       overrideDefFormat: "unicode",
       parameterHintsCommand: "editor.action.triggerParameterHints",
     },
