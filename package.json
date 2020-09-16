@@ -359,7 +359,7 @@
     "typescript": "4.0.2"
   },
   "dependencies": {
-    "coc.nvim": "0.0.77",
+    "coc.nvim": "0.0.79",
     "metals-languageclient": "0.3.0",
     "promisify-child-process": "4.1.1",
     "vscode-languageserver-protocol": "3.15.3"
