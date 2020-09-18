@@ -288,9 +288,14 @@
         "title": "Cancel compilation"
       },
       {
+        "command": "metals.compile-clean",
+        "category": "Metals",
+        "title": "Clean and full compilation"
+      },
+      {
         "command": "metals.doctor-run",
         "category": "metals",
-        "title": "run doctor"
+        "title": "Run doctor"
       },
       {
         "command": "metals.logs-toggle",
@@ -320,7 +325,7 @@
       {
         "command": "metals.quick-worksheet",
         "category": "Metals",
-        "title": "Create a new Scala file"
+        "title": "Quickly create a new worksheet"
       },
       {
         "command": "metals.new-scala-project",
@@ -328,7 +333,7 @@
         "title": "Create a new Scala project"
       },
       {
-        "command": "metals.go-to-super-method",
+        "command": "metals.goto-super-method",
         "category": "Metals",
         "title": "Go to super method"
       },
