@@ -282,6 +282,9 @@ If you don't utilize this feature you can disable it by setting
 You can see a list of all the available Metals server commands on the [Metals
 Website](https://scalameta.org/metals/docs/editors/new-editor.html#metals-server-commands).
 
+You can also view these by toggling the `CocList commands`, which is `<space>c`
+with the default mappings.
+
 ### Show document symbols
 
 Run `:CocList outline` to show a symbol outline for the current file or use the

@@ -304,6 +304,18 @@ async function launchMetals(
       });
     });
 
+    registerCommand(`metals.quick-worksheet`, async () => {
+      const currentDoc = await workspace.document;
+      const currentPath = currentDoc.uri;
+      const parentDir = path.dirname(currentPath);
+      const name = path.basename(parentDir);
+
+      client.sendRequest(ExecuteCommandRequest.type, {
+        command: ServerCommands.NewScalaFile,
+        arguments: [parentDir, name, "worksheet"],
+      });
+    });
+
     registerCommand(`metals.${ServerCommands.GotoSuperMethod}`, async () => {
       const currentDoc = await workspace.document;
       const position = await workspace.getCursorPosition();
