@@ -290,7 +290,7 @@
       {
         "command": "metals.doctor-run",
         "category": "metals",
-        "title": "run doctor"
+        "title": "Run doctor"
       },
       {
         "command": "metals.logs-toggle",
@@ -320,7 +320,7 @@
       {
         "command": "metals.quick-worksheet",
         "category": "Metals",
-        "title": "Create a new Scala file"
+        "title": "Quickly create a new worksheet"
       },
       {
         "command": "metals.new-scala-project",
