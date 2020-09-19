@@ -253,6 +253,11 @@
     },
     "commands": [
       {
+        "command": "metals.analyze-stacktrace",
+        "category": "Metals",
+        "title": "Analyze Stacktrace"
+      },
+      {
         "command": "metals.restartServer",
         "category": "Metals",
         "title": "Restart server"
