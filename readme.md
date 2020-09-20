@@ -414,7 +414,10 @@ have the following in your `:CocConfig`.
 ```
 ### Analyzing Stacktraces
 
-![anaylyz-stacktrace](https://i.imgur.com/tQjiAG2.gif)
+![analyze-stacktrace](https://i.imgur.com/tQjiAG2.gif)
+
+NOTE: Only available in [Neovim](https://neovim.io/) since this needs virtual
+text.
 
 To utilize the [analyze
 stacktrace](https://scalameta.org/metals/docs/editors/new-editor.html#analyze-stacktrace)
@@ -422,7 +425,7 @@ command you'll want to copy your your stacktrace to your register. Once copied,
 simply execute the `metals.analyze-stacktrace` command. This should create a
 `.metals/stacktrace.scala` file which will have code lenses which will allow you
 to jump to the part of your codebase listed in the stacktrace. Keep in mind that
-in order to utlize this feature you'll want to make sure you have
+in order to utilize this feature you'll want to make sure you have
 `"codeLens.enable": true` in your config.
 
 ### Debugging

@@ -277,17 +277,24 @@ async function launchMetals(
     });
 
     registerCommand("metals.analyze-stacktrace", async () => {
-      const trace: string = await workspace.nvim.call("getreg", "*");
-      if (trace.trim().length < 1) {
+      if (workspace.isVim) {
         workspace.showMessage(
-          "No text found in your register. Copy your stacktrace to your register and retry.",
+          "Analyze stacktrace functionality isn't support in Vim. Please use Nvim if you'd like to use this.",
           "warning"
         );
       } else {
-        client.sendRequest(ExecuteCommandRequest.type, {
-          command: "analyze-stacktrace",
-          arguments: [trace],
-        });
+        const trace: string = await workspace.nvim.call("getreg", "*");
+        if (trace.trim().length < 1) {
+          workspace.showMessage(
+            "No text found in your register. Copy your stacktrace to your register and retry.",
+            "warning"
+          );
+        } else {
+          client.sendRequest(ExecuteCommandRequest.type, {
+            command: "analyze-stacktrace",
+            arguments: [trace],
+          });
+        }
       }
     });
 
