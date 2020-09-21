@@ -276,7 +276,7 @@ async function launchMetals(
       });
     });
 
-    registerCommand("metals.analyze-stacktrace", async () => {
+    registerCommand(`metals.${ServerCommands.AnalyzeStacktrace}`, async () => {
       if (workspace.isVim) {
         workspace.showMessage(
           "Analyze stacktrace functionality isn't support in Vim. Please use Nvim if you'd like to use this.",
@@ -291,7 +291,7 @@ async function launchMetals(
           );
         } else {
           client.sendRequest(ExecuteCommandRequest.type, {
-            command: "analyze-stacktrace",
+            command: ServerCommands.AnalyzeStacktrace,
             arguments: [trace],
           });
         }
