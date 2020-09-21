@@ -276,6 +276,28 @@ async function launchMetals(
       });
     });
 
+    registerCommand(`metals.${ServerCommands.AnalyzeStacktrace}`, async () => {
+      if (workspace.isVim) {
+        workspace.showMessage(
+          "Analyze stacktrace functionality isn't support in Vim. Please use Nvim if you'd like to use this.",
+          "warning"
+        );
+      } else {
+        const trace: string = await workspace.nvim.call("getreg", "*");
+        if (trace.trim().length < 1) {
+          workspace.showMessage(
+            "No text found in your register. Copy your stacktrace to your register and retry.",
+            "warning"
+          );
+        } else {
+          client.sendRequest(ExecuteCommandRequest.type, {
+            command: ServerCommands.AnalyzeStacktrace,
+            arguments: [trace],
+          });
+        }
+      }
+    });
+
     registerCommand("metals.logs-toggle", () => {
       toggleLogs();
     });

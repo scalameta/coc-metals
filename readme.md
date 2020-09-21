@@ -37,6 +37,7 @@ synced with the latest stable release***
   - [Shut down the language server](#shut-down-the-language-server)
   - [Statusline integration](#statusline-integration)
   - [Formatting on save](#formatting-on-save)
+  - [Analyzing Stacktraces](#analyzing-stacktraces)
   - [Debugging](#debugging)
   - [Gitignore](#gitignore)
   - [Troubleshooting](#troubleshooting)
@@ -411,6 +412,21 @@ have the following in your `:CocConfig`.
 ```json
 "coc.preferences.formatOnSaveFiletypes": ["scala"]
 ```
+### Analyzing Stacktraces
+
+![analyze-stacktrace](https://i.imgur.com/tQjiAG2.gif)
+
+NOTE: Only available in [Neovim](https://neovim.io/) since this needs virtual
+text.
+
+To utilize the [analyze
+stacktrace](https://scalameta.org/metals/docs/editors/new-editor.html#analyze-stacktrace)
+command you'll want to copy your your stacktrace to your register. Once copied,
+simply execute the `metals.analyze-stacktrace` command. This should create a
+`.metals/stacktrace.scala` file which will have code lenses which will allow you
+to jump to the part of your codebase listed in the stacktrace. Keep in mind that
+in order to utilize this feature you'll want to make sure you have
+`"codeLens.enable": true` in your config.
 
 ### Debugging
 
