@@ -139,7 +139,7 @@ function fetchAndLaunchMetals(
     () => {
       const msg = (() => {
         const proxy =
-          `See https://scalaeta.org/metals/docs/editors/vscode.html#http-proxy for instructions ` +
+          `See https://scalameta.org/metals/docs/build-tools/proxy.html for instructions ` +
           `if you are using an HTTP proxy.`;
         if (serverVersion === defaultServerVersion) {
           return (
