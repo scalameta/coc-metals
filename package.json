@@ -283,7 +283,7 @@
       {
         "command": "metals.build-restart",
         "category": "Metals",
-        "title": "Restart Bloop server"
+        "title": "Restart the build server"
       },
       {
         "command": "metals.sources-scan",
