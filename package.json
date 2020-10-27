@@ -281,6 +281,16 @@
         "title": "Connect to build server"
       },
       {
+        "command": "metals.build-disconnect",
+        "category": "Metals",
+        "title": "Disconnect from the build server without restarting"
+      },
+      {
+        "command": "metals.bsp-switch",
+        "category": "Metals",
+        "title": "Switch build server"
+      },
+      {
         "command": "metals.build-restart",
         "category": "Metals",
         "title": "Restart the build server"

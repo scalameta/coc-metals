@@ -254,9 +254,12 @@ async function launchMetals(
     progress.text = "Metals is Ready!";
     progress.show();
 
+    // TODO in next version of metals-language client replace build-disconnect with variable
     const commands = [
       ServerCommands.BuildImport,
       ServerCommands.BuildConnect,
+      "build-disconnect",
+      ServerCommands.BspSwitch,
       ServerCommands.BuildRestart,
       ServerCommands.SourcesScan,
       ServerCommands.DoctorRun,
