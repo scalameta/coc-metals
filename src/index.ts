@@ -254,25 +254,22 @@ async function launchMetals(
     progress.text = "Metals is Ready!";
     progress.show();
 
-    // TODO in next version of metals-language client replace build-disconnect with variable
     const commands = [
-      ServerCommands.BuildImport,
-      ServerCommands.BuildConnect,
-      "build-disconnect",
-      ServerCommands.BspSwitch,
-      ServerCommands.BuildRestart,
-      "build-disconnect",
-      "generate-bsp-config",
-      ServerCommands.BspSwitch,
-      ServerCommands.SourcesScan,
-      ServerCommands.DoctorRun,
-      ServerCommands.CascadeCompile,
-      ServerCommands.CancelCompilation,
-      ServerCommands.CleanCompile,
       ServerCommands.AmmoniteStart,
       ServerCommands.AmmoniteStop,
+      ServerCommands.BspSwitch,
+      ServerCommands.BuildConnect,
+      ServerCommands.BuildDisconnect,
+      ServerCommands.BuildImport,
+      ServerCommands.BuildRestart,
+      ServerCommands.CancelCompilation,
+      ServerCommands.CascadeCompile,
+      ServerCommands.CleanCompile,
+      ServerCommands.DoctorRun,
+      ServerCommands.GenerateBspConfig,
       ServerCommands.NewScalaProject,
       ServerCommands.ResetChoice,
+      ServerCommands.SourcesScan,
     ];
 
     commands.forEach((command) => {
