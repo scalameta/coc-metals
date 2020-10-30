@@ -278,7 +278,22 @@
       {
         "command": "metals.build-connect",
         "category": "Metals",
-        "title": "Connect to build server"
+        "title": "Connect to a running build server"
+      },
+      {
+        "command": "metals.build-disconnect",
+        "category": "Metals",
+        "title": "Disconnect from the build server without restarting"
+      },
+      {
+        "command": "metals.bsp-switch",
+        "category": "Metals",
+        "title": "Switch build server"
+      },
+      {
+        "command": "metals.generate-bsp-config",
+        "category": "Metals",
+        "title": "Attempt to generate bsp config for build tool."
       },
       {
         "command": "metals.build-disconnect",
