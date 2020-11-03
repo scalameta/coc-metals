@@ -34,7 +34,7 @@
     "build": "tsc --noEmit && parcel build src/index.ts --out-dir lib/ --target node --no-source-maps",
     "format": "prettier --write '**/*{ts,json}'",
     "format-check": "prettier --check '**/*{ts,json}'",
-    "prepare": "npx npm-run-all clean build",
+    "prepare": "npm-run-all clean build",
     "watch": "parcel serve src/index.ts --out-dir lib/ --target node"
   },
   "activationEvents": [
