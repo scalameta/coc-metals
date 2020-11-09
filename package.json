@@ -249,11 +249,11 @@
           "default": "t",
           "description": "Execute command and open node under cursor in tab (if node is class, trait and so on)"
         },
-        "metals.typeAnnotationsEnabled": {
+        "metals.showInferredType": {
           "type": "boolean",
           "description": "When this option is enabled, each method that has infered types have those types displayed as extra info in the hover window."
         },
-        "metals.implicitArgumentAnnotationsEnabled": {
+        "metals.showImplicitArguments": {
           "type": "boolean",
           "description": "When this option is enabled, each method that has implicit arguments have those aruments displayed as extra info in the hover window."
         }
