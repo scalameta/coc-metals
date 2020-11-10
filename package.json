@@ -1,6 +1,6 @@
 {
   "name": "coc-metals",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "coc.nvim extension for Metals, the Scala language server",
   "keywords": [
     "scala",
