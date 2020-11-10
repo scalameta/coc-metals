@@ -112,10 +112,6 @@
           "type": "string",
           "markdownDescription": "Optional absolute path to a `gradle` executable to use for running `gradle bloopInstall`.\n\nBy default, Metals uses an embedded `gradlew` ukcript.\n\nUpdate this setting if your `gradle` script requires more customizations."
         },
-        "metals.pantsTargets": {
-          "type": "string",
-          "markdownDescription": "The pants targets to export.\n\nSpace separated list of Pants targets to export, for example `src/main/scala:: src/main/java::`. Syntax such as `src/{main,test}::` is not supported."
-        },
         "metals.scalafmtConfigPath": {
           "type": "string",
           "markdownDescription": "Optional custom path to the .scalafmt.conf file.\n\nShould be an absolute path using forward slashes `/` for file separators (even on Windows)."
