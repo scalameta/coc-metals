@@ -209,7 +209,7 @@ window allowing you to search for `metals.doctor-run` command.
 This command opens an embedded doctor in your preview window. If you're not familiar with
 having multiple windows, you can use `<C-w> + w` to jump into it.
 
-![Embedded Doctor](https://i.imgur.com/McaAFv5.png)
+![Embedded Doctor](https://i.imgur.com/mgnRXse.png)
 
 ### Worksheets
 
