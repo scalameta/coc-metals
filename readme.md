@@ -326,6 +326,7 @@ install [coc-json](https://github.com/neoclide/coc-json).
 `metals.excludedPackages`                       | List of packages you'd like to be left out of completions, symbol searches, and code actions. Ex. `akka.actor.typed.javadsl` will ensure nothing in the `javadsl` package gets recommended to you. You can find the list of default exclusions [here on the Metals website](https://scalameta.org/metals/docs/editors/new-editor.html#excluded-packages). If you need to remove one of the defaults, you can simply include it and preface it with `--`.
 `metals.showInferredType`                       | When this option is enabled, each method that has infered types have those types displayed as extra info in the hover window.
 `metals.showImplicitArguments`                  | When this option is enabled, each method that has implicit arguments have those aruments displayed as extra info in the hover window.
+`metals.showImplicitConversionsAndClasses`      | When this option is enabled, each implicit method and class is displayed as extra info in the hover window.
 `metals.treeviews.toggleNode`                   | Expand / Collapse tree node (default `<CR>`)
 `metals.treeviews.initialWidth`                 | Initial Tree Views panels (default `40`)
 `metals.treeviews.initialViews`                 | Initial views that the Tree View Panel Displays. Don't mess with this unless you know what you're doing.
