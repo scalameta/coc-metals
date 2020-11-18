@@ -28,7 +28,7 @@ export default class DecorationProvider {
       buffer.setVirtualText(this.decorationNameSpace, option.range.end.line, [
         [
           option.renderOptions?.after?.contentText?.replace("//", "‣") ?? "",
-          "test",
+          "Comment",
         ],
       ]);
     });
