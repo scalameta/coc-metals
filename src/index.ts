@@ -274,7 +274,6 @@ async function launchMetals(
 
     commands.forEach((command) => {
       registerCommand("metals." + command, async () => {
-        workspace.showMessage("metals" + command);
         client.sendRequest(ExecuteCommandRequest.type, { command });
       });
     });
