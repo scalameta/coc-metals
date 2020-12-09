@@ -1,29 +1,9 @@
 ---
 name: ❓ Question
-about: Ask a question about coc-metals.
-labels: "question"
+about: Please ask your question via GitHub Discussions https://github.com/scalameta/coc-metals/discussions/new instead.
+title: USE GitHub Discussions for you Question instead.
+labels: ""
 ---
 
-**Question**
-
-<!-- Your question -->
-
-**Screenshots**
-
-<!-- If applicable, add screenshots to help explain your problem. -->
-
-**Installation:**
-
-- Operating system: macOS/Windows/Linux
-- Vim or nvim version:
-- coc.nvim version:
-- coc-metals extension version:
-- Metals version: (`:CocConfig` to open settings)
-
-**Additional context**
-
-<!-- Add any other context about the question here. -->
-
-**Search terms**
-
-<!-- Help other people discover your question by writing words they might search for. -->
+Please ask a question using [GitHub
+Discussions](https://github.com/scalameta/coc-metals/discussions/new) instead.
