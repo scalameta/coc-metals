@@ -398,6 +398,11 @@
         "command": "metals.reset-choice",
         "category": "Metals",
         "title": "Start interactive reset choice to clear old decisions."
+      },
+      {
+        "command": "metals.copy-worksheet-output",
+        "category": "Metals",
+        "title": "Copy worksheet output"
       }
     ]
   },
