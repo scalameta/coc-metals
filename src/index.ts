@@ -340,19 +340,22 @@ async function launchMetals(
       });
     });
 
-    registerCommand(`metals.copy-worksheet-output`, async () => {
-      const currentDoc = await workspace.document;
-      const currentPath = currentDoc.uri;
+    registerCommand(
+      `metals.${ServerCommands.CopyWorksheetOutput}`,
+      async () => {
+        const currentDoc = await workspace.document;
+        const currentPath = currentDoc.uri;
 
-      const response = await client.sendRequest(ExecuteCommandRequest.type, {
-        command: "copy-worksheet-output",
-        arguments: [currentPath],
-      });
-      if (response.value) {
-        workspace.nvim.call("setreg", ["+", response.value]);
-        workspace.showMessage("Copied worksheet to to your +register");
+        const response = await client.sendRequest(ExecuteCommandRequest.type, {
+          command: ServerCommands.CopyWorksheetOutput,
+          arguments: [currentPath],
+        });
+        if (response.value) {
+          workspace.nvim.call("setreg", ["+", response.value]);
+          workspace.showMessage("Copied worksheet to to your +register");
+        }
       }
-    });
+    );
 
     registerCommand(`metals.${ServerCommands.GotoSuperMethod}`, async () => {
       const currentDoc = await workspace.document;
