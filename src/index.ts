@@ -469,12 +469,12 @@ async function launchMetals(
     if (statusBarEnabled) {
       const statusItem = workspace.createStatusBarItem(0);
       client.onNotification(MetalsStatus.type, (params) => {
-        statusItem.text = params.text;
         if (params.show) {
-          statusItem.show();
+          statusItem.text = params.text;
         } else if (params.hide) {
-          statusItem.hide();
+          statusItem.text = "Metals";
         }
+        statusItem.show();
       });
     }
 
