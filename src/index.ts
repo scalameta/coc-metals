@@ -191,6 +191,7 @@ async function launchMetals(
     doctorProvider: "json",
     executeClientCommandProvider: true,
     inputBoxProvider: true,
+    copyWorksheetOutputProvider: workspace.isNvim,
     quickPickProvider: true,
     slowTaskProvider: true,
     statusBarProvider: statusBarEnabled ? "on" : "show-message",
