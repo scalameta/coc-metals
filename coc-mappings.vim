@@ -103,7 +103,7 @@ nmap <leader>a  <Plug>(coc-codeaction-line)
 nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Format :call CocActionAsync('format')
 
 " Use `:Fold` to fold current buffer
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
