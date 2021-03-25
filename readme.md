@@ -11,7 +11,7 @@ offers automated Metals installation, easy configuration, Metals-specific
 commands, an embedded doctor, implementation of the decoration protocol, and
 many other small features.
 
-***NOTE: The readme is up-to-date with the master branch, so not all features
+***NOTE: The readme is up-to-date with the main branch, so not all features
 will be available if you're using the latest stable release. The [vim
 page](https://scalameta.org/metals/docs/editors/vim.html) on the Metals site is
 synced with the latest stable release***
@@ -71,12 +71,12 @@ ways, but the easiest is by running.
 
 If you install this way and are using the latest stable of coc.nvim, then daily
 your extensions will get checked to see if they are up to date. However, this is
-changing and has already changed in Master. So in that case, you'll need to
+changing and has already changed in main. So in that case, you'll need to
 issue the `:CocUpdate` to update your extensions. If you install with this
 method youc an also see the version of your extensions by doing a `:CocList
 extensions`.
 
-If you'd like to use the latest changes on master, but manage it using a plugin
+If you'd like to use the latest changes on main, but manage it using a plugin
 manager to download the extension, then if you are using
 [`vim-plug`](https://github.com/junegunn/vim-plug) for example, enter the
 following into where you manage your plugins:
