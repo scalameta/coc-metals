@@ -73,7 +73,7 @@
         },
         "metals.serverVersion": {
           "type": "string",
-          "default": "0.10.0",
+          "default": "0.10.1",
           "markdownDescription": "The version of the Metals server artifact. Requires reloading the window.\n\n**Change only if you know what you're doing**"
         },
         "metals.serverProperties": {
@@ -440,7 +440,7 @@
   },
   "dependencies": {
     "coc.nvim": "0.0.79",
-    "metals-languageclient": "0.4.0",
+    "metals-languageclient": "0.4.2",
     "promisify-child-process": "4.1.1",
     "vscode-languageserver-protocol": "3.15.3"
   }
