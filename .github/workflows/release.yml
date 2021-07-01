@@ -16,7 +16,7 @@ jobs:
           git config --global user.name "Scalameta bot"
 
       - name: Setup Node
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v2.2.0
         with:
           node-version: 10
 
