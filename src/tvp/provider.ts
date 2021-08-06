@@ -3,7 +3,8 @@ import {
   MetalsTreeViewNode,
 } from "metals-languageclient";
 import { Event } from "vscode-jsonrpc";
-import { Position, TextDocument } from "vscode-languageserver-protocol";
+import { Position } from "vscode-languageserver-protocol";
+import { TextDocument } from "vscode-languageserver-textdocument";
 
 export interface TreeViewProvider {
   viewId: string;

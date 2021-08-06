@@ -6,7 +6,8 @@ import {
   WorkspaceConfiguration,
 } from "coc.nvim";
 import * as log4js from "log4js";
-import { Position, TextDocument } from "vscode-languageserver-types";
+import { Position } from "vscode-languageserver-types";
+import { TextDocument } from "vscode-languageserver-textdocument";
 import { Node, NodeView, TreeModel, TreeModelUpdate } from "./model";
 import { sequence } from "./utils";
 
