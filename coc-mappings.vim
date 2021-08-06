@@ -63,7 +63,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" Used to expand decorations in worksheets
+" For Neovim only!  Used to expand decorations in worksheets
 nmap <Leader>ws <Plug>(coc-metals-expand-decoration)
 
 " Use K to either doHover or show documentation in preview window
@@ -108,7 +108,7 @@ command! -nargs=0 Format :call CocActionAsync('format')
 " Use `:Fold` to fold current buffer
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
-" Trigger for code actions
+" For Neovim only!  Trigger for code actions
 " Make sure `"codeLens.enable": true` is set in your coc config
 nnoremap <leader>cl :<C-u>call CocActionAsync('codeLensAction')<CR>
 
