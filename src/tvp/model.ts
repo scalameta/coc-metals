@@ -1,6 +1,7 @@
 import { MetalsTreeViewNode } from "metals-languageclient";
 import { Disposable, Emitter } from "vscode-jsonrpc";
-import { Position, TextDocument } from "vscode-languageserver-types";
+import { Position } from "vscode-languageserver-types";
+import { TextDocument } from "vscode-languageserver-textdocument";
 import { TreeViewProvider } from "./provider";
 import { groupBy } from "./utils";
 

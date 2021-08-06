@@ -23,9 +23,10 @@ import {
   Position,
   RequestType,
   RPCMessageType,
-  TextDocument,
   TextDocumentPositionParams,
 } from "vscode-languageserver-protocol";
+import { TextDocument } from "vscode-languageserver-textdocument";
+
 import { TreeViewProvider } from "./provider";
 
 export class TreeViewFeature implements DynamicFeature<void> {
