@@ -65,7 +65,7 @@ export async function activate(context: ExtensionContext) {
       () => {
         const message =
           "Unable to find a Java 8 or Java 11 installation on this computer. " +
-          "To fix this problem, update the 'Java Home' setting to point to a Java 8 or Java 11 home directory";
+          "To fix this problem, update the 'metals.javaHome' setting to point to a Java 8 or Java 11 home directory";
         const openSettings = "Open Settings";
         const ignore = "Ignore for now";
         workspace
