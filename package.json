@@ -21,6 +21,10 @@
     {
       "name": "Gabriele Petronella",
       "url": "https://github.com/gabro"
+    },
+    {
+      "name": "Jesse Atkinson",
+      "url": "https://github.com/jsatk"
     }
   ],
   "bugs": "https://github.com/scalameta/coc-metals/issues",
