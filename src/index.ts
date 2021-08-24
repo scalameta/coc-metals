@@ -408,7 +408,7 @@ async function launchMetals(
           makeVimDoctor(JSON.parse(doctorJson));
           break;
         case ClientCommands.ReloadDoctor:
-          workspace.nvim.call("coc#util#has_preview").then((preview) => {
+          workspace.nvim.call("coc#list#has_preview").then((preview) => {
             if (preview > 0) {
               const doctorJson: string =
                 params.arguments && params.arguments[0];
