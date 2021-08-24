@@ -21,7 +21,7 @@ export namespace Commands {
   /**
    * Returns the result of checking to see if a current preview window exists
    */
-  export const HAS_PREVIEW = "coc#util#has_preview";
+  export const HAS_PREVIEW = "coc#list#has_preview";
   /**
    * Shows Coc Info and logs
    */
