@@ -10,6 +10,7 @@ import { Position } from "vscode-languageserver-types";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { Node, NodeView, TreeModel, TreeModelUpdate } from "./model";
 import { sequence } from "./utils";
+import { Commands } from "../commands";
 
 export interface TreeViewDescription {
   name: string;
@@ -122,7 +123,7 @@ export class TreeView implements Disposable {
           this.model.revealByParents(parents.concat(""))
         )
       );
-      await this.nvim.call("coc#util#jumpTo", [0, 1]);
+      await this.nvim.call(Commands.MOVE_TO, [0, 1]);
     }
   }
 
@@ -304,7 +305,7 @@ export class TreeView implements Disposable {
     if (parent === undefined) return;
     const offset = await this.model.findNodeOffset(parent.makeView());
     if (offset === undefined) return;
-    await this.nvim.call("coc#util#jumpTo", [offset - 1, 1]);
+    await this.nvim.call(Commands.MOVE_TO, [offset - 1, 1]);
   }
 
   public async gotoEdgeNode(first: boolean): Promise<void> {
@@ -317,7 +318,7 @@ export class TreeView implements Disposable {
       const node = first ? children[0] : children[children.length - 1];
       const offset = await this.model.findNodeOffset(node.makeView());
       if (offset === undefined) return;
-      await this.nvim.call("coc#util#jumpTo", [offset - 1, 1]);
+      await this.nvim.call(Commands.MOVE_TO, [offset - 1, 1]);
     }
   }
 
@@ -341,7 +342,7 @@ export class TreeView implements Disposable {
     if (targetNode === undefined) return;
     const offset = await this.model.findNodeOffset(targetNode.makeView());
     if (offset === undefined) return;
-    await this.nvim.call("coc#util#jumpTo", [offset - 1, 1]);
+    await this.nvim.call(Commands.MOVE_TO, [offset - 1, 1]);
   }
 
   public async executeCommand(): Promise<void> {
