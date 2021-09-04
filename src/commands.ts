@@ -26,4 +26,8 @@ export namespace Commands {
    * Shows Coc Info and logs
    */
   export const OPEN_LOGS = "CocCommand workspace.showOutput";
+  /**
+   * Move the cursor to the specified position
+   */
+  export const MOVE_TO = "coc#cursor#move_to";
 }

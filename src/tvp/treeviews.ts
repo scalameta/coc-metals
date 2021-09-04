@@ -6,6 +6,7 @@ import { TextDocument } from "vscode-languageserver-textdocument";
 import { TreeModel } from "./model";
 import { TreeView, TreeViewDescription } from "./treeview";
 import { sequence } from "./utils";
+import { Commands } from "../commands";
 
 interface WindowWithTree {
   window: Window;
@@ -180,7 +181,7 @@ export class TreeViewsManager implements Disposable {
     const model = this.view2treemodel.get(viewId);
     model?.show();
     if (mbTreeView !== undefined) {
-      await this.nvim.call("coc#util#jumpTo", [0, 1]);
+      await this.nvim.call(Commands.MOVE_TO, [0, 1]);
     } else if (model !== undefined) {
       const buffer = await this.nvim.buffer;
       const treeView = new TreeView(
