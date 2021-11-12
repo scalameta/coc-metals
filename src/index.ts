@@ -365,7 +365,9 @@ async function launchMetals(
         command: ServerCommands.GotoSuperMethod,
         arguments: [
           {
-            document: currentDoc.uri,
+            textDocument: {
+              uri: currentDoc.uri,
+            },
             position,
           },
         ],
@@ -382,7 +384,9 @@ async function launchMetals(
           command: ServerCommands.SuperMethodHierarchy,
           arguments: [
             {
-              document: currentDoc.uri,
+              textDocument: {
+                uri: currentDoc.uri,
+              },
               position,
             },
           ],
