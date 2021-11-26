@@ -268,7 +268,7 @@ member that is overridden. The default mapping for this is `<leader> cl`.
 
 If you're using Vim, you'll still have access to this functionality, but you'll
 have to infer which members are overridden and utilize the
-`metals.go-to-super-method` command.
+`metals.goto-super-method` command.
 
 There is also a `metals.super-method-hierarchy` command which will show you the
 entire hierarchy of the overridden method.
