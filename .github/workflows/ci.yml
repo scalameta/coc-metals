@@ -30,7 +30,7 @@ jobs:
         run: curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Build Check
         run: yarn install
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v2.5.1
