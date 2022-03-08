@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 10
+          node-version: 17
 
       - name: Install Yarn
         run: curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
