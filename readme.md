@@ -1,4 +1,16 @@
-# coc-metals
+# coc-metals (Deprecated in favor of [nvim-metals](https://github.com/scalameta/nvim-metals)).
+
+**NOTE**: `coc-metals` is now deprecated with last supported Metals version
+being 0.11.2. The official recommendation for Metals support in Vim is to use
+[Neovim](https://neovim.io/) and
+[nvim-metals](https://github.com/scalameta/nvim-metals). You can see the full
+context for this dececision
+[here](https://github.com/scalameta/coc-metals/issues/460) and you can find
+up-to-date instructins on Vim/Neovim support on the [Metals
+webste](https://scalameta.org/metals/docs/editors/vim/). If you're a
+`coc-metals` user and would like to see continued support, I will still accept
+prs and provide guidance so feel free to reach out.
+
 
 ![coc-metals](https://i.imgur.com/zofu4VI.png)
 ![npm](https://img.shields.io/npm/v/coc-metals?style=flat-square)
